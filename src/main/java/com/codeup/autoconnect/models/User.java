@@ -70,4 +70,6 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipient")
     private List<Message> recipient;
+
+
 }
