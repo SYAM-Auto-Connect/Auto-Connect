@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <title>User Profile</title>
     <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet' />
+    <style>
+        #calendar {
+            width: 400px;
+            height: 300px;
+        }
+    </style>
 </head>
 <body>
 <h1>User Profile</h1>
-<p>Welcome to your profile page!</p>
+<p style="text-align: center">Welcome to your profile page!</p>
 <p>Profile information goes here...</p>
 
 <form th:action="@{/create-appointment}" th:method="POST">
@@ -22,12 +28,14 @@
 
 <h2>Calendar</h2>
 <div id="calendar"></div>
-
+<input type="hidden" th:value="${appointments}">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
 
 <script>
+
+
     $(document).ready(function() {
         $('#calendar').fullCalendar({
             defaultView: 'month',
