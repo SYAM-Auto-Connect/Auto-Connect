@@ -1,6 +1,7 @@
 package com.codeup.autoconnect.controllers;
 
 import com.codeup.autoconnect.models.Appointment;
+import com.codeup.autoconnect.models.CalendarEvent;
 import com.codeup.autoconnect.repositories.AppointmentRepository;
 import com.codeup.autoconnect.repositories.UserRepository;
 import org.springframework.security.core.userdetails.User;
@@ -22,20 +23,20 @@ public class AppointmentController {
         this.userDao = userDao;
     }
 
+    @GetMapping("/appointments")
+    @ResponseBody
+    public List<CalendarEvent> getAppointments(){
+        List<Appointment> appointments = appointmentRepository.findAll();
+        List<CalendarEvent> events= new ArrayList<>();
 
-    @GetMapping("/")
-    public String calendar() {
-        return "calendar";
+        for(Appointment appointment : appointments){
+            CalendarEvent event = new CalendarEvent();
+            event.setTitle(appointment.getTitle());
+            event.setDate(appointment.getDate());
+            events.add(event);
+        }
+        return events;
     }
-
-//    @GetMapping("/appointments")
-//    @ResponseBody
-//    public List<Appointment> getAppointments() {
-//        List<Appointment> appointments = appointmentRepository.findAll();
-//
-//        System.out.println(appointments);
-//        return appointments;
-//    }
 
     @PostMapping("/create-appointment")
     public String createAppointment(@RequestParam String title, @RequestParam LocalDate date) {
