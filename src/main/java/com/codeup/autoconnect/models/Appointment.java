@@ -7,7 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,10 +19,9 @@ import java.sql.Timestamp;
 @Table(name = "appointments")
 public class Appointment {
     private String title;
-    private String date;
-    public Appointment(String title, String date){
-        this.title=title;
-        this.date=date;
+    public Appointment(String title, LocalDate date){
+        this.title = title;
+        this.date = date;
     }
 
     @Id
@@ -35,7 +35,7 @@ public class Appointment {
     private Double price;
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
-    private Timestamp datetime;
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "requester_id")
