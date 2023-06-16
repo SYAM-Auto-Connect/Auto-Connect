@@ -2,7 +2,7 @@ package com.codeup.autoconnect.controllers;
 
 import com.codeup.autoconnect.models.Appointment;
 import com.codeup.autoconnect.repositories.AppointmentRepository;
-import com.codeup.autoconnect.repository.UserRepository;
+import com.codeup.autoconnect.repositories.UserRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
