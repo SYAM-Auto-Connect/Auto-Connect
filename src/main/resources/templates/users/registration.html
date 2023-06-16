@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+
+<h1>Welcome to Auto-Connect! Create your profile</h1>
+<form th:action="@{/registration}" th:method="post" th:object="${user}">
+    <label for="first_name">First Name:</label>
+    <input type="text" name="first_name" id="first_name" th:field="*{first_name}">
+
+    <label for="last_name">Last Name:</label>
+    <input type="text" name="last_name" id="last_name" th:field="*{last_name}">
+
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" th:field="*{username}">
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="email" th:field="*{email}">
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" th:field="*{password}">
+
+    <div>
+        <label>User Type:</label>
+        <div>
+            <input type="radio" name="userType" id="newUser" value="newUser" checked>
+            <label for="newUser">New User</label>
+        </div>
+        <div>
+            <input type="radio" name="userType" id="mechanic" value="mechanic">
+            <label for="mechanic">Mechanic</label>
+        </div>
+    </div>
+
+    <div id="mechanicFields" style="display: none;">
+        <!-- Mechanic fields -->
+        <label for="certification">Certification:</label>
+        <input type="text" name="certification" id="certification" th:field="*{certification}">
+
+        <label for="address_street">Street:</label>
+        <input type="text" name="address_street" id="address_street" th:field="*{address_street}">
+
+        <label for="address_city">City:</label>
+        <input type="text" name="address_city" id="address_city" th:field="*{address_city}">
+
+        <label for="address_state">State:</label>
+        <input type="text" name="address_state" id="address_state" th:field="*{address_state}">
+
+        <label for="address_zip">Zip:</label>
+        <input type="text" name="address_zip" id="address_zip" placeholder="" th:field="*{address_zip}">
+    </div>
+    <input type="submit" value="Sign Up!">
+</form>
+<script type="text/javascript" th:src="@{/js/registration.js}"></script>
+
+</body>
+</html>
