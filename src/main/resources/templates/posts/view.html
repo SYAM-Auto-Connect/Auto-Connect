@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View Posts</title>
+</head>
+<body>
+<h1>View User Posts</h1>
+<th:block>
+    <h1 th:text="${posts.title}"></h1>
+    <p th:text="${posts.body}"></p>
+    <p th:text="${posts.car_make}"></p>
+    <p th:text="${posts.car_body}"></p>
+    <p th:text="${posts.car_year}"></p>
+    <br>
+    <h2>Comments</h2>
+
+    <th:block th:each="comment : ${posts.comments}">
+        <label>User:</label>
+        <span th:text="${comment.user.first_name}"></span><br>
+        <label>Comment:</label>
+        <span th:text="${comment.content}"></span><br><br>
+    </th:block>
+</th:block>
+<form th:action="@{/posts/{id}/comment (id = ${posts.id})}" th:method="post">
+    <label for="content">Comment: </label>
+    <input name="content" id="content">
+    <button>Add Comment</button>
+</form>
+</body>
+</html>
