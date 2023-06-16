@@ -38,16 +38,19 @@ public class User {
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
     private Boolean isMechanic;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(255)")
+    @Column(columnDefinition = "VARCHAR(255)")
     private String certification;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(100)")
+    @Column(columnDefinition = "VARCHAR(100)")
     private String address_street;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(50)")
+    @Column(columnDefinition = "VARCHAR(50)")
     private String address_city;
 
-    @Column(nullable = false, columnDefinition = "INTEGER(10)")
+    @Column(columnDefinition = "VARCHAR(50)")
+    private String address_state;
+
+    @Column(columnDefinition = "INTEGER(10)")
     private int address_zip;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
@@ -71,5 +74,12 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipient")
     private List<Message> recipient;
 
+
+    public User(User copy){
+        this.id = copy.id;
+        this.email = copy.email;
+        this.username = copy.username;
+        this.password = copy.password;
+    }
 
 }
