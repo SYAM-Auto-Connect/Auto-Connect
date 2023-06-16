@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
-    <title>Log In</title>
+    <title>Mechanic Search Page</title>
 </head>
 <body>
-
-
+<h1>All Mechanics</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Specialization</th>
+        <th>Location</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="mechanic : ${ViewAllMechanics}">
+        <td th:text="${mechanic.}"></td>
+        <td th:text="${mechanic.}"></td>
+        <td th:text="${mechanic.}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

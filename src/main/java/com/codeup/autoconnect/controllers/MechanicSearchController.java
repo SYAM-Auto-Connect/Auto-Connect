@@ -21,13 +21,13 @@ public class MechanicSearchController {
         User Mechanic1 = MechanicSearchDao.findById(id).get();
         model.addAttribute("MechanicProfile", Mechanic1);
         return "/MechanicSearchPage";
+
     }
 
     @GetMapping("/MechanicSearchPage")
     public String viewAllMechanics(Model model) {
-        model.addAttribute("ViewAllMechanics", MechanicSearchDao.findAll());
-        System.out.println(MechanicSearchDao.findAllMechanicUsers());
-        System.out.println("TEST");
+        model.addAttribute("ViewAllMechanics", MechanicSearchDao.findAllMechanicUsers());
+
         return "/MechanicSearchPage";
     }
 }

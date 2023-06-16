@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface MechanicSearchRepository extends JpaRepository<User,Long> {
 
-//    @Query("SELECT * FROM users WHERE isMechanic = true")
-//    User getAllMechanicById(Long id);
 
     @Query("from User where isMechanic = true")
     List<User> findAllMechanicUsers();
