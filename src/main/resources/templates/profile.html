@@ -2,10 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Calendar</title>
+    <title>User Profile</title>
     <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet' />
 </head>
 <body>
+<h1>User Profile</h1>
+<p>Welcome to your profile page!</p>
+<p>Profile information goes here...</p>
+
 <form th:action="@{/create-appointment}" th:method="POST">
     <label for="title">Title:</label>
     <input type="text" id="title" name="title" required>
@@ -16,6 +20,7 @@
     <button type="submit">Create Appointment</button>
 </form>
 
+<h2>Calendar</h2>
 <div id="calendar"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -35,5 +40,3 @@
 </script>
 </body>
 </html>
-
-

@@ -17,6 +17,12 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "appointments")
 public class Appointment {
+    private String title;
+    private String date;
+    public Appointment(String title, String date){
+        this.title=title;
+        this.date=date;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
