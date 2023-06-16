@@ -74,7 +74,7 @@ public class MechanicSearchController {
                 if (mechanic.getFirst_name().toLowerCase().contains(keyword.toLowerCase()) ||
                         mechanic.getLast_name().toLowerCase().contains(keyword.toLowerCase()) ||
                         mechanic.getAddress_city().toLowerCase().contains(keyword.toLowerCase()) ||
-                        mechanic.getAddress_street().toLowerCase().contains(keyword.toLowerCase())) {
+                        mechanic.getAddress_street().toLowerCase().contains(keyword.toLowerCase()) || String.valueOf(mechanic.getAddress_zip()).contains(keyword)) {
                     mechanics.add(mechanic);
                 }
             }
