@@ -1,12 +1,65 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
-    <title>Log In</title>
+    <title>Mechanic Search Page</title>
 </head>
 <body>
+<h1>All Mechanics</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Address</th>
+    </tr>
+    </thead>
+    <tbody>
 
 
+    <h1>Mechanic Search</h1>
+
+    <form th:action="@{/MechanicSearchPage}" method="get">
+        <input type="text" name="keyword" placeholder="Enter keyword">
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Search Results</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="mechanic : ${searchResults}">
+            <td th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></td>
+            <td th:text="${mechanic.email}"></td>
+            <td th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_zip}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h1>All Mechanics</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="mechanic : ${ViewAllMechanics}">
+            <td th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></td>
+            <td th:text="${mechanic.email}"></td>
+            <td th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_zip}"></td>
+        </tr>
+        </tbody>
+    </table>
+</table>
 </body>
 </html>
