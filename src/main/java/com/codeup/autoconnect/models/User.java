@@ -74,10 +74,12 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipient")
     private List<Message> recipient;
 
+
     public User(User copy){
         this.id = copy.id;
         this.email = copy.email;
         this.username = copy.username;
         this.password = copy.password;
     }
+
 }
