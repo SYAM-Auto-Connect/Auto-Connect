@@ -12,9 +12,11 @@
     </style>
 </head>
 <body>
-<h1>User Profile</h1>
-<p style="text-align: center">Welcome to your profile page!</p>
+<div th:if="${user.isMechanic}">
+<h1>Mechanic Profile</h1>
+<p style="text-align: center">Welcome!</p>
 <p>Profile information goes here...</p>
+    <a th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary">Edit Profile</a>
 
 <form th:action="@{/create-appointment}" th:method="POST">
     <label for="title">Title:</label>
@@ -28,6 +30,16 @@
 
 <h2>Calendar</h2>
 <div id="calendar"></div>
+
+<input type="hidden" th:value="${appointments}">
+</div>
+<div th:if="${!user.isMechanic}">
+    <h1>User Profile</h1>
+    <p style="text-align: center">Welcome to your profile page!</p>
+    <a th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary">Edit Profile</a>
+
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>

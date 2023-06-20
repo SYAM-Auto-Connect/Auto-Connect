@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+
+<body class="bg-light">
+<nav th:replace="partials/navbar :: navbar"></nav>
+<div th:if="${user.isMechanic}">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <h1 class="text-center my-4">Edit your profile</h1>
+                <div class="card shadow">
+                    <div class="card-body">
+                        <form th:action="@{/profile/{id}/edit (id= ${user.id})}" th:method="post" th:object="${user}">
+                            <div class="mb-3">
+                                <label for="first_name" class="form-label">First Name:</label>
+                                <input type="text" name="first_name" id="first_name" th:field="*{first_name}" class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="last_name" class="form-label">Last Name:</label>
+                                <input type="text" name="last_name" id="last_name" th:field="*{last_name}" class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username:</label>
+                                <input type="text" name="username" id="username" th:field="*{username}" class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email:</label>
+                                <input type="email" name="email" id="email" th:field="*{email}" class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password:</label>
+                                <input type="password" name="password" id="password" th:field="*{password}" class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="confirm_password" class="form-label">Confirm Password:</label>
+                                <input type="password" name="confirm_password" id="confirm_password" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="address_street" class="form-label">Street:</label>
+                                <input type="text" name="address_street" id="address_street" th:field="*{address_street}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <input type="hidden" name="isMechanic" id="isMechanic" th:field="*{isMechanic}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="address_city" class="form-label">City:</label>
+                                <input type="text" name="address_city" id="address_city" th:field="*{address_city}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="address_state" class="form-label">State:</label>
+                                <input type="text" name="address_state" id="address_state" th:field="*{address_state}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="address_zip" class="form-label">Zip:</label>
+                                <input type="text" name="address_zip" id="address_zip" th:field="*{address_zip}" class="form-control">
+                            </div>
+                            <input type="submit" value="Update" class="btn btn-primary">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:if="${!user.isMechanic}">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <h1 class="text-center my-4">Edit your profile</h1>
+                <div class="card shadow">
+                    <div class="card-body">
+                        <form th:action="@{/profile/{id}/edit (id= ${user.id})}" th:method="post" th:object="${user}">
+                            <div class="mb-3">
+                                <label for="first_name" class="form-label">First Name:</label>
+                                <input type="text" name="first_name" id="first_name1" th:field="*{first_name}" class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="last_name" class="form-label">Last Name:</label>
+                                <input type="text" name="last_name" id="last_name1" th:field="*{last_name}" class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username:</label>
+                                <input type="text" name="username" id="username1" th:field="*{username}" class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email:</label>
+                                <input type="email" name="email" id="email1" th:field="*{email}" class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password:</label>
+                                <input type="password" name="password" id="password1" th:field="*{password}" class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="confirm_password" class="form-label">Confirm Password:</label>
+                                <input type="password" name="confirm_password" id="confirm_password1" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <input type="hidden" name="isMechanic" id="isMechanic1" th:field="*{isMechanic}" class="form-control">
+                            </div>
+                            <input type="submit" value="Update" class="btn btn-primary">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+</body>
+</html>
