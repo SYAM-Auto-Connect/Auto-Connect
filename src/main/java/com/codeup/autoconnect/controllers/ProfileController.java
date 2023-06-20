@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class ProfileController {
 
+
     private final AppointmentRepository apptDao;
     private final UserRepository userDao;
 
@@ -26,8 +27,7 @@ public class ProfileController {
 
     @GetMapping("/profile")
     public String showProfile( Model model) {
-        System.out.println(apptDao.findAll());
-        // Add any necessary model attributes for profile information
+
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userDao.findByUsername(userDetails.getUsername());
         model.addAttribute("user", user);
