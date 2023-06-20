@@ -1,6 +1,7 @@
 package com.codeup.autoconnect.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,9 +40,11 @@ public class Appointment {
 
     @ManyToOne
     @JoinColumn(name = "requester_id")
+    @JsonIgnore
     private User requester;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "receiver_id")
     private User receiver;
 }
