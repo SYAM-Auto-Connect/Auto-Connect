@@ -50,8 +50,8 @@ public class User {
     @Column(columnDefinition = "VARCHAR(50)")
     private String address_state;
 
-    @Column(columnDefinition = "INTEGER(10)")
-    private int address_zip;
+    @Column(columnDefinition = "VARCHAR(10)")
+    private String address_zip;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Post> posts;
