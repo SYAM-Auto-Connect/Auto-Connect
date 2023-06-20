@@ -3,6 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <title>Create New Post</title>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/key.js}"></script>
+    <script>
+        const url = 'https://car-data.p.rapidapi.com/cars/makes';
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': API_KEY1,
+                'X-RapidAPI-Host': 'car-data.p.rapidapi.com'
+            }
+        };
+        async function fetchCarMakes() {
+            try {
+                const response = await fetch(url, options);
+                const data = await response.json();
+                console.log(data);
+                populateMakeDropdown(data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        function populateMakeDropdown(makes) {
+            const makeDropdown = document.getElementById('make-dropdown');
+            makeDropdown.innerHTML = '';
+
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.text = 'Select Make';
+            makeDropdown.appendChild(defaultOption);
+
+            makes.sort();
+
+            makes.forEach(function(make) {
+                const option = document.createElement('option');
+                option.value = make;
+                option.text = make;
+                makeDropdown.appendChild(option);
+            });
+        }
+
+
+        function fetchCarModels(make) {
+            const url = `https://car-data.p.rapidapi.com/cars?limit=50&page=1&make=` + make;
+            const headers = {
+                'X-RapidAPI-Key': API_KEY1,
+                'X-RapidAPI-Host': 'car-data.p.rapidapi.com'
+            };
+
+            let allModels = [];
+
+            function fetchAllModels(url) {
+                $.ajax({
+                    method: 'GET',
+                    url: url,
+                    headers: headers,
+                    contentType: 'application/json',
+                    success: function(result) {
+                        console.log(result);
+                        allModels = allModels.concat(result);
+
+                        const nextPage = result.meta && result.meta.next;
+
+                        if (nextPage) {
+                            fetchAllModels(nextPage);
+                        } else {
+                            populateModelDropdown(allModels);
+                        }
+                    },
+                    error: function(jqXHR) {
+                        console.error('Error: ', jqXHR.responseText);
+                    }
+                });
+            }
+
+            fetchAllModels(url);
+        }
+
+
+        function populateModelDropdown(models) {
+            const modelDropdown = document.getElementById('model-dropdown');
+            modelDropdown.innerHTML = '';
+
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.text = 'Select Model';
+            modelDropdown.appendChild(defaultOption);
+
+            const uniqueModels = [];
+            const modelNames = new Set();
+
+            models.forEach(function (car) {
+                if (!modelNames.has(car.model)) {
+                    uniqueModels.push(car);
+                    modelNames.add(car.model);
+                }
+            });
+
+            uniqueModels.sort(function (a, b) {
+                return a.model.toLowerCase().localeCompare(b.model.toLowerCase());
+            });
+
+            uniqueModels.forEach(function (car) {
+                const option = document.createElement('option');
+                option.value = car.model;
+                option.text = capitalizeFirstLetter(car.model);
+                modelDropdown.appendChild(option);
+            });
+        }
+
+        function capitalizeFirstLetter(str) {
+            return str.replace(/\b\w/g, function (match) {
+                return match.toUpperCase();
+            });
+        }
+
+        fetchCarMakes();
+    </script>
 </head>
 <body>
 <h1>Create New Post</h1>
@@ -11,10 +129,12 @@
     <input type="text" name="title" id="title" th:field="*{title}">
     <label for="body">Body: </label>
     <textarea name="body" id="body" th:field="*{body}"></textarea>
-    <label for="car_make">Car Make: </label>
-    <input type="text" name="car_make" id="car_make" th:field="*{car_make}">
-    <label for="car_body">Car body: </label>
-    <input type="text" name="car_body" id="car_body" th:field="*{car_body}">
+    <select id="make-dropdown" onchange="fetchCarModels(this.value.toLowerCase());">
+    <option value="">Select Make</option>
+    </select>
+    <select id="model-dropdown">
+        <option value="">Select Model</option>
+    </select>
     <label for="car_year">Car Year: </label>
     <input type="text" name="car_year" id="car_year" th:field="*{car_year}">
     <button>Create Post</button>
