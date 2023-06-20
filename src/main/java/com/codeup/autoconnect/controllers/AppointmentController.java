@@ -23,10 +23,10 @@ public class AppointmentController {
     }
 
 
-    @GetMapping("/")
-    public String calendar() {
-        return "calendar";
-    }
+//    @GetMapping("/")
+//    public String calendar() {
+//        return "calendar";
+//    }
 
 //    @GetMapping("/appointments")
 //    @ResponseBody
