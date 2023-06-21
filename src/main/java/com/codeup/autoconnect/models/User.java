@@ -1,5 +1,6 @@
 package com.codeup.autoconnect.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -52,7 +53,7 @@ public class User {
 
     @Column(columnDefinition = "VARCHAR(10)")
     private String address_zip;
-
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Post> posts;
 

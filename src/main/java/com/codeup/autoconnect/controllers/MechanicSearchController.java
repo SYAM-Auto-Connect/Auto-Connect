@@ -63,10 +63,12 @@ public class MechanicSearchController {
 
 
     @GetMapping("/MechanicSearchPage")
-    public String viewAllMechanics(@RequestParam(required = false) String keyword, Model model) {
+    public String viewAllMechanics(@RequestParam(required = false) String keyword,@RequestParam(required = false) String zipcode, Model model) {
 
         model.addAttribute("ViewAllMechanics", MechanicSearchDao.findAllMechanicUsers());
         List<User> mechanics;
+
+        model.addAttribute( "viewMechanicByZip",MechanicSearchDao.findAllByAddressZip(zipcode));
 
         if (keyword != null && !keyword.isEmpty()) {
             mechanics = new ArrayList<>();
@@ -85,6 +87,8 @@ public class MechanicSearchController {
         }
 
         return "/MechanicSearchPage";
+
+
     }
 
 }
