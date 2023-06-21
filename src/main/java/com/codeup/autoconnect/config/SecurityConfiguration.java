@@ -50,7 +50,9 @@ public class SecurityConfiguration {
                         .requestMatchers(
                                 "/profile",
                                 "/profile/*/edit",
-                                "/profile/*/delete",
+                                "/profile/*/setting",
+                                "/profile/*/setting/password",
+                                "/profile/*/setting/delete",
                                 "/posts/create",
                                 "/posts/*/edit",
                                 "/create-appointment",

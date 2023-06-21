@@ -25,6 +25,7 @@
         <h3 th:text="${user.description}"></h3>
     </div>
     <a th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary">Edit Profile</a>
+    <a th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning">Delete/Reset Password</a>
 
 <form th:action="@{/create-appointment}" th:method="POST">
     <label for="title">Title:</label>
@@ -44,7 +45,7 @@
     <h1>User Profile</h1>
     <p style="text-align: center">Welcome to your profile page!</p>
     <a th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary">Edit Profile</a>
-
+    <a th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning">Delete/Reset Password</a>
 </div>
 
 
