@@ -34,7 +34,7 @@ public class ProfileController {
     public String showProfile( Model model) {
 
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userDao.findByUsername(loggedInUser.getUsername());
+        User user = userDao.findById(loggedInUser.getId()).get();
         model.addAttribute("user", user);
         return "profile";
     }
