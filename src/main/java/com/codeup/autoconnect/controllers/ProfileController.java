@@ -43,9 +43,22 @@ public class ProfileController {
     }
     @PostMapping("/profile/{id}/edit")
     public String submitEditProfile(@ModelAttribute User editProfile){
-
         userDao.save(editProfile);
         return "redirect:/profile";
+    }
+
+    @GetMapping("/profile/{id}/delete")
+    public String showDelete (@PathVariable long id, Model model) {
+        if(userDao.findById(id).isPresent()){
+            model.addAttribute("user", userDao.findById(id).get());
+        }
+        return "users/edit";
+    }
+    @PostMapping("/profile/{id}/delete")
+    public String submitDelete (@PathVariable long id, @ModelAttribute User deleteUser){
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userDao.deleteById(id);
+        return "redirect:/home";
     }
 }
 

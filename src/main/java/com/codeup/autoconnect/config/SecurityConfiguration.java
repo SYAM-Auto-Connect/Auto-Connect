@@ -47,7 +47,7 @@ public class SecurityConfiguration {
                          * only authenticated users can create and edit and delete posts! */
 
 
-                        .requestMatchers("/profile", "/profile/*/edit","/posts/create", "/posts/*/edit", "/create-appointment", "/api/appointments", "/posts/*/delete").authenticated()
+                        .requestMatchers("/profile", "/profile/*/edit", "/profile/*/delete","/posts/create", "/posts/*/edit", "/create-appointment", "/api/appointments", "/posts/*/delete").authenticated()
 
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
