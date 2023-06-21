@@ -58,9 +58,19 @@
                     <a class="nav-link" href="#">Contacts</a>
                 </li>
             </ul>
-            <div class="d-flex">
+<!--            <div class="d-flex">-->
+<!--                <a class="btn btn-outline-primary me-2" href="/login">Login</a>-->
+<!--                <a class="btn btn-primary" href="/registration">Not a Member?</a>-->
+<!--            </div>-->
+            <div th:if="${#authentication.principal.username != null}" class="d-flex">
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" value="Logout" class="btn btn-outline-primary me-2"/>
+                </form>
+            </div>
+            <div th:unless="${#authentication.principal.username != null}" class="d-flex">
                 <a class="btn btn-outline-primary me-2" href="/login">Login</a>
                 <a class="btn btn-primary" href="/registration">Not a Member?</a>
+            </div>
             </div>
         </div>
     </div>
