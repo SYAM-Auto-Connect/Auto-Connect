@@ -8,7 +8,7 @@
 </head>
 
 <body class="bg-light">
-<nav th:replace="partials/navbar :: navbar"></nav>
+<nav th:replace="~{partials/navbar :: navbar}"></nav>
 <div th:if="${user.isMechanic}">
     <div class="container">
         <div class="row justify-content-center">
@@ -36,15 +36,11 @@
                                 <label for="email" class="form-label">Email:</label>
                                 <input type="email" name="email" id="email" th:field="*{email}" class="form-control">
                             </div>
-
                             <div class="mb-3">
-                                <label for="password" class="form-label">Password:</label>
-                                <input type="password" name="password" id="password" th:field="*{password}" class="form-control">
+                                <input type="hidden" name="password" id="password" th:field="*{password}" class="form-control" th:value="*{password}">
                             </div>
-
                             <div class="mb-3">
-                                <label for="confirm_password" class="form-label">Confirm Password:</label>
-                                <input type="password" name="confirm_password" id="confirm_password" class="form-control">
+                                <input type="hidden" name="confirm_password" id="confirm_password" class="form-control" th:value="*{password}">
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description:</label>
@@ -72,13 +68,6 @@
                             <div class="row mb-2">
                                 <div class="col">
                                     <input type="submit" value="Update Profile" class="btn btn-primary w-100">
-                                </div>
-                            </div>
-                        </form>
-                        <form th:action="@{/profile/{id}/delete (id= ${user.id})}" th:method="post" onsubmit="return confirm('Are you sure you want to delete your profile? This action cannot be undone.');">
-                            <div class="row">
-                                <div class="col">
-                                    <input type="submit" value="Delete Profile" class="btn btn-danger w-100">
                                 </div>
                             </div>
                         </form>
@@ -116,16 +105,14 @@
                                 <label for="email" class="form-label">Email:</label>
                                 <input type="email" name="email" id="email1" th:field="*{email}" class="form-control">
                             </div>
-
                             <div class="mb-3">
-                                <label for="password" class="form-label">Password:</label>
-                                <input type="password" name="password" id="password1" th:field="*{password}" class="form-control">
+                                <input type="hidden" name="password" id="password1" th:field="*{password}" class="form-control" th:value="*{password}">
+                            </div>
+                            <div class="mb-3">
+
+                                <input type="hidden" name="confirm_password" id="confirm_password1" class="form-control" th:value="*{password}">
                             </div>
 
-                            <div class="mb-3">
-                                <label for="confirm_password" class="form-label">Confirm Password:</label>
-                                <input type="password" name="confirm_password" id="confirm_password1" class="form-control">
-                            </div>
                             <div class="mb-3">
                                 <input type="hidden" name="isMechanic" id="isMechanic1" th:field="*{isMechanic}" class="form-control">
                             </div>
@@ -135,13 +122,7 @@
                                 </div>
                             </div>
                         </form>
-                        <form th:action="@{/profile/{id}/delete (id= ${user.id})}" th:method="post" onsubmit="return confirm('Are you sure you want to delete your profile? This action cannot be undone.');">
-                            <div class="row">
-                                <div class="col">
-                                    <input type="submit" value="Delete Profile" class="btn btn-danger w-100">
-                                </div>
-                            </div>
-                        </form>
+
                     </div>
                 </div>
             </div>

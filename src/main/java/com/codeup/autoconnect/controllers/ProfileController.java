@@ -3,15 +3,13 @@ package com.codeup.autoconnect.controllers;
 import com.codeup.autoconnect.models.User;
 import com.codeup.autoconnect.repositories.AppointmentRepository;
 import com.codeup.autoconnect.repositories.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ProfileController {
@@ -48,22 +46,29 @@ public class ProfileController {
     }
     @PostMapping("/profile/{id}/edit")
     public String submitEditProfile(@ModelAttribute User editProfile){
-        editProfile.setPassword(passwordEncoder.encode(editProfile.getPassword()));
         userDao.save(editProfile);
         return "redirect:/profile";
     }
 
-    @GetMapping("/profile/{id}/delete")
-    public String showDelete (@PathVariable long id, Model model) {
+    @GetMapping("/profile/{id}/setting")
+    public String showSettingForm (@PathVariable long id, Model model) {
         if(userDao.findById(id).isPresent()){
             model.addAttribute("user", userDao.findById(id).get());
         }
-        return "users/edit";
+        return "users/setting";
     }
-    @PostMapping("/profile/{id}/delete")
-    public String submitDelete (@PathVariable long id, @ModelAttribute User deleteUser){
-        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    @PostMapping("/profile/{id}/setting/password")
+    public String submitResetPW (@PathVariable long id, @RequestParam("password") String password, HttpSession session){
+        User loggedInUser = userDao.findById(id).get();
+        loggedInUser.setPassword(passwordEncoder.encode(password));
+        userDao.save(loggedInUser);
+        session.invalidate();
+        return "redirect:/login";
+    }
+    @PostMapping("/profile/{id}/setting/delete")
+    public String submitDelete (HttpSession session, @PathVariable long id){
         userDao.deleteById(id);
+        session.invalidate();
         return "redirect:/";
     }
 }
