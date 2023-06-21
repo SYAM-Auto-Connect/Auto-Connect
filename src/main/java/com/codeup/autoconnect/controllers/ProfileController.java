@@ -5,6 +5,7 @@ import com.codeup.autoconnect.repositories.AppointmentRepository;
 import com.codeup.autoconnect.repositories.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,18 +19,22 @@ public class ProfileController {
 
     private final AppointmentRepository apptDao;
     private final UserRepository userDao;
+    private final PasswordEncoder passwordEncoder;
 
-    public ProfileController(AppointmentRepository apptDao, UserRepository userDao) {
+
+    public ProfileController(AppointmentRepository apptDao, UserRepository userDao, PasswordEncoder passwordEncoder) {
         this.apptDao = apptDao;
         this.userDao = userDao;
+        this.passwordEncoder = passwordEncoder;
     }
+
 
 
     @GetMapping("/profile")
     public String showProfile( Model model) {
 
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userDao.findByUsername(userDetails.getUsername());
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userDao.findByUsername(loggedInUser.getUsername());
         model.addAttribute("user", user);
         return "profile";
     }
@@ -43,6 +48,7 @@ public class ProfileController {
     }
     @PostMapping("/profile/{id}/edit")
     public String submitEditProfile(@ModelAttribute User editProfile){
+        editProfile.setPassword(passwordEncoder.encode(editProfile.getPassword()));
         userDao.save(editProfile);
         return "redirect:/profile";
     }
@@ -58,7 +64,7 @@ public class ProfileController {
     public String submitDelete (@PathVariable long id, @ModelAttribute User deleteUser){
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         userDao.deleteById(id);
-        return "redirect:/home";
+        return "redirect:/";
     }
 }
 

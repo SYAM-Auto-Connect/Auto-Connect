@@ -47,6 +47,10 @@
                                 <input type="password" name="confirm_password" id="confirm_password" class="form-control">
                             </div>
                             <div class="mb-3">
+                                <label for="description" class="form-label">Description:</label>
+                                <textarea name="description" id="description" th:field="*{description}" class="form-control"></textarea>
+                            </div>
+                            <div class="mb-3">
                                 <label for="address_street" class="form-label">Street:</label>
                                 <input type="text" name="address_street" id="address_street" th:field="*{address_street}" class="form-control">
                             </div>
