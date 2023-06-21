@@ -33,7 +33,7 @@ public class AppointmentController {
         Appointment appointment = new Appointment(title, date);
         appointment.setDescription("test");
         appointment.setPrice(1.99);
-        appointment.setReceiver(userDao.findById(1L).get());
+//        appointment.setReceiver(userDao.findById(3L).get());
         appointment.setRequester(currentUser); // Set the current user as the requester
         appointment.setTitle(title);
         appointment.setDate(date);
