@@ -27,7 +27,7 @@ public class ListAllMechanicsController {
 
     @GetMapping("/mechanic-list")
     public List<User> allMechanicsByZip(@RequestParam("zipcode") String zipcode) {
-        System.out.println(MechanicSearchDao.findAllByAddressZip(zipcode));
+//        System.out.println(MechanicSearchDao.findAllByAddressZip(zipcode));
         return MechanicSearchDao.findAllByAddressZip(zipcode);
     }
 
