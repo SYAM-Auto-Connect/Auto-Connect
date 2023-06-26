@@ -66,8 +66,9 @@
                             let street = mechanic.address_street;
                             let city = mechanic.address_city;
                             let zipCode = mechanic.address_zip;
+                            let state = mechanic.address_state
 
-                            let searchQuery = `${street}, ${city}, ${zipCode}`;
+                            let searchQuery = `${street}, ${city}, ${zipCode},${state}`;
 
                             fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(searchQuery)}.json?access_token=pk.eyJ1IjoiYW1pcjk3MyIsImEiOiJjbGo0aTdsZ2IwMWhhM3RwaTJ3OW55dThwIn0.aHk5duLxybjEOkw0_BDHCA`)
                                 .then((geocodeResponse) => geocodeResponse.json())
@@ -76,7 +77,7 @@
 
                                     new mapboxgl.Marker()
                                         .setLngLat(coordinates)
-                                        .setPopup(new mapboxgl.Popup().setHTML(getPopupContent(firstName, lastName, street, city, zipCode)))
+                                        .setPopup(new mapboxgl.Popup().setHTML(getPopupContent(firstName, lastName, street, city,state, zipCode)))
                                         .addTo(map);
 
                                     // populateMechanicList(mechanic);
@@ -162,9 +163,9 @@
     //         });
     // }
 
-    function getPopupContent(firstName, lastName, street, city, zipCode) {
+    function getPopupContent(firstName, lastName, street, city, zipCode,state) {
         return `<h3>${firstName} ${lastName}</h3>
-        <p>${street}, ${city}, ${zipCode}</p>`;
+        <p>${street}, ${city}, ${zipCode}, ${state}</p>`;
     }
 
     // listOfMechanics();
