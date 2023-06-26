@@ -57,11 +57,20 @@ public class SecurityConfiguration {
                                 "/posts/*/edit",
                                 "/create-appointment",
                                 "/api/appointments",
-                                "/posts/*/delete").authenticated()
+                                "/posts/*/delete",
+                                "/review/*/create",
+                                "/review/*/edit",
+                                "/review/*/delete").authenticated()
 
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
-                        .requestMatchers("/", "/posts", "/profile/*", "/registration", "/login","/MechanicSearchPage"/*, "users/mechanic-list"*/).permitAll()
+                        .requestMatchers("/",
+                                        "/posts",
+                                        "/profile/*",
+                                        "/review/*",
+                                        "/registration",
+                                        "/login",
+                                        "/MechanicSearchPage"/*, "users/mechanic-list"*/).permitAll()
                         // allow loading of static resources
                         .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
                 )
