@@ -211,11 +211,36 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="mechanic : ${searchResults}">
-            <td th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></td>
-            <td th:text="${mechanic.email}"></td>
-            <td th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_zip}"></td>
-        </tr>
+<!--        <tr th:each="mechanic : ${searchResults}">-->
+<!--            <td th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></td>-->
+<!--            <td th:text="${mechanic.email}"></td>-->
+<!--            <td th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_state + ' ' + mechanic.address_zip}"></td>-->
+<!--        </tr>-->
+
+<tr th:each="mechanic : ${searchResults}">
+    <td>
+        <a th:href="@{/profile/{id}(id=${mechanic.id})}" th:text="${mechanic.first_name + ' ' + mechanic.last_name}"
+           onclick="event.stopPropagation(); fetchMechanicData(${mechanic.id}); return false;"></a>
+    </td>
+    <td th:text="${mechanic.email}"></td>
+    <td th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_zip}"></td>
+</tr>
+        <script>
+            function fetchMechanicData(mechanicId) {
+                fetch(`http://localhost:8080/users/mechanic-list?id=${mechanicId}`)
+                    .then((response) => response.json())
+                    .then((mechanic) => {
+                        // Display the mechanic's data as a pop-up or perform any other desired actions
+                        alert(`Mechanic Details:\nName: ${mechanic.first_name} ${mechanic.last_name}\nEmail: ${mechanic.email}\nAddress: ${mechanic.address_street}, ${mechanic.address_city} ${mechanic.address_zip}`);
+                    })
+                    .catch((error) => {
+                        console.error('Error fetching mechanic details:', error);
+                    });
+            }
+
+        </script>
+
+
         </tbody>
     </table>
 
