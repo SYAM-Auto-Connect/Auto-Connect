@@ -60,6 +60,7 @@ public class SecurityConfiguration {
                                 "/posts/*/delete",
                                 "/review/*/create",
                                 "/review/*/edit",
+                                "/posts/*/post",
                                 "/review/*/delete").authenticated()
 
                         /* Pages that do not require authentication

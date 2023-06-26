@@ -22,12 +22,10 @@
             background-image: url('/img/home-image.jpg');
             background-size: cover;
             background-position: center;
-            opacity: 0.6;
         }
 
         .welcome-message {
-            font-size: 60px;
-            color:white;
+            color:black;
         }
 
         .tab-container {
@@ -61,6 +59,26 @@
         .rate {
             text-decoration: none;
         }
+        .review-item {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .rate {
+            color: #ffc107; /* Yellow color */
+            font-size: 24px; /* Increase the size of the stars */
+        }
+
+        .rate .fas.fa-star {
+            color: #ffc107; /* Yellow color */
+        }
+
+        .rate .far.fa-star {
+            color: #ccc; /* Light gray color */
+        }
+
     </style>
 
 </head>
@@ -70,77 +88,86 @@
 <nav th:replace="~{partials/navbar :: navbar}"></nav>
 
 <div th:if="${user.isMechanic}">
+    <h2 th:if="${#authentication.principal.id==user.id}"class="welcome-message">Hello, welcome to your profile <span th:text="${user.first_name}"></span>!</h2>
 
-    <div class="profile-container">
-        <div class="background-image">
-            <i class="fa-regular fa-circle-user fa-10x"></i>
-            <h1 class="welcome-message">Hello, welcome to your profile <span th:text="${user.first_name}"></span>!</h1>
-            <a th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary">Edit Profile</a>
-            <a th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning">Delete/Reset Password</a>
-        </div>
 
-                <div th:each="review, stat : ${reviews}">
-                    <th:block th:if="${stat.count <=3}">
-                        <div th:href="@{/review/{id}(id=${review.id})}">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="card-body">
+                        <div class="profile-container">
+                            <i class="fa-regular fa-circle-user fa-10x"></i>
+                            <br>
+                            <span th:text="${user.first_name}"></span>
+                            <br>
+                            <a th:if="${#authentication.principal.id==user.id}" th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary">Edit Profile</a>
+                            <a th:if="${#authentication.principal.id==user.id}" th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning">Delete/Reset Password</a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="tab-container">
+                    <div class="tab-heading" onclick="openTab(event, 'description')">Description</div>
+                    <div class="tab-heading" onclick="openTab(event, 'calendar')">Calendar</div>
+                    <div class="tab-heading" onclick="openTab(event, 'reviews')">Reviews</div>
+
+                    <div class="tab active" id="description">
+                        <div class="description" th:text="${user.description}"></div>
+                    </div>
+                    <div class="tab" id="calendar">
+                        <form class="create-appointment-form" th:if="${#authentication.principal.id==user.id}" th:action="@{/create-appointment}" th:method="POST">
                             <div class="row">
-                                <div class="col-md-3">
-                                    <div class="rate">
-                                        <span th:each="star, stat : ${#numbers.sequence(1, 5)}">
-                                            <i th:class="${star <= review.rating ? 'fas fa-star' : 'far fa-star'}"></i>
-                                        </span>
-                                    </div>
+                                <div class="col-md-6">
+                                    <label for="title">Title:</label>
+                                    <input type="text" id="title" name="title" class="form-control" required>
                                 </div>
-                                <div class="col-md-9 mt-2">
-                                    <a th:href="@{/review/{id}(id=${review.id})}" style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                        <p id="body" name="body" th:text="${review.body}" style="font-size:18px;"></p>
-                                    </a>
+                                <div class="col-md-6">
+                                    <label for="date">Date:</label>
+                                    <input type="date" id="date" name="date" class="form-control" required>
                                 </div>
                             </div>
-                        </div>
-                    </th:block>
 
+                            <div class="text-center mt-3">
+                                <button type="submit" class="btn btn-primary">Create Appointment</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab" id="reviews">
+                        <div class="review-container">
+                            <div th:each="review, stat : ${reviews}">
+                                <th:block th:if="${stat.count <= 3}">
+                                    <div class="review-item">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="rate">
+                                <span th:each="star, stat : ${#numbers.sequence(1, 5)}">
+                                    <i th:class="${star <= review.rating ? 'fas fa-star' : 'far fa-star'}"></i>
+                                </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9 mt-2">
+                                                <a th:href="@{/review/{id}(id=${review.id})}" style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                    <p id="body" name="body" th:text="${review.body}" style="font-size:18px;"></p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+                        <a th:href="@{/review/{id}/create(id=${user.id})}" class="btn btn-info">Click here to Write Review</a>
+                    </div>
                 </div>
-                <a th:href="@{/review/{id}/create(id=${user.id})}" class="btn btn-info">Click here to Write Review</a>
             </div>
-
-            <div class="col-md-4">
-                <div class="mt-5">
-                    <form class="formStyle" th:action="@{/create-appointment}" th:method="POST">
-                        <label for="title">Title:</label>
-                        <input type="text" id="title" name="title" required>
-
-
-        <div class="tab-container">
-            <div class="tab-heading" onclick="openTab(event, 'description')">Description</div>
-            <div class="tab-heading" onclick="openTab(event, 'calendar')">Calendar</div>
-
-            <div class="tab active" id="description">
-                <div class="description" th:text="${user.description}"></div>
-            </div>
-
-            <div class="tab" id="calendar">
-                <form class="create-appointment-form" th:action="@{/create-appointment}" th:method="POST">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="title">Title:</label>
-                            <input type="text" id="title" name="title" class="form-control" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="date">Date:</label>
-                            <input type="date" id="date" name="date" class="form-control" required>
-                        </div>
-                    </div>
-
-                    <div class="text-center mt-3">
-                        <button type="submit" class="btn btn-primary">Create Appointment</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
-</div>
 
-<script>
+    <script>
     function openTab(event, tabName) {
         var i, tabContent, tabHeading;
         tabContent = document.getElementsByClassName("tab");
@@ -160,16 +187,33 @@
 
 
 <div th:if="${!user.isMechanic}">
-    <h1>User Profile</h1>
-    <p style="text-align: center">Welcome to your profile page!</p>
-    <a th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary">Edit Profile</a>
-    <a th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning">Delete/Reset Password</a>
-    <a th:href="@{/review/{id}/create(id=${user.id})}" class="btn btn-info">Click here to Write Review</a>
-    <div th:each="review : ${reviews}">
-        <h3 th:text="${review.rating}"></h3>
-        <p th:text="${review.body}"></p>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="profile-container">
+                        <i class="fa-regular fa-circle-user fa-10x"></i>
+                        <br>
+                        <a th:if="${#authentication.principal.id==user.id}" th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary">Edit Profile</a>
+                        <a th:if="${#authentication.principal.id==user.id}" th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning">Account Settings</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <section>
+                <h3>Here are all of your posts:</h3>
+                <div th:each="post : ${posts}">
+                    <h4 th:text="${post.title}"></h4>
+                    <p th:text="${post.body}"></p>
+                </div>
+            </section>
+        </div>
     </div>
 </div>
+
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
@@ -180,13 +224,13 @@
 <script>
 
      $(document).ready(function() {
-         $('#calendar').fullCalendar({
-             defaultView: 'month',
-             events: {
-                 url: '/api/appointments',
-                 method: 'GET'
-             }
-         });
+             $('#calendar').fullCalendar({
+                 defaultView: 'month',
+                 events: {
+                     url: '/api/appointments',
+                     method: 'GET'
+                 }
+             });
      });
 
 

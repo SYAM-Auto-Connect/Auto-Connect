@@ -21,12 +21,23 @@ public class CalendarRestController {
         this.userRepository = userRepository;
     }
 
+    // Fetch currently logged in users events
     @GetMapping("/api/appointments")
     public List<Appointment> getAppointments(Authentication authentication) {
         String username = authentication.getName();
         User currentUser = userRepository.findByUsername(username);
         return appointmentRepository.findAppointmentsByRequesterId(currentUser.getId());
     }
+
+    // Fetch appointments by user ID
+//    @GetMapping("/api/appointments/{id}")
+//    public List<Appointment>getAppointments(Authentication authentication){
+//        String mechanicUrl = authentication.getName();
+//        String mechanic = userRepository.findByUsername(mechanicUrl);
+//        return appointmentRepository.findAllById(mechanic)
+//
+//    }
+
 
 }
 
