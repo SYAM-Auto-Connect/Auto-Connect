@@ -73,7 +73,7 @@ public class MechanicSearchController {
         if (keyword != null && !keyword.isEmpty()) {
             mechanics = new ArrayList<>();
             for (User mechanic : MechanicSearchDao.findAllMechanicUsers()) {
-                if (mechanic.getFirst_name().toLowerCase().contains(keyword.toLowerCase()) ||
+                if (mechanic.getFirst_name().toLowerCase().contains(keyword.toLowerCase()) || mechanic.getAddress_state().toLowerCase().contains(keyword.toLowerCase()) ||
                         mechanic.getLast_name().toLowerCase().contains(keyword.toLowerCase()) ||
                         mechanic.getAddress_city().toLowerCase().contains(keyword.toLowerCase()) ||
                         mechanic.getAddress_street().toLowerCase().contains(keyword.toLowerCase()) || String.valueOf(mechanic.getAddress_zip()).contains(keyword)) {

@@ -4,6 +4,9 @@
 
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet'/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <script th:src="@{/js/keys.js}"></script>
     <meta charset="UTF-8">
     <title>Mechanic Search Page</title>
@@ -17,6 +20,7 @@
 </head>
 
 <body>
+<nav th:replace="~{partials/navbar :: navbar}"></nav>
 
 
 <div>
@@ -26,11 +30,11 @@
 
 
 <div id='map' style='width: 400px; height: 300px;'></div>
-<script>
-    fetch('http://localhost:8080/users/mechanic-list?zipcode=75207')
-        .then(res => res.json())
-        .then(data => console.log(data));
-</script>
+<!--<script>-->
+<!--    fetch('http://localhost:8080/users/mechanic-list?zipcode=75207')-->
+<!--        .then(res => res.json())-->
+<!--        .then(data => console.log(data));-->
+<!--</script>-->
 <script>
 
     document.getElementById('searchButton').addEventListener('click', function (event) {
@@ -41,7 +45,7 @@
     });
 
     function updateMapAndMechanics(zipCode) {
-        // Clear existing markers from the map
+
         map.remove();
 
         fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(zipCode)}.json?access_token=pk.eyJ1IjoiYW1pcjk3MyIsImEiOiJjbGo0aTdsZ2IwMWhhM3RwaTJ3OW55dThwIn0.aHk5duLxybjEOkw0_BDHCA`)
@@ -71,10 +75,10 @@
                             let searchQuery = `${street}, ${city}, ${zipCode},${state}`;
 
                             let profileLink = document.createElement('a');
-                            profileLink.href = `/profile/${mechanic.id}`; // Update the URL pattern as per your application's routing
+                            profileLink.href = `/profile/${mechanic.id}`;
                             profileLink.textContent = `${firstName} ${lastName}`;
                             profileLink.addEventListener('click', function (event) {
-                                event.stopPropagation(); // Prevent the map click event from triggering
+                                event.stopPropagation();
                             });
 
                             fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(searchQuery)}.json?access_token=pk.eyJ1IjoiYW1pcjk3MyIsImEiOiJjbGo0aTdsZ2IwMWhhM3RwaTJ3OW55dThwIn0.aHk5duLxybjEOkw0_BDHCA`)
@@ -125,9 +129,9 @@
     mapboxgl.accessToken = "pk.eyJ1IjoiYW1pcjk3MyIsImEiOiJjbGo0aTdsZ2IwMWhhM3RwaTJ3OW55dThwIn0.aHk5duLxybjEOkw0_BDHCA"
     let map = new mapboxgl.Map({
         container: 'map', // container ID
-        style: 'mapbox://styles/mapbox/streets-v12', // style URL
-        center: [-96.808891, 32.779167], // starting position [lng, lat]
-        zoom: 9, // starting zoom
+        style: 'mapbox://styles/mapbox/streets-v12',
+        center: [-96.808891, 32.779167],
+        zoom: 9,
     });
 
     //
@@ -219,26 +223,26 @@
 
 <tr th:each="mechanic : ${searchResults}">
     <td>
-        <a th:href="@{/profile/{id}(id=${mechanic.id})}" th:text="${mechanic.first_name + ' ' + mechanic.last_name}"
-           onclick="event.stopPropagation(); fetchMechanicData(${mechanic.id}); return false;"></a>
+        <a th:href="@{/profile/{id}(id=${mechanic.id})}" th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></a>
+<!--           onclick="event.stopPropagation(); ${mechanic.id}; return false;">-->
     </td>
     <td th:text="${mechanic.email}"></td>
-    <td th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_zip}"></td>
+    <td th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_state + ' ' + mechanic.address_zip}"></td>
 </tr>
-        <script>
-            function fetchMechanicData(mechanicId) {
-                fetch(`http://localhost:8080/users/mechanic-list?id=${mechanicId}`)
-                    .then((response) => response.json())
-                    .then((mechanic) => {
-                        // Display the mechanic's data as a pop-up or perform any other desired actions
-                        alert(`Mechanic Details:\nName: ${mechanic.first_name} ${mechanic.last_name}\nEmail: ${mechanic.email}\nAddress: ${mechanic.address_street}, ${mechanic.address_city} ${mechanic.address_zip}`);
-                    })
-                    .catch((error) => {
-                        console.error('Error fetching mechanic details:', error);
-                    });
-            }
+<!--        <script>-->
+<!--            function fetchMechanicData(mechanicId) {-->
+<!--                fetch(`http://localhost:8080/users/mechanic-list?id=${mechanicId}`)-->
+<!--                    .then((response) => response.json())-->
+<!--                    .then((mechanic) => {-->
 
-        </script>
+<!--                        // alert(`Mechanic Details:\nName: ${mechanic.first_name} ${mechanic.last_name}\nEmail: ${mechanic.email}\nAddress: ${mechanic.address_street}, ${mechanic.address_city} ${mechanic.address_zip}`);-->
+<!--                    })-->
+<!--                    .catch((error) => {-->
+<!--                        console.error('Error fetching mechanic profile', error);-->
+<!--                    });-->
+<!--            }-->
+
+<!--        </script>-->
 
 
         </tbody>
