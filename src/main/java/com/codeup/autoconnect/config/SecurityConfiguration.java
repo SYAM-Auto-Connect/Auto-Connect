@@ -47,11 +47,33 @@ public class SecurityConfiguration {
                          * only authenticated users can create and edit and delete posts! */
 
 
-                        .requestMatchers("/profile", "/profile/*/edit","/posts/create", "/posts/*/edit", "/create-appointment", "/api/appointments", "/posts/*/delete").authenticated()
+                        .requestMatchers(
+                                "/profile",
+                                "/profile/*/edit",
+                                "/profile/*/setting",
+                                "/profile/*/setting/password",
+                                "/profile/*/setting/delete",
+                                "/posts/create",
+                                "/posts/*/edit",
+                                "/create-appointment",
+                                "/api/appointments",
+                                "/posts/*/delete",
+                                "/review/*/create",
+                                "/review/*/edit",
+                                "/review/*/delete").authenticated()
 
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
-                        .requestMatchers("/", "/posts", "/profile/*", "/registration", "/login","/MechanicSearchPage", "/users/mechanic-list").permitAll()
+
+                        
+                        .requestMatchers("/",
+                                        "/posts",
+                                        "/profile/*",
+                                        "/review/*",
+                                        "/registration",
+                                        "/login",
+                                        "/MechanicSearchPage"/*, "users/mechanic-list"*/).permitAll()
+
                         // allow loading of static resources
                         .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
                 )

@@ -53,7 +53,14 @@ public class User {
 
     @Column(columnDefinition = "VARCHAR(10)")
     private String address_zip;
+
     @JsonIgnore
+
+
+    @Column(nullable = true, columnDefinition = "TEXT")
+    private String description;
+
+ 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Post> posts;
 
