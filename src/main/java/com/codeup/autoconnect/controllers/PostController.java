@@ -6,6 +6,7 @@ import com.codeup.autoconnect.models.User;
 import com.codeup.autoconnect.repositories.CommentRepository;
 import com.codeup.autoconnect.repositories.PostRepository;
 import com.codeup.autoconnect.repositories.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,15 +38,15 @@ public class PostController {
     }
 
 
-    @GetMapping("posts/create")
+    @GetMapping("/posts/create")
     public String createPost(Model model) {
         model.addAttribute("post", new Post());
         return "posts/create";
     }
-    @PostMapping("posts/create")
+    @PostMapping("/posts/create")
     public String addPost(@ModelAttribute Post post){
-        User user = usersDao.findById(1L).get();
-        post.setUser(user);
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        post.setUser(loggedInUser);
         postsDao.save(post);
         return "redirect:/posts";
     }

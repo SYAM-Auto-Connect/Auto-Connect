@@ -3,10 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+    <style>
+        .background-image {
+            width: 100%;
+            height: 250px;
+            background-image: url('/img/forum.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .welcome-txt{
+            background-color: white;
+
+        }
+    </style>
 </head>
 <body>
-<h1>View All Posts</h1>
-<th:block th:each="post: ${posts}">
+<div class="background-image">
+    <h1 class="welcome-txt"><u>Service and Repair Questions Answered Here</u></h1>
+</div>
+
+    <th:block th:each="post: ${posts}">
     <h1><a th:href="@{/posts/{id}/post( id = ${post.id})}" th:text="${post.title}"></a></h1>
 </th:block>
 </body>

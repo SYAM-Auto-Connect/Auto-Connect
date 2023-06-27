@@ -1,8 +1,10 @@
 package com.codeup.autoconnect.controllers;
 
+import com.codeup.autoconnect.models.Post;
 import com.codeup.autoconnect.models.Review;
 import com.codeup.autoconnect.models.User;
 import com.codeup.autoconnect.repositories.AppointmentRepository;
+import com.codeup.autoconnect.repositories.PostRepository;
 import com.codeup.autoconnect.repositories.ReviewRepository;
 import com.codeup.autoconnect.repositories.UserRepository;
 import jakarta.servlet.http.HttpSession;
@@ -22,19 +24,28 @@ public class ProfileController {
     private final UserRepository userDao;
     private final PasswordEncoder passwordEncoder;
     private final ReviewRepository reviewDao;
+    public final PostRepository postsDao;
 
-    public ProfileController(AppointmentRepository apptDao, UserRepository userDao, PasswordEncoder passwordEncoder, ReviewRepository reviewDao) {
+
+    public ProfileController(AppointmentRepository apptDao, UserRepository userDao, PasswordEncoder passwordEncoder, ReviewRepository reviewDao, PostRepository postsDao) {
         this.apptDao = apptDao;
         this.userDao = userDao;
         this.passwordEncoder = passwordEncoder;
         this.reviewDao = reviewDao;
+        this.postsDao = postsDao;
     }
 
     @GetMapping("/profile")
     public String showProfile( Model model) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userDao.findById(loggedInUser.getId()).get();
+        List<Review> reviews = reviewDao.findAllByMechanic(user);
+        List<Post> posts = postsDao.findAllByUser(user);
+        System.out.println(posts);
+        model.addAttribute("posts",posts);
         model.addAttribute("user", user);
+        model.addAttribute("reviews",reviews);
+
         return "profile";
     }
 
@@ -45,6 +56,7 @@ public class ProfileController {
         model.addAttribute("user", user);
         model.addAttribute("reviews", reviews);
         return "profile";
+//        return "mechanic";
     }
 
     @GetMapping("/profile/{id}/edit")
