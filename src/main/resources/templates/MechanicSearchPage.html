@@ -19,112 +19,156 @@
 <body>
 
 
+<div>
+    <input type="text" id="zipcodeInput" name="keyword" placeholder="Enter ZIP code">
+    <button id="searchButton" type="button">Search</button>
+</div>
+
+
 <div id='map' style='width: 400px; height: 300px;'></div>
 <script>
+    fetch('http://localhost:8080/users/mechanic-list?zipcode=75207')
+        .then(res => res.json())
+        .then(data => console.log(data));
+</script>
+<script>
+
+    document.getElementById('searchButton').addEventListener('click', function (event) {
+        event.preventDefault();
+
+        let zipCode = document.getElementById('zipcodeInput').value;
+        updateMapAndMechanics(zipCode);
+    });
+
+    function updateMapAndMechanics(zipCode) {
+        // Clear existing markers from the map
+        map.remove();
+
+        fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(zipCode)}.json?access_token=pk.eyJ1IjoiYW1pcjk3MyIsImEiOiJjbGo0aTdsZ2IwMWhhM3RwaTJ3OW55dThwIn0.aHk5duLxybjEOkw0_BDHCA`)
+            .then((geocodeResponse) => geocodeResponse.json())
+            .then((geocodeResponse) => {
+                let coordinates = geocodeResponse.features[0].center;
+
+                map = new mapboxgl.Map({
+                    container: 'map',
+                    style: 'mapbox://styles/mapbox/streets-v12',
+                    center: coordinates,
+                    zoom: 9
+                });
+
+                fetch(`http://localhost:8080/users/mechanic-list?zipcode=${zipCode}`)
+                    .then((response) => response.json())
+                    .then((response) => {
+                        console.log(response)
+                        response.forEach(mechanic => {
+                            let firstName = mechanic.first_name;
+                            let lastName = mechanic.last_name;
+                            let street = mechanic.address_street;
+                            let city = mechanic.address_city;
+                            let zipCode = mechanic.address_zip;
+                            let state = mechanic.address_state
+
+                            let searchQuery = `${street}, ${city}, ${zipCode},${state}`;
+
+                            fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(searchQuery)}.json?access_token=pk.eyJ1IjoiYW1pcjk3MyIsImEiOiJjbGo0aTdsZ2IwMWhhM3RwaTJ3OW55dThwIn0.aHk5duLxybjEOkw0_BDHCA`)
+                                .then((geocodeResponse) => geocodeResponse.json())
+                                .then((geocodeResponse) => {
+                                    let coordinates = geocodeResponse.features[0].center;
+
+                                    new mapboxgl.Marker()
+                                        .setLngLat(coordinates)
+                                        .setPopup(new mapboxgl.Popup().setHTML(getPopupContent(firstName, lastName, street, city,state, zipCode)))
+                                        .addTo(map);
+
+                                    // populateMechanicList(mechanic);
+                                })
+                                .catch((error) => {
+                                    console.error('Error ', error);
+                                });
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('Error', error);
+                    });
+            })
+            .catch((error) => {
+                console.error('Error ', error);
+            });
+    }
+
+    // function populateMechanicList(mechanic) {
+    //     let tableBody = document.getElementById('mechanicTableBody');
+    //     let row = document.createElement('tr');
+    //     let nameCell = document.createElement('td');
+    //     let emailCell = document.createElement('td');
+    //     let addressCell = document.createElement('td');
+    //
+    //     nameCell.textContent = mechanic.first_name + ' ' + mechanic.last_name;
+    //     emailCell.textContent = mechanic.email;
+    //     addressCell.textContent = mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_zip;
+    //
+    //     row.appendChild(nameCell);
+    //     row.appendChild(emailCell);
+    //     row.appendChild(addressCell);
+    //
+    //     tableBody.appendChild(row);
+    // }
+
+
     mapboxgl.accessToken = "pk.eyJ1IjoiYW1pcjk3MyIsImEiOiJjbGo0aTdsZ2IwMWhhM3RwaTJ3OW55dThwIn0.aHk5duLxybjEOkw0_BDHCA"
-    const map = new mapboxgl.Map({
+    let map = new mapboxgl.Map({
         container: 'map', // container ID
         style: 'mapbox://styles/mapbox/streets-v12', // style URL
         center: [-96.808891, 32.779167], // starting position [lng, lat]
         zoom: 9, // starting zoom
     });
 
-    // const mechanics = [
-    //      th:each="mechanic : ${ViewAllMechanics}"
-    //     {
-    //         name: "${mechanic.first_name + ' ' + mechanic.last_name}",
-    //         address_street: "${mechanic.address_street}",
-    //         address_city: "${mechanic.address_city}",
-    //         address_zip: "${mechanic.address_zip}"
-    //     }
     //
-    // ];
-
     // function listOfMechanics() {
+    //
     //
     //     fetch('http://localhost:8080/users/mechanic-list')
     //         .then((response) => response.json())
     //         .then((response) => {
-    //             // console.log(response)
-    //
     //             response.forEach(mechanic => {
-    //                 let firstName =mechanic.first_name
-    //                 let lasName = mechanic.last_name
-    //                 let street = mechanic.address_street
-    //                 let city = mechanic.address_city
-    //                 let zipCode = mechanic.address_zip
+    //                 let firstName = mechanic.first_name;
+    //                 let lastName = mechanic.last_name;
+    //                 let street = mechanic.address_street;
+    //                 let city = mechanic.address_city;
+    //                 let zipCode = mechanic.address_zip;
     //
-    //                     new mapboxgl.Marker()
-    //                         .setLngLat([-96.808891, 32.779167]) // Set the marker position using mechanic's coordinates
-    //                         .setPopup(new mapboxgl.Popup().setHTML(popupContent))
-    //                         .addTo(map);
-    //             })
+    //
+    //                 let searchQuery = `${street}, ${city}, ${zipCode}`;
+    //
+    //
+    //                 fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(searchQuery)}.json?access_token=pk.eyJ1IjoiYW1pcjk3MyIsImEiOiJjbGo0aTdsZ2IwMWhhM3RwaTJ3OW55dThwIn0.aHk5duLxybjEOkw0_BDHCA`)
+    //                     .then((geocodeResponse) => geocodeResponse.json())
+    //                     .then((geocodeResponse) => {
+    //
+    //                         let coordinates = geocodeResponse.features[0].center;
+    //
+    //
+    //                         new mapboxgl.Marker()
+    //                             .setLngLat(coordinates)
+    //                             .setPopup(new mapboxgl.Popup().setHTML(getPopupContent(firstName, lastName, street, city, zipCode)))
+    //                             .addTo(map);
+    //                     })
+    //                     .catch((error) => {
+    //                         console.error('Error performing geocoding request:', error);
+    //                     });
+    //             });
     //         })
+    //         .catch((error) => {
+    //             console.error('Error retrieving mechanic list:', error);
+    //         });
     // }
-    //
+
+    function getPopupContent(firstName, lastName, street, city, zipCode,state) {
+        return `<h3>${firstName} ${lastName}</h3>
+        <p>${street}, ${city}, ${zipCode}, ${state}</p>`;
+    }
+
     // listOfMechanics();
-
-    function listOfMechanics() {
-        fetch('http://localhost:8080/users/mechanic-list')
-            .then((response) => response.json())
-            .then((response) => {
-                response.forEach(mechanic => {
-                    let firstName = mechanic.first_name;
-                    let lastName = mechanic.last_name;
-                    let street = mechanic.address_street;
-                    let city = mechanic.address_city;
-                    let zipCode = mechanic.address_zip;
-
-                    // Construct the search query for geocoding
-                    let searchQuery = `${street}, ${city}, ${zipCode}`;
-
-                    // Perform forward geocoding request
-                    fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(searchQuery)}.json?access_token=pk.eyJ1IjoiYW1pcjk3MyIsImEiOiJjbGo0aTdsZ2IwMWhhM3RwaTJ3OW55dThwIn0.aHk5duLxybjEOkw0_BDHCA`)
-                        .then((geocodeResponse) => geocodeResponse.json())
-                        .then((geocodeResponse) => {
-
-                            let coordinates = geocodeResponse.features[0].center;
-
-
-                            new mapboxgl.Marker()
-                                .setLngLat(coordinates)
-                                .setPopup(new mapboxgl.Popup().setHTML(getPopupContent(firstName, lastName, street, city, zipCode)))
-                                .addTo(map);
-                        })
-                        .catch((error) => {
-                            console.error('Error performing geocoding request:', error);
-                        });
-                });
-            })
-            .catch((error) => {
-                console.error('Error retrieving mechanic list:', error);
-            });
-    }
-
-    function getPopupContent(firstName, lastName, street, city, zipCode) {
-        return `
-        <h3>${firstName} ${lastName}</h3>
-        <p>${street}, ${city}, ${zipCode}</p>
-
-    `;
-    }
-
-    listOfMechanics();
-
-
-
-
-
-
-    // mechanics.forEach(mechanic => {
-    //     const popupContent = `<strong>${mechanic.name}</strong><br>${mechanic.address_street}, ${mechanic.address_city} ${mechanic.address_zip}`;
-    //     console.log(mechanic.name)
-    //     new mapboxgl.Marker()
-    //         .setLngLat([-96.808891, 32.779167]) // Set the marker position using mechanic's coordinates
-    //         .setPopup(new mapboxgl.Popup().setHTML(popupContent))
-    //         .addTo(map);
-    // });
-
 
 
 </script>
@@ -140,13 +184,13 @@
     <tbody>
 
 
-
     <h1>Mechanic Search</h1>
 
     <form th:action="@{/MechanicSearchPage}" method="get">
         <input type="text" name="keyword" placeholder="Enter keyword">
         <button type="submit">Search</button>
     </form>
+
 
     <h2>Search Results</h2>
     <table>
