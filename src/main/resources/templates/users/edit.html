@@ -5,6 +5,7 @@
     <title>Index</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
 </head>
 
 <body class="bg-light">
@@ -18,18 +19,26 @@
                     <div class="card-body">
                         <form th:action="@{/profile/{id}/edit (id= ${user.id})}" th:method="post" th:object="${user}">
                             <div class="mb-3">
+                                <label for="profilePicture" class="form-label">Upload Profile Picture:</label>
+                                <input type="hidden" id="profilePicture" name="profilePicture"
+                                       th:field="*{profilePicture}">
+                            </div>
+                            <div class="mb-3">
                                 <label for="first_name" class="form-label">First Name:</label>
-                                <input type="text" name="first_name" id="first_name" th:field="*{first_name}" class="form-control">
+                                <input type="text" name="first_name" id="first_name" th:field="*{first_name}"
+                                       class="form-control">
                             </div>
 
                             <div class="mb-3">
                                 <label for="last_name" class="form-label">Last Name:</label>
-                                <input type="text" name="last_name" id="last_name" th:field="*{last_name}" class="form-control">
+                                <input type="text" name="last_name" id="last_name" th:field="*{last_name}"
+                                       class="form-control">
                             </div>
 
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username:</label>
-                                <input type="text" name="username" id="username" th:field="*{username}" class="form-control">
+                                <input type="text" name="username" id="username" th:field="*{username}"
+                                       class="form-control">
                             </div>
 
                             <div class="mb-3">
@@ -37,34 +46,43 @@
                                 <input type="email" name="email" id="email" th:field="*{email}" class="form-control">
                             </div>
                             <div class="mb-3">
-                                <input type="hidden" name="password" id="password" th:field="*{password}" class="form-control" th:value="*{password}">
+                                <input type="hidden" name="password" id="password" th:field="*{password}"
+                                       class="form-control" th:value="*{password}">
                             </div>
                             <div class="mb-3">
-                                <input type="hidden" name="confirm_password" id="confirm_password" class="form-control" th:value="*{password}">
+                                <input type="hidden" name="confirm_password" id="confirm_password" class="form-control"
+                                       th:value="*{password}">
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description:</label>
-                                <textarea name="description" id="description" th:field="*{description}" class="form-control"></textarea>
+                                <textarea name="description" id="description" th:field="*{description}"
+                                          class="form-control"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="address_street" class="form-label">Street:</label>
-                                <input type="text" name="address_street" id="address_street" th:field="*{address_street}" class="form-control">
+                                <input type="text" name="address_street" id="address_street"
+                                       th:field="*{address_street}" class="form-control">
                             </div>
                             <div class="mb-3">
-                                <input type="hidden" name="isMechanic" id="isMechanic" th:field="*{isMechanic}" class="form-control">
+                                <input type="hidden" name="isMechanic" id="isMechanic" th:field="*{isMechanic}"
+                                       class="form-control">
                             </div>
                             <div class="mb-3">
                                 <label for="address_city" class="form-label">City:</label>
-                                <input type="text" name="address_city" id="address_city" th:field="*{address_city}" class="form-control">
+                                <input type="text" name="address_city" id="address_city" th:field="*{address_city}"
+                                       class="form-control">
                             </div>
                             <div class="mb-3">
                                 <label for="address_state" class="form-label">State:</label>
-                                <input type="text" name="address_state" id="address_state" th:field="*{address_state}" class="form-control">
+                                <input type="text" name="address_state" id="address_state" th:field="*{address_state}"
+                                       class="form-control">
                             </div>
                             <div class="mb-3">
                                 <label for="address_zip" class="form-label">Zip:</label>
-                                <input type="text" name="address_zip" id="address_zip" th:field="*{address_zip}" class="form-control">
+                                <input type="text" name="address_zip" id="address_zip" th:field="*{address_zip}"
+                                       class="form-control">
                             </div>
+                            <button id="upload-btn">Change Profile Picture</button>
                             <div class="row mb-2">
                                 <div class="col">
                                     <input type="submit" value="Update Profile" class="btn btn-primary w-100">
@@ -88,17 +106,20 @@
                         <form th:action="@{/profile/{id}/edit (id= ${user.id})}" th:method="post" th:object="${user}">
                             <div class="mb-3">
                                 <label for="first_name" class="form-label">First Name:</label>
-                                <input type="text" name="first_name" id="first_name1" th:field="*{first_name}" class="form-control">
+                                <input type="text" name="first_name" id="first_name1" th:field="*{first_name}"
+                                       class="form-control">
                             </div>
 
                             <div class="mb-3">
                                 <label for="last_name" class="form-label">Last Name:</label>
-                                <input type="text" name="last_name" id="last_name1" th:field="*{last_name}" class="form-control">
+                                <input type="text" name="last_name" id="last_name1" th:field="*{last_name}"
+                                       class="form-control">
                             </div>
 
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username:</label>
-                                <input type="text" name="username" id="username1" th:field="*{username}" class="form-control">
+                                <input type="text" name="username" id="username1" th:field="*{username}"
+                                       class="form-control">
                             </div>
 
                             <div class="mb-3">
@@ -106,16 +127,21 @@
                                 <input type="email" name="email" id="email1" th:field="*{email}" class="form-control">
                             </div>
                             <div class="mb-3">
-                                <input type="hidden" name="password" id="password1" th:field="*{password}" class="form-control" th:value="*{password}">
+                                <input type="hidden" name="password" id="password1" th:field="*{password}"
+                                       class="form-control" th:value="*{password}">
                             </div>
                             <div class="mb-3">
 
-                                <input type="hidden" name="confirm_password" id="confirm_password1" class="form-control" th:value="*{password}">
+                                <input type="hidden" name="confirm_password" id="confirm_password1" class="form-control"
+                                       th:value="*{password}">
                             </div>
 
                             <div class="mb-3">
-                                <input type="hidden" name="isMechanic" id="isMechanic1" th:field="*{isMechanic}" class="form-control">
+                                <input type="hidden" name="isMechanic" id="isMechanic1" th:field="*{isMechanic}"
+                                       class="form-control">
                             </div>
+                            <button id="upload-btn">Change Profile Picture</button>
+                            <input type="hidden" id="profilePicture" name="profilePicture" th:field="*{profilePicture}">
                             <div class="row mb-2">
                                 <div class="col">
                                     <input type="submit" value="Update Profile" class="btn btn-primary w-100">
@@ -133,6 +159,26 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
+
+
+<script>
+    const client = filestack.init('AHwYtxP3oR0Gwcq35Ji1Sz');
+
+
+    document.getElementById('upload-btn').addEventListener('click', function (event) {
+// openFilePicker();
+        event.preventDefault();
+
+        const options = {
+            onFileUploadFinished: (file) => {
+                console.log(file)
+                document.getElementById("profilePicture").value = file.url;
+            }
+        }
+
+        client.picker(options).open()
+    });
+</script>
 
 </body>
 </html>

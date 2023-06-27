@@ -73,11 +73,13 @@ public class ProfileController {
     @PostMapping("/profile/{id}/edit")
     public String submitEditProfile(HttpSession session, @PathVariable long id, @ModelAttribute User editProfile) throws AccessDeniedException {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         if(user.getId() != id){
             throw new AccessDeniedException("You cannot edit other users' profile");
         }
         userDao.save(editProfile);
         session.invalidate();
+        //Above delete
         return "redirect:/profile";
     }
 
