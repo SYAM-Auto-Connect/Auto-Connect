@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Payment</title>
+</head>
+<body>
+<h1>Create Payment</h1>
+<form th:action="@{/create_payment}" method="post">
+    <label for="title">Title</label><br>
+    <input type="text" id="title" name="title" required><br>
+    <label for="description">Description</label><br>
+    <input type="text" id="description" name="description" required><br>
+    <label for="price">Price</label><br>
+    <input type="number" id="price" name="price" required step="0.01"><br>
+    <input type="submit" value="Create Payment">
+</form>
+</body>
+</html>

@@ -130,6 +130,13 @@
                                     <input type="date" id="date" name="date" class="form-control" required>
                                 </div>
                             </div>
+                        </div>
+                    </th:block>
+                </div>
+                <a th:href="@{/review/{id}/create(id=${user.id})}" class="btn btn-info">Click here to Write Review</a>
+            </div>
+
+
 
                             <div class="text-center mt-3">
                                 <button type="submit" class="btn btn-primary">Create Appointment</button>
