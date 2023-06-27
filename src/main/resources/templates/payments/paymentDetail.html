@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Payment Details</title>
+</head>
+<body>
+<h1>Payment Details</h1>
+<p th:text="'Title: ' + ${service.title}"></p>
+<p th:text="'Description: ' + ${service.description}"></p>
+<p th:text="'Price: ' + ${service.price}"></p>
+<p th:text="'Client Secret: ' + ${service.clientSecret}"></p>
+
+
+
+        <form action="/create-checkout-session" method="POST">
+            <button type="submit" id="checkout-button">Checkout</button>
+</form>
+</body>
+</html>

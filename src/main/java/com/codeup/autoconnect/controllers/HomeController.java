@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @GetMapping("/")
-    public String home(HttpSession session) {
-        session.invalidate();
+    public String home() {
+
         return "home";
     }
 }
