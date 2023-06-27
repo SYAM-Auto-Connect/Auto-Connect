@@ -73,7 +73,7 @@ public class SecurityConfiguration {
                                         "/review/*",
                                         "/registration",
                                         "/login",
-                                        "/MechanicSearchPage", "users/mechanic-list").permitAll()
+                                        "/MechanicSearchPage", "users/mechanic-list","appointments/*").permitAll()
 
                         // allow loading of static resources
                         .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()

@@ -26,18 +26,11 @@ public class CalendarRestController {
     public List<Appointment> getAppointments(Authentication authentication) {
         String username = authentication.getName();
         User currentUser = userRepository.findByUsername(username);
-        return appointmentRepository.findAppointmentsByRequesterId(currentUser.getId());
+        if(currentUser.getIsMechanic()) {
+            return appointmentRepository.findAppointmentsByRequesterId(currentUser.getId());
+        } else {
+            return appointmentRepository.findAppointmentsByReceiverId(currentUser.getId());
+        }
     }
-
-    // Fetch appointments by user ID
-//    @GetMapping("/api/appointments/{id}")
-//    public List<Appointment>getAppointments(Authentication authentication){
-//        String mechanicUrl = authentication.getName();
-//        String mechanic = userRepository.findByUsername(mechanicUrl);
-//        return appointmentRepository.findAllById(mechanic)
-//
-//    }
-
-
 }
 

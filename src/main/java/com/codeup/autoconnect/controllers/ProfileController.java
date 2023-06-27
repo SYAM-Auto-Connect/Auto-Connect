@@ -1,5 +1,6 @@
 package com.codeup.autoconnect.controllers;
 
+import com.codeup.autoconnect.models.Appointment;
 import com.codeup.autoconnect.models.Post;
 import com.codeup.autoconnect.models.Review;
 import com.codeup.autoconnect.models.User;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ProfileController {
@@ -112,5 +114,8 @@ public class ProfileController {
         session.invalidate();
         return "redirect:/";
     }
-}
+
+
+    }
+
 
