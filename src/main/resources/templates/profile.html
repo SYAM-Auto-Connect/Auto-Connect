@@ -137,6 +137,7 @@
                                     <label for="date">Date:</label>
                                     <input type="date" id="date" name="date" class="form-control" required>
                                 </div>
+
                                 <div class="col-md-6">
                                     <label for="customer">Customer</label>
                                     <input type="text" id="customer" name="customer" class="form-control" required>
@@ -153,6 +154,17 @@
                                 <div class="text-center mt-3">
                                     <button type="submit" class="btn btn-primary">Create Appointment</button>
                                 </div>
+
+                            </div>
+                        </form>
+                        </div>
+                    </th:block>
+                </div>
+                <a th:href="@{/review/{id}/create(id=${user.id})}" class="btn btn-info">Click here to Write Review</a>
+            </div>
+                            <div class="text-center mt-3">
+                                <button type="submit" class="btn btn-primary">Create Appointment</button>
+
                             </div>
                         </form>
                     </div>
