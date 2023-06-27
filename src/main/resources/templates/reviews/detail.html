@@ -48,9 +48,26 @@
                         <div th:if="${#authentication.principal.username == review.user.username}" class="d-flex align-items-center justify-content-start">
                             <a th:href="@{/review/{id}/edit(id=${review.id})}" class="btn btn-primary btn-lg me-3">Edit Review </a>
 
-                            <form th:action="@{/review/{id}/delete(id=${review.id})}" method="post" class="mb-0">
-                                <input type="submit" value="Delete Review" class="btn btn-danger btn-lg"/>
-                            </form>
+                            <button type="button" class="btn btn-danger btn-lg me-3" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal">Delete Review</button>
+                            <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to delete your review? This action cannot be undone.
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                                            <form th:action="@{/review/{id}/delete(id=${review.id})}" th:method="post">
+                                                <input type="submit" class="btn btn-danger" value="Delete">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

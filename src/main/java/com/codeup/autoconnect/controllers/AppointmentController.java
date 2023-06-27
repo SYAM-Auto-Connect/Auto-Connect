@@ -29,9 +29,11 @@ public class AppointmentController {
     @PostMapping("/create-appointment")
     public String createAppointment(@RequestParam String title,
                                     @RequestParam LocalDate date,
+
                                     @RequestParam String description,
                                     @RequestParam double price,
                                     @RequestParam(name = "customer") String receiverUsername,
+
                                     Authentication authentication) {
         String username = authentication.getName();
         User currentUser = userDao.findByUsername(username);

@@ -57,7 +57,7 @@ public class ProfileController {
         List<Review> reviews = reviewDao.findAllByMechanic(user);
         model.addAttribute("user", user);
         model.addAttribute("reviews", reviews);
-        return "profile";
+        return "/profile";
 //        return "mechanic";
     }
 
@@ -80,7 +80,7 @@ public class ProfileController {
         }
         userDao.save(editProfile);
         session.invalidate();
-        return "redirect:/profile";
+        return "users/edit_success";
     }
 
     @GetMapping("/profile/{id}/setting")
@@ -100,7 +100,7 @@ public class ProfileController {
         loggedInUser.setPassword(passwordEncoder.encode(password));
         userDao.save(loggedInUser);
         session.invalidate();
-        return "redirect:/login";
+        return "users/pw_success";
     }
     @PostMapping("/profile/{id}/setting/delete")
     public String submitDelete (HttpSession session, @PathVariable long id) throws AccessDeniedException {
@@ -112,7 +112,7 @@ public class ProfileController {
         }
         userDao.deleteById(id);
         session.invalidate();
-        return "redirect:/";
+        return "users/delete_success";
     }
 
 
