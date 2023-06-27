@@ -19,13 +19,13 @@ public class PaymentController {
     @Value("${STRIPE_API_KEY}")
     private String secretKey;
 
-    @GetMapping("/create_payment")
+    @GetMapping("/paymentDetail")
     public String createPaymentForm(Model model){
         model.addAttribute("service", new Service());
-        return "payments/createPayment";
+        return "payments/paymentDetail";
     }
 
-    @PostMapping("/create_payment")
+    @PostMapping("/paymentDetail")
     public RedirectView createPayment(@ModelAttribute Service service, Model model) throws StripeException {
         Stripe.apiKey = secretKey;
 
@@ -53,7 +53,7 @@ public class PaymentController {
     }
     @GetMapping("/payment/success")
     public String successPaymentForm() {
-        return "/payments/success";
+        return "payments/payment_success";
     }
     @GetMapping("/payment/cancel")
     public String cancelPaymentForm() {

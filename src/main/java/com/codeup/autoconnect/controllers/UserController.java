@@ -34,7 +34,7 @@ public class UserController {
        user.setIsMechanic(isMechanic);
        user.setPassword(passwordEncoder.encode(user.getPassword()));
        usersDao.save(user);
-       return "redirect:/login";
+       return "/users/registration_success";
    }
 
 }

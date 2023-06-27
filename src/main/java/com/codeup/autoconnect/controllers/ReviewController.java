@@ -53,9 +53,7 @@ public class ReviewController {
         User mechanic = userDao.findById(id).get();
 
         if (loggedInUser.getId() == mechanic.getId()) {
-            // Logged-in user is trying to write a review for themselves.
-            // Redirect them back to their profile with an error message.
-            return "redirect:/profile?error=selfReview";
+            return "redirect:/users/not_authorized";
         }
 
         review.setUser(loggedInUser);
