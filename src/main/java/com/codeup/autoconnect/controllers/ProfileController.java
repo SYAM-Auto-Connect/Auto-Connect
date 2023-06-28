@@ -78,7 +78,7 @@ public class ProfileController {
             throw new AccessDeniedException("You cannot edit other users' profile");
         }
         userDao.save(editProfile);
-        session.invalidate();
+//        session.invalidate();
         //Above delete
         return "redirect:/profile";
     }
