@@ -68,7 +68,7 @@ public class ProfileController {
             throw new AccessDeniedException("You cannot edit other users' profile");
         }
         if(userDao.findById(id).isPresent()){
-            model.addAttribute("user", user);
+            model.addAttribute("user", userDao.findById(id).get());
         }
         return "users/edit";
     }
@@ -81,7 +81,7 @@ public class ProfileController {
         }
         userDao.save(editProfile);
 
-        session.invalidate();
+//        session.invalidate();
         return "users/edit_success";
 
     }
