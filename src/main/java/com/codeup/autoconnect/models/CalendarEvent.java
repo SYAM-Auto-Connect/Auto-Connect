@@ -16,8 +16,6 @@ public class CalendarEvent {
         this.date = date;
     }
 
-
-    // Getter and setter methods
 }
 
 

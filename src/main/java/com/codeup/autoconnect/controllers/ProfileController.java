@@ -68,7 +68,7 @@ public class ProfileController {
             throw new AccessDeniedException("You cannot edit other users' profile");
         }
         if(userDao.findById(id).isPresent()){
-            model.addAttribute("user", userDao.findById(id).get());
+            model.addAttribute("user", user);
         }
         return "users/edit";
     }
@@ -85,8 +85,10 @@ public class ProfileController {
 
     @GetMapping("/profile/{id}/setting")
     public String showSettingForm (@PathVariable long id, Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         if(userDao.findById(id).isPresent()){
-            model.addAttribute("user", userDao.findById(id).get());
+            model.addAttribute("user", user);
         }
         return "users/setting";
     }
