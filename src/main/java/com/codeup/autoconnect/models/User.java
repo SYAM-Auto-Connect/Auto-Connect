@@ -54,6 +54,8 @@ public class User {
     @Column(columnDefinition = "VARCHAR(10)")
     private String address_zip;
 
+    @Column(columnDefinition ="VARCHAR(255)" )
+    private String profilePicture;
     @JsonIgnore
 
 

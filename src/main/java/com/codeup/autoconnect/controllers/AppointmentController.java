@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -52,8 +53,8 @@ public class AppointmentController {
         System.out.println(date);
         appointmentRepository.save(appointment);
 
-        return "redirect:/profile";
-    }
+        Appointment savedAppointment = appointmentRepository.save(appointment);
+        return "redirect:/paymentDetail?id=" + savedAppointment.getId();    }
 
 }
 

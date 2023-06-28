@@ -57,7 +57,7 @@ public class ProfileController {
         List<Review> reviews = reviewDao.findAllByMechanic(user);
         model.addAttribute("user", user);
         model.addAttribute("reviews", reviews);
-        return "profile";
+        return "/profile";
 //        return "mechanic";
     }
 
@@ -68,25 +68,30 @@ public class ProfileController {
             throw new AccessDeniedException("You cannot edit other users' profile");
         }
         if(userDao.findById(id).isPresent()){
-            model.addAttribute("user", userDao.findById(id).get());
+            model.addAttribute("user", user);
         }
         return "users/edit";
     }
     @PostMapping("/profile/{id}/edit")
     public String submitEditProfile(HttpSession session, @PathVariable long id, @ModelAttribute User editProfile) throws AccessDeniedException {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         if(user.getId() != id){
             throw new AccessDeniedException("You cannot edit other users' profile");
         }
         userDao.save(editProfile);
+
         session.invalidate();
-        return "redirect:/profile";
+        return "users/edit_success";
+
     }
 
     @GetMapping("/profile/{id}/setting")
     public String showSettingForm (@PathVariable long id, Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         if(userDao.findById(id).isPresent()){
-            model.addAttribute("user", userDao.findById(id).get());
+            model.addAttribute("user", user);
         }
         return "users/setting";
     }
@@ -100,7 +105,7 @@ public class ProfileController {
         loggedInUser.setPassword(passwordEncoder.encode(password));
         userDao.save(loggedInUser);
         session.invalidate();
-        return "redirect:/login";
+        return "users/pw_success";
     }
     @PostMapping("/profile/{id}/setting/delete")
     public String submitDelete (HttpSession session, @PathVariable long id) throws AccessDeniedException {
@@ -112,7 +117,7 @@ public class ProfileController {
         }
         userDao.deleteById(id);
         session.invalidate();
-        return "redirect:/";
+        return "users/delete_success";
     }
 
 

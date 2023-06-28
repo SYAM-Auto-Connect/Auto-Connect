@@ -75,6 +75,8 @@
                         <div class="mb-3">
                             <label for="password" class="form-label">Password:</label>
                             <input type="password" name="password" id="password" th:field="*{password}" class="form-control">
+                            <div th:if="${passwordError}" class="alert alert-danger mt-3" th:text="${passwordError}"></div>
+
                         </div>
 
                         <div class="mb-3">
