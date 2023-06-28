@@ -1,5 +1,6 @@
 package com.codeup.autoconnect.controllers;
 
+import com.codeup.autoconnect.models.Appointment;
 import com.codeup.autoconnect.models.Post;
 import com.codeup.autoconnect.models.Review;
 import com.codeup.autoconnect.models.User;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ProfileController {
@@ -55,7 +57,7 @@ public class ProfileController {
         List<Review> reviews = reviewDao.findAllByMechanic(user);
         model.addAttribute("user", user);
         model.addAttribute("reviews", reviews);
-        return "profile";
+        return "/profile";
 //        return "mechanic";
     }
 
@@ -66,7 +68,7 @@ public class ProfileController {
             throw new AccessDeniedException("You cannot edit other users' profile");
         }
         if(userDao.findById(id).isPresent()){
-            model.addAttribute("user", userDao.findById(id).get());
+            model.addAttribute("user", user);
         }
         return "users/edit";
     }
@@ -78,15 +80,18 @@ public class ProfileController {
             throw new AccessDeniedException("You cannot edit other users' profile");
         }
         userDao.save(editProfile);
-//        session.invalidate();
-        //Above delete
-        return "redirect:/profile";
+
+        session.invalidate();
+        return "users/edit_success";
+
     }
 
     @GetMapping("/profile/{id}/setting")
     public String showSettingForm (@PathVariable long id, Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         if(userDao.findById(id).isPresent()){
-            model.addAttribute("user", userDao.findById(id).get());
+            model.addAttribute("user", user);
         }
         return "users/setting";
     }
@@ -100,7 +105,7 @@ public class ProfileController {
         loggedInUser.setPassword(passwordEncoder.encode(password));
         userDao.save(loggedInUser);
         session.invalidate();
-        return "redirect:/login";
+        return "users/pw_success";
     }
     @PostMapping("/profile/{id}/setting/delete")
     public String submitDelete (HttpSession session, @PathVariable long id) throws AccessDeniedException {
@@ -112,7 +117,10 @@ public class ProfileController {
         }
         userDao.deleteById(id);
         session.invalidate();
-        return "redirect:/";
+        return "users/delete_success";
     }
-}
+
+
+    }
+
 

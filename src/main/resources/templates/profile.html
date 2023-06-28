@@ -76,16 +76,16 @@
         }
 
         .rate {
-            color: #ffc107; /* Yellow color */
-            font-size: 24px; /* Increase the size of the stars */
+            color: #ffc107;
+            font-size: 24px;
         }
 
         .rate .fas.fa-star {
-            color: #ffc107; /* Yellow color */
+            color: #ffc107;
         }
 
         .rate .far.fa-star {
-            color: #ccc; /* Light gray color */
+            color: #ccc;
         }
 
     </style>
@@ -108,8 +108,10 @@
                     <div class="card-body text-center">
                         <div class="card-body">
                             <div class="profile-container">
-                                <!--                            <i class="fa-regular fa-circle-user fa-10x"></i>-->
+
+                                
                                 <img th:src="@{${user.getProfilePicture()}}"/>
+
 
                                 <br>
                                 <span th:text="${user.first_name}"></span>
@@ -131,8 +133,8 @@
                     <div class="tab-heading" onclick="openTab(event, 'calendar')">Calendar</div>
                     <div class="tab-heading" onclick="openTab(event, 'reviews')">Reviews</div>
 
-                    <div class="tab active" id="description">
-                        <div class="description" th:text="${user.description}"></div>
+                    <div class="tab active" id="description-bio">
+                        <div class="description-bio" th:text="${user.description}"></div>
                     </div>
                     <div class="tab" id="calendar">
                         <form class="create-appointment-form" th:if="${#authentication.principal.id==user.id}"
@@ -146,45 +148,68 @@
                                     <label for="date">Date:</label>
                                     <input type="date" id="date" name="date" class="form-control" required>
                                 </div>
+                                <div class="col-md-6">
+                                    <label for="customer">Customer</label>
+                                    <input type="text" id="customer" name="customer" class="form-control" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="price">Price:</label>
+                                    <input type="text" id="price" name="price" class="form-control" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="description">Description:</label>
+                                    <input type="text" id="description" name="description" class="form-control"
+                                           required>
+                                </div>
+                                <div class="text-center mt-3">
+                                    <button type="submit" class="btn btn-primary">Create Appointment</button>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+
+                    </th:block>
+                </div>
+                <a th:if="${#authentication.principal.id != user.id}" th:href="@{/review/{id}/create(id=${user.id})}" class="btn btn-info">Click here to Write Review</a>
+            </div>
+                            <div class="text-center mt-3">
+                                <button type="submit" class="btn btn-primary">Create Appointment</button>
+
                             </div>
                         </form>
                     </div>
-                    </th:block>
+                </div>
+            </div>
+            <div class="tab" id="reviews">
+                <div class="review-container">
+                    <div th:each="review, stat : ${reviews}">
+                        <th:block th:if="${stat.count <= 3}">
+                            <div class="review-item">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="rate">
+                                <span th:each="star, stat : ${#numbers.sequence(1, 5)}">
+                                    <i th:class="${star <= review.rating ? 'fas fa-star' : 'far fa-star'}"></i>
+                                </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 mt-2">
+                                        <a th:if="${#authentication.principal.id != user.id}" th:href="@{/review/{id}(id=${review.id})}"
+                                           style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                            <p id="body" name="body" th:text="${review.body}"
+                                               style="font-size:18px;"></p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
                 </div>
                 <a th:href="@{/review/{id}/create(id=${user.id})}" class="btn btn-info">Click here to Write Review</a>
             </div>
 
-
-            <div class="text-center mt-3">
-                <button type="submit" class="btn btn-primary">Create Appointment</button>
-            </div>
-            </form>
-        </div>
-        <div class="tab" id="reviews">
-            <div class="review-container">
-                <div th:each="review, stat : ${reviews}">
-                    <th:block th:if="${stat.count <= 3}">
-                        <div class="review-item">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="rate">
-                                <span th:each="star, stat : ${#numbers.sequence(1, 5)}">
-                                    <i th:class="${star <= review.rating ? 'fas fa-star' : 'far fa-star'}"></i>
-                                </span>
-                                    </div>
-                                </div>
-                                <div class="col-md-9 mt-2">
-                                    <a th:href="@{/review/{id}(id=${review.id})}"
-                                       style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                        <p id="body" name="body" th:text="${review.body}" style="font-size:18px;"></p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </th:block>
-                </div>
-            </div>
-            <a th:href="@{/review/{id}/create(id=${user.id})}" class="btn btn-info">Click here to Write Review</a>
         </div>
     </div>
 </div>
@@ -224,14 +249,25 @@
                 </div>
             </div>
         </div>
+
         <div class="col-md-8">
-            <section>
-                <h3>Here are all of your posts:</h3>
-                <div th:each="post : ${posts}">
-                    <h4 th:text="${post.title}"></h4>
-                    <p th:text="${post.body}"></p>
+            <div class="tab-container">
+                <div class="tab-heading active" onclick="openTab(event, 'posts')">Posts</div>
+                <div class="tab-heading" onclick="openTab(event, 'calendar')">Current Bookings</div>
+
+                <div class="tab active" id="posts">
+                    <section>
+                        <h3>Here are all of your posts:</h3>
+                        <div th:each="post : ${posts}">
+                            <h4 th:text="${post.title}"></h4>
+                            <p th:text="${post.body}"></p>
+                        </div>
+                    </section>
                 </div>
-            </section>
+                <div class="tab" id="calendar">
+                    <!-- Add your calendar content here -->
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -244,16 +280,60 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
 <script>
-
-    $(document).ready(function () {
+    // $(document).ready(function () {
+    //     $('#calendar').fullCalendar({
+    //         defaultView: 'month',
+    //         events: {
+    //             url: '/api/appointments',
+    //             method: 'GET'
+    //         }
+    //     });
+    // });
+    // $(document).ready(function() {
+    //     $('#calendar').fullCalendar({
+    //         defaultView: 'month',
+    //         events: {
+    //             url: '/api/appointments',
+    //             method: 'GET',
+    //             success: function(data) {
+    //                 // Modify the event start and end dates to only include the date part
+    //                 data.forEach(function(event) {
+    //                     event.start = moment(event.start).format('MM/DD/YYYY');
+    //                     event.end = moment(event.end).format('MM/DD/YYYY');
+    //                 });
+    //             }
+    //         },
+    //         eventAfterAllRender: function(view) {
+    //             $('.fc-event').each(function() {
+    //                 let appointmentId = $(this).data('appointment-id');
+    //                 $(this).click(function() {
+    //                     window.location.href = '/paymentDetail/' + appointmentId;
+    //                 });
+    //             });
+    //         }
+    //     });
+    // });
+    $(document).ready(function() {
         $('#calendar').fullCalendar({
             defaultView: 'month',
             events: {
                 url: '/api/appointments',
-                method: 'GET'
+                method: 'GET',
+                success: function(data) {
+                    // Modify the event start and end dates to only include the date part
+                    data.forEach(function(event) {
+                        event.start = moment(event.start).format('YYYY-MM-DD');
+                        event.end = moment(event.end).format('YYYY-MM-DD');
+                    });
+                }
+            },
+            eventClick: function(calEvent) {
+                window.location.href = '/paymentDetail/' + calEvent.id;
             }
         });
     });
+
+
 
 
 </script>

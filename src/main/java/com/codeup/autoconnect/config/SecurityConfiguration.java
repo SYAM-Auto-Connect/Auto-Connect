@@ -13,6 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+
 @Configuration
 // Will allow us to edit the MVC security for our application
 @EnableWebSecurity
@@ -61,7 +62,8 @@ public class SecurityConfiguration {
                                 "/review/*/create",
                                 "/review/*/edit",
                                 "/posts/*/post",
-                                "/review/*/delete").authenticated()
+                                "/review/*/delete",
+                                "/payment/*").authenticated()
 
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
@@ -73,7 +75,10 @@ public class SecurityConfiguration {
                                         "/review/*",
                                         "/registration",
                                         "/login",
-                                        "/MechanicSearchPage", "users/mechanic-list").permitAll()
+                                        "/MechanicSearchPage",
+                                        "/users/mechanic-list",
+                                        "/appointments/*",
+                                        "/paymentDetail/*").permitAll()
 
                         // allow loading of static resources
                         .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()

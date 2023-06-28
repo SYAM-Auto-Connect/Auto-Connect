@@ -3,27 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
         .background-image {
             width: 100%;
             height: 250px;
-            background-image: url('/img/forum.jpg');
+            background-image: url('/img/mechanic.jpg');
             background-size: cover;
             background-position: center;
         }
-        .welcome-txt{
-            background-color: white;
 
+        .welcome-txt {
+            background-color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .post-section {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-section h1 {
+            font-size: 20px;
+            margin-top: 0;
+        }
+
+        .post-section p {
+            margin-bottom: 0;
         }
     </style>
 </head>
 <body>
-<div class="background-image">
-    <h1 class="welcome-txt"><u>Service and Repair Questions Answered Here</u></h1>
+<nav th:replace="~{partials/navbar :: navbar}"></nav>
+    <div class="background-image"></div>
+    <div class="container">
+        <div class="row">
+
+        <div class="col-md-12">
+            <h1 class="welcome-txt"><u>Service and Repair Questions Answered Here</u>
+                <a href="/posts/create" class="btn btn-primary ml-3">Create Post</a></h1>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <th:block th:each="post, iteration: ${posts}" th:if="${iteration.index % 2 == 0}">
+                <div class="post-section">
+                    <h1><a th:href="@{/posts/{id}/post(id=${post.id})}" th:text="${post.title}"></a></h1>
+                    <p><strong>Car Make:</strong> <span th:text="${post.car_make}"></span></p>
+                    <p><strong>Car Body:</strong> <span th:text="${post.car_body}"></span></p>
+                    <p th:text="${post.body}"></p>
+                </div>
+            </th:block>
+        </div>
+        <div class="col-md-6">
+            <th:block th:each="post, iteration: ${posts}" th:if="${iteration.index % 2 != 0}">
+                <div class="post-section">
+                    <h1><a th:href="@{/posts/{id}/post(id=${post.id})}" th:text="${post.title}"></a></h1>
+                    <p><strong>Car Make:</strong> <span th:text="${post.car_make}"></span></p>
+                    <p><strong>Car Body:</strong> <span th:text="${post.car_body}"></span></p>
+                    <p th:text="${post.body}"></p>
+                </div>
+            </th:block>
+        </div>
+    </div>
 </div>
 
-    <th:block th:each="post: ${posts}">
-    <h1><a th:href="@{/posts/{id}/post( id = ${post.id})}" th:text="${post.title}"></a></h1>
-</th:block>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
