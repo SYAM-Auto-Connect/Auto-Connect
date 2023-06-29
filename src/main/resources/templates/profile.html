@@ -98,11 +98,14 @@
 <div th:if="${user.isMechanic}">
     <h2 th:if="${#authentication.principal.id==user.id}" class="welcome-message">Hello, welcome to your profile <span
             th:text="${user.first_name}"></span>!</h2>
+    <h1> Meet <span th:text="${user.first_name}"></span></h1>
+
 
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-2" style="background-color: #f8f8f8;"></div>
+            <div class="col-md-3">
                 <div class="card">
                     <div class="card-body text-center">
                         <div class="card-body">
@@ -123,7 +126,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-5">
                 <div class="tab-container">
                     <div class="tab-heading" onclick="openTab(event, 'description-bio')">Description</div>
                     <div class="tab-heading" onclick="openTab(event, 'calendar')">Calendar</div>
@@ -270,13 +273,6 @@
             events: {
                 url: '/api/appointments',
                 method: 'GET',
-                success: function (data) {
-                    // Modify the event start and end dates to only include the date part
-                    data.forEach(function (event) {
-                        event.start = moment(event.start).format('YYYY-MM-DD');
-                        event.end = moment(event.end).format('YYYY-MM-DD');
-                    });
-                }
             },
             eventClick: function (calEvent) {
                 window.location.href = '/paymentDetail/' + calEvent.id;
