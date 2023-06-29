@@ -52,6 +52,7 @@ public class AppointmentController {
         appointmentRepository.save(appointment);
 
         Appointment savedAppointment = appointmentRepository.save(appointment);
+
         return "appointments/appointment_success";
     }
     @GetMapping("/paymentDetail/{id}/edit")
@@ -95,6 +96,7 @@ public class AppointmentController {
         }
         return "/appointments/appointment_delete_success";
     }
+
 
 }
 
