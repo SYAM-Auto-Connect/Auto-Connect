@@ -181,21 +181,26 @@
             <div class="tab" id="reviews">
                 <div class="review-container">
                     <div th:each="review, stat : ${reviews}">
-                        <th:block th:if="${stat.count <= 3}">
+                        <th:block th:if="${stat.count <= 10}">
                             <div class="review-item">
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="rate">
-                                <span th:each="star, stat : ${#numbers.sequence(1, 5)}">
-                                    <i th:class="${star <= review.rating ? 'fas fa-star' : 'far fa-star'}"></i>
-                                </span>
+                                            <span th:each="star : ${#numbers.sequence(1, 5)}">
+                                                <i th:class="${star <= review.rating ? 'fas fa-star' : 'far fa-star'}"></i>
+                                            </span>
                                         </div>
                                     </div>
-                                    <div class="col-md-9 mt-2">
+                                    <div class="col-md-6 mt-2">
+
                                         <a th:if="${#authentication.principal.id != user.id}" th:href="@{/review/{id}(id=${review.id})}"
                                            style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                            <p id="body" name="body" th:text="${review.body}"
-                                               style="font-size:18px;"></p>
+                                            <p th:text="${review.body}" style="font-size:18px;"></p>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3 mt-2">
+                                        <a th:if="${#authentication.principal.id != review.user.id}" th:href="@{/profile/{id}(id=${review.user.id})}">
+                                            <p th:text="${review.user.username}" style="font-size: 18px;"></p>
                                         </a>
                                     </div>
                                 </div>
@@ -205,10 +210,6 @@
                 </div>
                 <a th:href="@{/review/{id}/create(id=${user.id})}" class="btn btn-info">Click here to Write Review</a>
             </div>
-
-        </div>
-    </div>
-</div>
 
 
 <script>
@@ -278,52 +279,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
 <script>
-    // $(document).ready(function () {
-    //     $('#calendar').fullCalendar({
-    //         defaultView: 'month',
-    //         events: {
-    //             url: '/api/appointments',
-    //             method: 'GET'
-    //         }
-    //     });
-    // });
-    // $(document).ready(function() {
-    //     $('#calendar').fullCalendar({
-    //         defaultView: 'month',
-    //         events: {
-    //             url: '/api/appointments',
-    //             method: 'GET',
-    //             success: function(data) {
-    //                 // Modify the event start and end dates to only include the date part
-    //                 data.forEach(function(event) {
-    //                     event.start = moment(event.start).format('MM/DD/YYYY');
-    //                     event.end = moment(event.end).format('MM/DD/YYYY');
-    //                 });
-    //             }
-    //         },
-    //         eventAfterAllRender: function(view) {
-    //             $('.fc-event').each(function() {
-    //                 let appointmentId = $(this).data('appointment-id');
-    //                 $(this).click(function() {
-    //                     window.location.href = '/paymentDetail/' + appointmentId;
-    //                 });
-    //             });
-    //         }
-    //     });
-    // });
+
     $(document).ready(function() {
         $('#calendar').fullCalendar({
             defaultView: 'month',
             events: {
                 url: '/api/appointments',
                 method: 'GET',
-                success: function(data) {
-                    // Modify the event start and end dates to only include the date part
-                    data.forEach(function(event) {
-                        event.start = moment(event.start).format('YYYY-MM-DD');
-                        event.end = moment(event.end).format('YYYY-MM-DD');
-                    });
-                }
+
             },
             eventClick: function(calEvent) {
                 window.location.href = '/paymentDetail/' + calEvent.id;

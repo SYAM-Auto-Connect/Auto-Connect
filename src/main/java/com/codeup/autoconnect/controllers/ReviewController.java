@@ -36,7 +36,7 @@ public class ReviewController {
     public String showCreateReview(@PathVariable long id, Model model){
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (loggedInUser.getId() == id) {
-            return "redirect:/profile?error=selfReview";
+            return "users/not-authorized";
         }
 
         User mechanic = userDao.findById(id).get();
@@ -53,7 +53,7 @@ public class ReviewController {
         User mechanic = userDao.findById(id).get();
 
         if (loggedInUser.getId() == mechanic.getId()) {
-            return "redirect:/users/not_authorized";
+            return "/users/not_authorized";
         }
 
         review.setUser(loggedInUser);
@@ -67,7 +67,7 @@ public class ReviewController {
         Review existingReview = reviewDao.findById(id).get();
 
         if (loggedInUser.getId() != existingReview.getUser().getId()) {
-            return "redirect:/profile?error=notYourReview";
+            return "/users/not_authorized";
         }
 
         model.addAttribute("review", existingReview);
@@ -80,7 +80,7 @@ public class ReviewController {
         Review existingReview = reviewDao.findById(id).get();
 
         if (loggedInUser.getId() != existingReview.getUser().getId()) {
-            return "redirect:/profile?error=notYourReview";
+            return "/users/not_authorized";
         }
 
         existingReview.setRating(review.getRating());
@@ -95,7 +95,7 @@ public class ReviewController {
         Review existingReview = reviewDao.findById(id).get();
 
         if (loggedInUser.getId() != existingReview.getUser().getId()) {
-            return "redirect:/profile?error=notYourReview";
+            return "/users/not_authorized";
         }
         reviewDao.delete(existingReview);
         return "redirect:/profile/" + existingReview.getMechanic().getId();
