@@ -262,10 +262,22 @@
 
 
     <h1>All Mechanics</h1>
-        <h1 th:each="mechanic : ${ViewAllMechanics}"></h1>
-            <p th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></p>
-            <p th:text="${mechanic.email}"></p>
-            <p th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_zip}"></p>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="mechanic : ${ViewAllMechanics}">
+            <td th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></td>
+            <td th:text="${mechanic.email}"></td>
+            <td th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_zip}"></td>
+        </tr>
         </tbody>
+    </table>
+</table>
 </body>
 </html>
