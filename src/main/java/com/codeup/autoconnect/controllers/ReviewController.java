@@ -36,7 +36,7 @@ public class ReviewController {
     public String showCreateReview(@PathVariable long id, Model model){
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (loggedInUser.getId() == id) {
-            return "users/not-authorized";
+            return "users/not_authorized";
         }
 
         User mechanic = userDao.findById(id).get();
