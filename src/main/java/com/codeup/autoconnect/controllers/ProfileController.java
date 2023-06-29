@@ -73,7 +73,7 @@ public class ProfileController {
         return "users/edit";
     }
     @PostMapping("/profile/{id}/edit")
-    public String submitEditProfile(HttpSession session, @PathVariable long id, @ModelAttribute User editProfile) throws AccessDeniedException {
+    public String submitEditProfile(@PathVariable long id, @ModelAttribute User editProfile) throws AccessDeniedException {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if(user.getId() != id){
@@ -81,7 +81,6 @@ public class ProfileController {
         }
         userDao.save(editProfile);
 
-//        session.invalidate();
         return "users/edit_success";
 
     }
