@@ -44,6 +44,8 @@ public class UserController {
            return "/users/registration";
        }
        user.setPassword(passwordEncoder.encode(user.getPassword()));
+       String imageUrl = "/img/image.jpeg";
+       user.setProfilePicture(imageUrl);
        usersDao.save(user);
        return "/users/registration_success";
    }

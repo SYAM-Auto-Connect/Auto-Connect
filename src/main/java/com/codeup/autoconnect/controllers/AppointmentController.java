@@ -54,7 +54,7 @@ public class AppointmentController {
         appointmentRepository.save(appointment);
 
         Appointment savedAppointment = appointmentRepository.save(appointment);
-        return "redirect:/paymentDetail?id=" + savedAppointment.getId();    }
+        return "/appointments/appointment_success"; }
 
 }
 
