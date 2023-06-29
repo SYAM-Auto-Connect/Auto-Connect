@@ -24,8 +24,8 @@
 
         }
 
-        body {
-
+        * {
+            font-family: "Fantacy", Cop, Copperplate;
         }
     </style>
 
@@ -34,7 +34,7 @@
 <body>
 
 <nav th:replace="~{partials/navbar :: navbar}"></nav>
-<h1>Find a mechanic</h1>
+<h1>Find a mechanic near you! </h1>
 
 <div>
     <input type="text" id="zipcodeInput" name="keyword" placeholder="Enter ZIP code">
@@ -120,23 +120,7 @@
             });
     }
 
-    // function populateMechanicList(mechanic) {
-    //     let tableBody = document.getElementById('mechanicTableBody');
-    //     let row = document.createElement('tr');
-    //     let nameCell = document.createElement('td');
-    //     let emailCell = document.createElement('td');
-    //     let addressCell = document.createElement('td');
-    //
-    //     nameCell.textContent = mechanic.first_name + ' ' + mechanic.last_name;
-    //     emailCell.textContent = mechanic.email;
-    //     addressCell.textContent = mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_zip;
-    //
-    //     row.appendChild(nameCell);
-    //     row.appendChild(emailCell);
-    //     row.appendChild(addressCell);
-    //
-    //     tableBody.appendChild(row);
-    // }
+
 
 
     mapboxgl.accessToken = "pk.eyJ1IjoiYW1pcjk3MyIsImEiOiJjbGo0aTdsZ2IwMWhhM3RwaTJ3OW55dThwIn0.aHk5duLxybjEOkw0_BDHCA"
@@ -147,45 +131,6 @@
         zoom: 9,
     });
 
-    //
-    // function listOfMechanics() {
-    //
-    //
-    //     fetch('http://localhost:8080/users/mechanic-list')
-    //         .then((response) => response.json())
-    //         .then((response) => {
-    //             response.forEach(mechanic => {
-    //                 let firstName = mechanic.first_name;
-    //                 let lastName = mechanic.last_name;
-    //                 let street = mechanic.address_street;
-    //                 let city = mechanic.address_city;
-    //                 let zipCode = mechanic.address_zip;
-    //
-    //
-    //                 let searchQuery = `${street}, ${city}, ${zipCode}`;
-    //
-    //
-    //                 fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(searchQuery)}.json?access_token=pk.eyJ1IjoiYW1pcjk3MyIsImEiOiJjbGo0aTdsZ2IwMWhhM3RwaTJ3OW55dThwIn0.aHk5duLxybjEOkw0_BDHCA`)
-    //                     .then((geocodeResponse) => geocodeResponse.json())
-    //                     .then((geocodeResponse) => {
-    //
-    //                         let coordinates = geocodeResponse.features[0].center;
-    //
-    //
-    //                         new mapboxgl.Marker()
-    //                             .setLngLat(coordinates)
-    //                             .setPopup(new mapboxgl.Popup().setHTML(getPopupContent(firstName, lastName, street, city, zipCode)))
-    //                             .addTo(map);
-    //                     })
-    //                     .catch((error) => {
-    //                         console.error('Error performing geocoding request:', error);
-    //                     });
-    //             });
-    //         })
-    //         .catch((error) => {
-    //             console.error('Error retrieving mechanic list:', error);
-    //         });
-    // }
 
     function getPopupContent(profileLink, firstName, lastName, street, city, zipCode, state) {
         // return `<h3>${firstName} ${lastName}</h3>
@@ -194,90 +139,51 @@
         <p>${street}, ${city}, ${zipCode}, ${state}</p>`
     }
 
-    // listOfMechanics();
-
 
 </script>
-<h1>Search By Keyword</h1>
-<table>
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Address</th>
-    </tr>
-    </thead>
-    <tbody>
+<div class="row">
+    <div class="col-md-6">
+        <h1>Search By Keyword</h1>
+        <form th:action="@{/MechanicSearchPage}" method="get">
+            <input type="text" name="keyword" placeholder="Enter keyword">
+            <button type="submit">Search</button>
+        </form>
 
+        <h2>Search Results</h2>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div th:each="mechanic : ${searchResults}">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a th:href="@{/profile/{id}(id=${mechanic.id})}" th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></a>
+                            </h5>
+                            <h6 class="card-subtitle mb-2 text-muted" th:text="${mechanic.email}"></h6>
+                            <p class="card-text" th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_state + ' ' + mechanic.address_zip}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <form th:action="@{/MechanicSearchPage}" method="get">
-        <input type="text" name="keyword" placeholder="Enter keyword">
-        <button type="submit">Search</button>
-    </form>
+    <div class="col-md-6">
+        <h1>All Mechanics</h1>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div th:each="mechanic : ${ViewAllMechanics}">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></h5>
+                            <h6 class="card-subtitle mb-2 text-muted" th:text="${mechanic.email}"></h6>
+                            <p class="card-text" th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_zip}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-
-    <h2>Search Results</h2>
-    <table>
-        <!--        <thead>-->
-        <!--        <tr>-->
-        <!--            <th>Name</th>-->
-        <!--            <th>Email</th>-->
-        <!--            <th>Address</th>-->
-        <!--        </tr>-->
-        <!--        </thead>-->
-        <tbody>
-        <!--        <tr th:each="mechanic : ${searchResults}">-->
-        <!--            <td th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></td>-->
-        <!--            <td th:text="${mechanic.email}"></td>-->
-        <!--            <td th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_state + ' ' + mechanic.address_zip}"></td>-->
-        <!--        </tr>-->
-
-        <tr th:each="mechanic : ${searchResults}">
-            <td>
-                <a th:href="@{/profile/{id}(id=${mechanic.id})}"
-                   th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></a>
-                <!--           onclick="event.stopPropagation(); ${mechanic.id}; return false;">-->
-            </td>
-            <td th:text="${mechanic.email}"></td>
-            <td th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_state + ' ' + mechanic.address_zip}"></td>
-        </tr>
-        <!--        <script>-->
-        <!--            function fetchMechanicData(mechanicId) {-->
-        <!--                fetch(`http://localhost:8080/users/mechanic-list?id=${mechanicId}`)-->
-        <!--                    .then((response) => response.json())-->
-        <!--                    .then((mechanic) => {-->
-
-        <!--                        // alert(`Mechanic Details:\nName: ${mechanic.first_name} ${mechanic.last_name}\nEmail: ${mechanic.email}\nAddress: ${mechanic.address_street}, ${mechanic.address_city} ${mechanic.address_zip}`);-->
-        <!--                    })-->
-        <!--                    .catch((error) => {-->
-        <!--                        console.error('Error fetching mechanic profile', error);-->
-        <!--                    });-->
-        <!--            }-->
-
-        <!--        </script>-->
-
-
-        </tbody>
-    </table>
-
-
-    <h1>All Mechanics</h1>
-    <table>
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Address</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="mechanic : ${ViewAllMechanics}">
-            <td th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></td>
-            <td th:text="${mechanic.email}"></td>
-            <td th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_zip}"></td>
-        </tr>
-        </tbody>
-    </table>
-</table>
 </body>
 </html>
