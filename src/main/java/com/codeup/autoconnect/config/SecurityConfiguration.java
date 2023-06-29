@@ -72,6 +72,8 @@ public class SecurityConfiguration {
 
                         
                         .requestMatchers("/",
+                                        "/contacts",
+                                        "/about",
                                         "/posts",
                                         "/profile/*",
                                         "/review/*",
