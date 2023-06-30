@@ -62,10 +62,18 @@ public class SecurityConfiguration {
                                 "/review/*/create",
                                 "/review/*/edit",
                                 "/posts/*/post",
+                                "/posts/*/comment",
                                 "/review/*/delete",
                                 "/payment/*",
                                 "paymentDetail/*/edit",
-                                "paymentDetail/*/delete").authenticated()
+                                "paymentDetail/*/delete",
+                                "/messages",
+                                "/messages/search",
+                                "/messages/new-conversation",
+                                "/messages/send",
+                                "/messages/load",
+                                "/messages/conversation/*",
+                                "/messages/load-conversation/*").authenticated()
 
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
