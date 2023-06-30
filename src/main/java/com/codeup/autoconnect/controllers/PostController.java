@@ -62,7 +62,7 @@ public class PostController {
     }
     @PostMapping("posts/{id}/edit")
     public String updatePost(@ModelAttribute Post newPost) {
-        User user = usersDao.findById(1L).get();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         newPost.setUser(user);
         postsDao.save(newPost);
         return "redirect:/posts";
@@ -79,7 +79,7 @@ public class PostController {
     public String addComment(@PathVariable long id, @RequestParam String content) {
         Comment newComment = new Comment();
 
-        User user = usersDao.findById(1L).get();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Post post = postsDao.findById(id).get();
         newComment.setContent(content);
         newComment.setPost(post);

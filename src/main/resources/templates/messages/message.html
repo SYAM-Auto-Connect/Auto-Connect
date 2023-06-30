@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Instant Messaging</title>
+    <style>
+        .conversation-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>Instant Messaging</h1>
+<!-- Search form -->
+<form th:action="@{/messages/search}" method="get" id="searchForm">
+    <input type="text" name="keyword" placeholder="Search by first name, last name, or username">
+    <button type="submit">Search</button>
+</form>
+<!-- Search Results -->
+<div id="searchResults" th:if="${searchAttempted}">
+    <h2>Search Results:</h2>
+    <ul>
+        <li th:each="result : ${searchResults}">
+            <span th:text="${result.username}"></span>
+            <button class="send-message-btn">Send Message</button>
+            <!-- Message form -->
+            <div class="messageForm" style="display: none;">
+                <h2>Send Message</h2>
+                <form th:action="@{/messages/new-conversation}" method="post" class="new-conversation-form">
+                    <input type="hidden" name="recipientId" th:value="${result.id}">
+                    <input type="text" name="newMessage" placeholder="Enter your message">
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+        </li>
+    </ul>
+    <!-- Render "No results" message if searchResults is empty -->
+    <p th:if="${#lists.isEmpty(searchResults)}">No results</p>
+</div>
+
+<!-- Display existing conversations -->
+<div id="existingConversations">
+    <h2>Existing Conversations:</h2>
+    <ul>
+        <li th:each="conversation : ${conversations}" class="conversation-card" th:data-conversation-id="${conversation.id}">
+            <span th:text="${conversation.user1.username + ' - ' + conversation.user2.username}"></span>
+            <!-- Display previous messages -->
+            <ul>
+                <li th:each="message : ${conversation.messages}">
+                    <span th:text="${message.sender.username + ': ' + message.message}"></span>
+                </li>
+            </ul>
+            <form th:action="@{/messages/send}" method="post" class="existing-conversation-form">
+                <input type="hidden" name="conversationId" th:value="${conversation.id}" />
+                <input type="text" name="message" placeholder="Enter your message" />
+                <button type="submit">Send</button>
+            </form>
+        </li>
+    </ul>
+    <!-- Render "No conversations" message if conversations is empty -->
+    <p th:if="${#lists.isEmpty(conversations)}">No conversations</p>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Toggle message form visibility for search results
+        var sendMessageButtons = document.querySelectorAll("#searchResults .send-message-btn");
+        sendMessageButtons.forEach(function(button) {
+            button.addEventListener("click", function(event) {
+                event.preventDefault();
+                var messageForm = this.nextElementSibling;
+                messageForm.style.display = (messageForm.style.display === "none") ? "block" : "none";
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
