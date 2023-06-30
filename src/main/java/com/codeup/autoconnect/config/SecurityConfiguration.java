@@ -62,23 +62,35 @@ public class SecurityConfiguration {
                                 "/review/*/create",
                                 "/review/*/edit",
                                 "/posts/*/post",
+                                "/posts/*/comment",
                                 "/review/*/delete",
-                                "/payment/*").authenticated()
+                                "/payment/*",
+                                "paymentDetail/*/edit",
+                                "paymentDetail/*/delete",
+                                "/messages",
+                                "/messages/search",
+                                "/messages/new-conversation",
+                                "/messages/send",
+                                "/messages/load",
+                                "/messages/conversation/*",
+                                "/messages/load-conversation/*").authenticated()
 
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
 
-                        
+
                         .requestMatchers("/",
-                                        "/posts",
-                                        "/profile/*",
-                                        "/review/*",
-                                        "/registration",
-                                        "/login",
-                                        "/MechanicSearchPage",
-                                        "/users/mechanic-list",
-                                        "/appointments/*",
-                                        "/paymentDetail/*").permitAll()
+                                "/contacts",
+                                "/about",
+                                "/posts",
+                                "/profile/*",
+                                "/review/*",
+                                "/registration",
+                                "/login",
+                                "/MechanicSearchPage",
+                                "/users/mechanic-list",
+                                "/appointments/*",
+                                "/paymentDetail/*").permitAll()
 
                         // allow loading of static resources
                         .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()

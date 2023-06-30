@@ -59,7 +59,7 @@ public class User {
     @JsonIgnore
 
 
-    @Column(nullable = true, columnDefinition = "TEXT")
+    @Column(columnDefinition  = "TEXT")
     private String description;
 
  
