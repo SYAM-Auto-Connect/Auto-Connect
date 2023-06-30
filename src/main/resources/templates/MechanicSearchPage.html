@@ -45,11 +45,6 @@
 
 <div id='map' class="map"></div>
 <script>
-    fetch('http://localhost:8080/users/mechanic-list?zipcode=75207')
-        .then(res => res.json())
-        .then(data => console.log(data));
-</script>
-<script>
 
     document.getElementById('searchButton').addEventListener('click', function (event) {
         event.preventDefault();
@@ -62,7 +57,7 @@
 
         map.remove();
 
-        fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(zipCode)}.json?access_token=pk.eyJ1IjoiYW1pcjk3MyIsImEiOiJjbGo0aTdsZ2IwMWhhM3RwaTJ3OW55dThwIn0.aHk5duLxybjEOkw0_BDHCA`)
+        fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(zipCode)}.json?access_token=${MAPBOX_KEY}`)
             .then((geocodeResponse) => geocodeResponse.json())
             .then((geocodeResponse) => {
                 let coordinates = geocodeResponse.features[0].center;
@@ -95,16 +90,16 @@
                                 event.stopPropagation();
                             });
 
-                            fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(searchQuery)}.json?access_token=pk.eyJ1IjoiYW1pcjk3MyIsImEiOiJjbGo0aTdsZ2IwMWhhM3RwaTJ3OW55dThwIn0.aHk5duLxybjEOkw0_BDHCA`)
+                            fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(searchQuery)}.json?access_token=${MAPBOX_KEY}`)
                                 .then((geocodeResponse) => geocodeResponse.json())
                                 .then((geocodeResponse) => {
                                     let coordinates = geocodeResponse.features[0].center;
-
+                                    console.log("Creating new marker...")
                                     new mapboxgl.Marker()
                                         .setLngLat(coordinates)
                                         .setPopup(new mapboxgl.Popup().setHTML(getPopupContent(profileLink, firstName, lastName, street, city, state, zipCode)))
                                         .addTo(map);
-
+                                    console.log(map)
                                     // populateMechanicList(mechanic);
                                 })
                             //             .catch((error) => {
@@ -124,7 +119,7 @@
 
 
 
-    mapboxgl.accessToken = "pk.eyJ1IjoiYW1pcjk3MyIsImEiOiJjbGo0aTdsZ2IwMWhhM3RwaTJ3OW55dThwIn0.aHk5duLxybjEOkw0_BDHCA"
+    mapboxgl.accessToken = MAPBOX_KEY
     let map = new mapboxgl.Map({
         container: 'map', // container ID
         style: 'mapbox://styles/mapbox/streets-v12',
