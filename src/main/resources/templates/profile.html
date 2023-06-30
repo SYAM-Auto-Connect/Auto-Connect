@@ -8,28 +8,13 @@
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
 
-
     <style>
         body {
             margin: 0;
             padding: 0;
+            font-family: "Roboto Light"
         }
 
-
-        .profile-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ensure the image fills the container */
-            margin-bottom: 20px;
-        }
-
-        .background-image {
-            width: 100%;
-            height: 250px;
-            background-image: url('/img/home-image.jpg');
-            background-size: cover;
-            background-position: center;
-        }
 
         .welcome-message {
             color: black;
@@ -50,10 +35,12 @@
         .tab-container .tab-heading {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
+            color: black;
             cursor: pointer;
-            margin-right: 5px;
+            margin-right: 30px;
+            text-decoration: underline;
+            font-weight: bold;
+            text-transform: uppercase;
         }
 
         .tab-container .tab-heading:hover {
@@ -88,12 +75,52 @@
             color: #ccc;
         }
 
+        .container-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        body {
+            background-color: #f8f6f4;
+        }
+
+        .username {
+            text-transform: uppercase;
+            font-size: 25px;
+
+        }
+
+        .profile-image {
+            border-radius: 50%;
+            height: 250px;
+            width: 250px;
+        }
+
+        .post-section {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            font-family: "Fantacy", Cop, Copperplate !important;
+            text-transform: uppercase;
+        }
+
+        h2, h3, .tab-heading {
+            font-family: "Fantacy", Cop, Copperplate !important;
+
+        }
+
         #default-icon {
             width: 100%;
             height: 100%;
             object-fit: cover; /* Ensure the image fills the container */
             margin-bottom: 20px;
         }
+
         .reivewBody {
             display: block;
             white-space: nowrap;
@@ -102,11 +129,13 @@
             font-family: inherit;
             color: #3e3e3e;
         }
+
         .reviewer {
             font-size: 18px;
             font-family: inherit;
             color: #3e3e3e;
         }
+
         a:link {
             text-decoration: none;
             cursor: pointer;
@@ -114,31 +143,29 @@
         }
     </style>
 
+
 </head>
 
 
-<body class="bg-light">
+<body>
 <nav th:replace="~{partials/navbar :: navbar}"></nav>
 
-<div th:if="${user.isMechanic}">
-    <h2 th:if="${#authentication.principal.id==user.id}" class="welcome-message">Hello, welcome to your profile <span
-            th:text="${user.first_name}"></span>!</h2>
-    <h1> Meet <span th:text="${user.first_name}"></span></h1>
-
-
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-1" style="background-color: #f8f8f8;"></div>
-            <div class="col-md-3">
-                <div class="card">
+<div class="container-outer" style="margin: 1px 40px; display: flex; justify-content: center;">
+    <div class="container-wrapper"
+         style="border: 1px solid lightgray; padding: 20px; background-color: #f8f6f4; box-shadow: 0 0 20px -4px rgba(0, 0, 0, 0.2);">
+        <div th:if="${user.isMechanic}">
+            <h2 th:if="${#authentication.principal.id==user.id}" class="welcome-message">
+                Hello, welcome to your profile
+                <span th:text=" ' ' + ${user.first_name}"></span>!
+            </h2>
+            <div class="row">
+                <div class="col-md-4">
                     <div class="card-body text-center">
                         <div class="card-body">
                             <div class="profile-container">
-                                <!--                                <i id="default-icon" class="fas fa-user-circle"></i>-->
-                                <img th:src="@{${user.getProfilePicture()}}"/>
+                                <img class="profile-image" th:src="@{${user.getProfilePicture()}}"/>
                                 <br>
-                                <span th:text="${user.first_name}"></span>
+                                <span class="username" th:text="${user.first_name} + ' ' +  ${user.last_name}"></span>
                                 <br>
                                 <a th:if="${#authentication.principal.id==user.id}"
                                    th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary">Edit
@@ -150,12 +177,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="tab-container">
-                    <div class="tab-heading" onclick="openTab(event, 'description-bio')">Description</div>
-                    <div class="tab-heading" onclick="openTab(event, 'calendar')">Calendar</div>
-                    <div class="tab-heading" onclick="openTab(event, 'reviews')">Reviews</div>
+                <div class="col-md-8">
+                    <div class="tab-container">
+                        <div class="tab-heading" onclick="openTab(event, 'description-bio')">About Me</div>
+                        <div class="tab-heading" onclick="openTab(event, 'calendar')">Calendar</div>
+                        <div class="tab-heading" onclick="openTab(event, 'reviews')">Reviews</div>
+                    </div>
 
                     <div class="tab active" id="description-bio">
                         <div class="description-bio" th:text="${user.description}"></div>
@@ -173,8 +200,9 @@
                                     <input type="date" id="date" name="date" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="customer">Customer</label>
-                                    <input type="text" id="customer" name="customer" class="form-control" required>
+                                    <label for="customer">Customer:</label>
+                                    <input type="text" id="customer" name="customer" class="form-control"
+                                           required>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="price">Price:</label>
@@ -191,6 +219,7 @@
                             </div>
                         </form>
                     </div>
+
                     <div class="tab" id="reviews">
                         <div class="review-container">
                             <div th:each="review, stat : ${reviews}">
@@ -204,11 +233,10 @@
                                                     </span>
                                                 </div>
                                             </div>
-
                                             <div class="col-5 mt-2 reivewBody">
-
                                                 <a th:href="@{/review/{id}(id=${review.id})}">
-                                                    <p th:text="${review.body}" style="font-size:18px;">
+                                                    <p th:text="${review.body}"
+                                                       style="font-size:18px;">
                                                     </p>
                                                 </a>
                                             </div>
@@ -220,19 +248,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                </th:block>
+                            </th:block>
                             </div>
-                            <a th:href="@{/review/{id}/create(id=${user.id})}" class="btn btn-info">Click here to Write Review</a>
+                            <a th:href="@{/review/{id}/create(id=${user.id})}" class="btn btn-info">Click
+                                here to Write Review</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-        <div class="col-md-1" style="background-color: #f8f8f8;">
-        </div>
-</div>
-
+    <div class="col-md-1" style="background-color: #f8f8f8;">
     </div>
 </div>
 
@@ -254,22 +280,25 @@
     }
 </script>
 
-
 <div th:if="${!user.isMechanic}">
+    <h2 th:if="${#authentication.principal.id==user.id}" class="welcome-message">
+        Hello, welcome to your profile
+        <span th:text=" ' ' + ${user.first_name}"></span>!
+    </h2>
     <div class="row">
         <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <div class="profile-container">
-                        <!--                        <i id="default-icon" class="fas fa-user-circle"></i>-->
-                        <img th:src="@{${user.getProfilePicture()}}"/>
-                        <br>
-                        <a th:if="${#authentication.principal.id==user.id}"
-                           th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary">Edit Profile</a>
-                        <a th:if="${#authentication.principal.id==user.id}"
-                           th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning">Account
-                            Settings</a>
-                    </div>
+            <div class="card-body text-center">
+                <div class="profile-container">
+                    <img class="profile-image" th:src="@{${user.getProfilePicture()}}"/>
+                    <br>
+                    <br>
+                    <span class="username" th:text="${user.first_name} + ' ' +  ${user.last_name}"></span>
+                    <br>
+                    <a th:if="${#authentication.principal.id==user.id}"
+                       th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary">Edit Profile</a>
+                    <a th:if="${#authentication.principal.id==user.id}"
+                       th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning">Account
+                        Settings</a>
                 </div>
             </div>
         </div>
@@ -282,7 +311,7 @@
                 <div class="tab active" id="posts">
                     <section>
                         <h3>Here are all of your posts:</h3>
-                        <div th:each="post : ${posts}">
+                        <div class="post-section" th:each="post : ${posts}">
                             <h4 th:text="${post.title}"></h4>
                             <p th:text="${post.body}"></p>
                         </div>
@@ -323,8 +352,9 @@
     });
     /*]]>*/
 </script>
-<script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
-
+<script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
+        integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>

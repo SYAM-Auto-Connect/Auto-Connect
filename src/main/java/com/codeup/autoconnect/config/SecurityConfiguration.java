@@ -78,19 +78,19 @@ public class SecurityConfiguration {
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
 
-                        
+
                         .requestMatchers("/",
-                                        "/contacts",
-                                        "/about",
-                                        "/posts",
-                                        "/profile/*",
-                                        "/review/*",
-                                        "/registration",
-                                        "/login",
-                                        "/MechanicSearchPage",
-                                        "/users/mechanic-list",
-                                        "/appointments/*",
-                                        "/paymentDetail/*").permitAll()
+                                "/contacts",
+                                "/about",
+                                "/posts",
+                                "/profile/*",
+                                "/review/*",
+                                "/registration",
+                                "/login",
+                                "/MechanicSearchPage",
+                                "/users/mechanic-list",
+                                "/appointments/*",
+                                "/paymentDetail/*").permitAll()
 
                         // allow loading of static resources
                         .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
