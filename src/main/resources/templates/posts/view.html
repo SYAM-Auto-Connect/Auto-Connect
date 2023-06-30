@@ -3,35 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <title>View Posts</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 </head>
 <style>
-    *{
+    * {
         font-family: "Fantacy", Cop, Copperplate;
 
     }
+
+    .page-container {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+
+    .background-image {
+        width: 100%;
+        height: 250px;
+        background-image: url('/img/mechanic.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+
+
+    .card {
+        /*width: 500px;*/
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 0;
+    }
+
+    .comment label {
+        font-weight: bold;
+        margin-right: 5px;
+    }
+
+    .comment span {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .comment-form label {
+        font-weight: bold;
+        margin-right: 5px;
+    }
+
+    .comment-form input[type="text"] {
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .comment-form button {
+        padding: 5px 10px;
+        border-radius: 5px;
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+    .comment-form button:hover {
+        background-color: #45a049;
+    }
+
+    .individual-card {
+        padding-bottom: 10px;
+    }
+
+
+    .post-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .post-info h2 {
+        margin-right: 10px;
+    }
+
+    .car-info {
+        font-size: 14px;
+    }
+
+
 </style>
 <body>
-<h1>View User Posts</h1>
-<th:block>
-    <h1 th:text="${posts.title}"></h1>
-    <p th:text="${posts.body}"></p>
-    <p th:text="${posts.car_make}"></p>
-    <p th:text="${posts.car_body}"></p>
-    <p th:text="${posts.car_year}"></p>
-    <br>
-    <h2>Comments</h2>
+<nav th:replace="~{partials/navbar :: navbar}"></nav>
+<div class="background-image"></div>
 
-    <th:block th:each="comment : ${posts.comments}">
-        <label>User:</label>
-        <span th:text="${comment.user.first_name}"></span><br>
-        <label>Comment:</label>
-        <span th:text="${comment.content}"></span><br><br>
+<div class="page-container">
+    <th:block>
+        <div class="card">
+            <div class="card-header">
+                <h1 th:text="${posts.title}"></h1>
+
+            </div>
+            <div class="card-body">
+                <h2><span th:text="${posts.user.first_name}"></span></h2><span th:text="${posts.car_body}"></span> -
+                <span th:text="${posts.car_make + ' - ' + posts.car_year}"></span>
+                <br>
+                <p class="post-info" th:text="${posts.body}"></p>
+            </div>
+            <form th:action="@{/posts/{id}/comment (id = ${posts.id})}" th:method="post">
+                <label for="content">Comment: </label>
+                <textarea name="content" id="content"></textarea>
+                <button>Add Comment</button>
+            </form>
+        </div>
     </th:block>
-</th:block>
-<form th:action="@{/posts/{id}/comment (id = ${posts.id})}" th:method="post">
-    <label for="content">Comment: </label>
-    <input name="content" id="content">
-    <button>Add Comment</button>
-</form>
+
+    <h2>ALL COMMENTS</h2>
+    <div class="card">
+        <th:block th:each="comment : ${posts.comments}">
+            <div class="individual-card">
+                <div class="card comment-card">
+                    <h3 th:text="${comment.user.first_name}"></h3>
+                    <div class="card-body">
+                        <p class="card-text" th:text="${comment.content}"></p>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
 </body>
 </html>

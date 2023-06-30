@@ -5,10 +5,11 @@
     <title></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        *{
+        * {
             font-family: "Fantacy", Cop, Copperplate;
 
         }
+
         body {
             background-color: #f8f9fa;
         }
@@ -31,8 +32,6 @@
 
         .post-section {
             border: 1px solid #ccc;
-            padding: 20px;
-            margin-bottom: 20px;
             background-color: white;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
@@ -45,13 +44,14 @@
         .post-section p {
             margin-bottom: 0;
         }
+
     </style>
 </head>
 <body>
 <nav th:replace="~{partials/navbar :: navbar}"></nav>
-    <div class="background-image"></div>
-    <div class="container">
-        <div class="row">
+<div class="background-image"></div>
+<div class="container">
+    <div class="row">
 
         <div class="col-md-12">
             <h1 class="welcome-txt"><u>Service and Repair Questions Answered Here</u>
@@ -60,29 +60,19 @@
     </div>
 </div>
 <div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <th:block th:each="post, iteration: ${posts}" th:if="${iteration.index % 2 == 0}">
+    <th:block th:each="post: ${posts}">
+        <div class="row">
+            <div class="col-md-12">
                 <div class="post-section">
                     <h1><a th:href="@{/posts/{id}/post(id=${post.id})}" th:text="${post.title}"></a></h1>
                     <p><strong>Car Make:</strong> <span th:text="${post.car_make}"></span></p>
                     <p><strong>Car Body:</strong> <span th:text="${post.car_body}"></span></p>
-                    <p th:text="${post.body}"></p>
                 </div>
-            </th:block>
+            </div>
         </div>
-        <div class="col-md-6">
-            <th:block th:each="post, iteration: ${posts}" th:if="${iteration.index % 2 != 0}">
-                <div class="post-section">
-                    <h1><a th:href="@{/posts/{id}/post(id=${post.id})}" th:text="${post.title}"></a></h1>
-                    <p><strong>Car Make:</strong> <span th:text="${post.car_make}"></span></p>
-                    <p><strong>Car Body:</strong> <span th:text="${post.car_body}"></span></p>
-                    <p th:text="${post.body}"></p>
-                </div>
-            </th:block>
-        </div>
-    </div>
+    </th:block>
 </div>
+
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
