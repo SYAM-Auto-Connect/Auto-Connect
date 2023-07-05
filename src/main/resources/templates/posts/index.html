@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/a036573af0.js" crossorigin="anonymous"></script>
+
     <style>
         * {
             font-family: "Fantacy", Cop, Copperplate;
@@ -34,6 +36,7 @@
             border: 1px solid #ccc;
             background-color: white;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
         }
 
         .post-section h1 {
@@ -44,6 +47,15 @@
         .post-section p {
             margin-bottom: 0;
         }
+
+        img {
+            height: 30px;
+            width: 30px;
+            border-radius: 50px;
+        }
+
+
+
 
     </style>
 </head>
@@ -64,9 +76,16 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="post-section">
-                    <h1><a th:href="@{/posts/{id}/post(id=${post.id})}" th:text="${post.title}"></a></h1>
+                    <div class="user-profile">
+                        <img th:src="${post.user.profilePicture}" alt="Profile Picture">
+                        <span class="username" th:text="${post.user.username}"></span>
+                    </div>
+                    <u><h1 th:text="${post.title}"></h1></u>
                     <p><strong>Car Make:</strong> <span th:text="${post.car_make}"></span></p>
                     <p><strong>Car Body:</strong> <span th:text="${post.car_body}"></span></p>
+                    <p><a th:href="@{/posts/{id}/post(id=${post.id})}">
+                        View Comments <i class="fa-solid fa-comment" style="margin-right:30px;"></i>
+                    </a></p>
                 </div>
             </div>
         </div>
