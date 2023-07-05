@@ -11,6 +11,18 @@ public class Keys {
     @Value("${API_KEY1}")
     private String API_KEY1;
 
+    @Value("${FILESTACK_KEY}")
+    private String FILESTACK_KEY;
+
+
+    public String getFILESTACK_KEY() {
+        return FILESTACK_KEY;
+    }
+
+    public void setFILESTACK_KEY(String FILESTACK_KEY) {
+        this.FILESTACK_KEY = FILESTACK_KEY;
+    }
+
     public String getMAPBOX_KEY() {
         return MAPBOX_KEY;
     }

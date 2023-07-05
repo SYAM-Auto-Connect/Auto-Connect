@@ -16,7 +16,8 @@ public class KeyController {
         return String.format("""
                 const MAPBOX_KEY = "%s";
                 const API_KEY1 = "%s";
-        """, keys.getMAPBOX_KEY(), keys.getAPI_KEY1());
+                const FILESTACK_KEY ="%s";
+        """, keys.getMAPBOX_KEY(), keys.getAPI_KEY1(),keys.getFILESTACK_KEY());
     }
 }
 
