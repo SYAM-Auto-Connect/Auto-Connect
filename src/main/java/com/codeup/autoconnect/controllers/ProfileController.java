@@ -57,7 +57,7 @@ public class ProfileController {
         List<Review> reviews = reviewDao.findAllByMechanic(user);
         model.addAttribute("user", user);
         model.addAttribute("reviews", reviews);
-        return "/profile";
+        return "profile";
 //        return "mechanic";
     }
 

@@ -82,7 +82,7 @@ public class AppointmentController {
 
         appointmentRepository.save(appointment);
 
-        return "/appointments/appointment_edit_success";
+        return "appointments/appointment_edit_success";
 
     }
     @PostMapping("paymentDetail/{id}/delete")
@@ -94,7 +94,7 @@ public class AppointmentController {
         if(appointment.getRequester().getId() == user.getId()) {
             appointmentRepository.delete(appointment);
         }
-        return "/appointments/appointment_delete_success";
+        return "appointments/appointment_delete_success";
     }
 
 

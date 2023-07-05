@@ -28,7 +28,7 @@ public class UserController {
    @GetMapping("/registration")
     public String showRegistrationForm(Model model){
        model.addAttribute("user", new User());
-       return "/users/registration";
+       return "users/registration";
    }
 
    @PostMapping("/registration")
@@ -41,20 +41,20 @@ public class UserController {
        Matcher matcher = pattern.matcher(password);
        if(!matcher.matches()){
            model.addAttribute("passwordError", "Password must be between 8-16 characters, and include at least one upper case, one lower case, one digit, and one symbol.");
-           return "/users/registration";
+           return "users/registration";
        }
        user.setPassword(passwordEncoder.encode(user.getPassword()));
        String imageUrl = "/img/image.jpeg";
        user.setProfilePicture(imageUrl);
        usersDao.save(user);
-       return "/users/registration_success";
+       return "users/registration_success";
    }
 
 
 }
 //       if (!validatePassword(password)) {
 //           // Return an error view or redirect to registration form
-//           return "/users/registration_error";
+//           return "users/registration_error";
 //       }
 //    private boolean validatePassword(String password) {
 //        String pattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,16}$";

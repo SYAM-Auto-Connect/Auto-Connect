@@ -53,7 +53,7 @@ public class ReviewController {
         User mechanic = userDao.findById(id).get();
 
         if (loggedInUser.getId() == mechanic.getId()) {
-            return "/users/not_authorized";
+            return "users/not_authorized";
         }
 
         review.setUser(loggedInUser);
@@ -67,7 +67,7 @@ public class ReviewController {
         Review existingReview = reviewDao.findById(id).get();
 
         if (loggedInUser.getId() != existingReview.getUser().getId()) {
-            return "/users/not_authorized";
+            return "users/not_authorized";
         }
 
         model.addAttribute("review", existingReview);
@@ -80,7 +80,7 @@ public class ReviewController {
         Review existingReview = reviewDao.findById(id).get();
 
         if (loggedInUser.getId() != existingReview.getUser().getId()) {
-            return "/users/not_authorized";
+            return "users/not_authorized";
         }
 
         existingReview.setRating(review.getRating());
@@ -95,7 +95,7 @@ public class ReviewController {
         Review existingReview = reviewDao.findById(id).get();
 
         if (loggedInUser.getId() != existingReview.getUser().getId()) {
-            return "/users/not_authorized";
+            return "users/not_authorized";
         }
         reviewDao.delete(existingReview);
         return "redirect:/profile/" + existingReview.getMechanic().getId();

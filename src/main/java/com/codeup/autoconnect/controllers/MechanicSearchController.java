@@ -25,7 +25,7 @@ public class MechanicSearchController {
 //    public String viewSearchedMechanics(@PathVariable long id, Model model) {
 //        User Mechanic1 = MechanicSearchDao.findById(id).get();
 //        model.addAttribute("MechanicProfile", Mechanic1);
-//        return "/MechanicSearchPage";
+//        return "MechanicSearchPage";
 //
 //    }
 
@@ -33,7 +33,7 @@ public class MechanicSearchController {
 //    public String viewAllMechanics(Model model)  {
 //        model.addAttribute("ViewAllMechanics", MechanicSearchDao.findAllMechanicUsers());
 //
-//        return "/MechanicSearchPage";
+//        return "MechanicSearchPage";
 //    }
 //
 //    @GetMapping("/MechanicSearchPage/{keyword}")
@@ -49,7 +49,7 @@ public class MechanicSearchController {
 //            }
 //        }
 //        model.addAttribute("searchResults", mechanics);
-//        return "/MechanicSearchPage";
+//        return "MechanicSearchPage";
 //    }
 
 
@@ -86,7 +86,7 @@ public class MechanicSearchController {
 //            model.addAttribute("ViewAllMechanics", mechanics);
         }
 
-        return "/MechanicSearchPage";
+        return "MechanicSearchPage";
 
 
     }
