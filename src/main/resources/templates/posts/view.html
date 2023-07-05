@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <title>View Posts</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap" rel="stylesheet">
 
 </head>
 <style>
     * {
-        font-family: "Fantacy", Cop, Copperplate;
-
-    }
+        font-family: 'Montserrat', sans-serif;    }
 
     .page-container {
-        margin-left: 50px;
-        margin-right: 50px;
+        margin-right: 180px;
+        margin-left: 180px;
     }
 
     .background-image {
@@ -86,46 +87,85 @@
         font-size: 14px;
     }
 
+    img {
+        height: 30px;
+        width: 30px;
+        border-radius: 50px;
+    }
+    h1{
+    }
+    .profile-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .profile-info img {
+        margin-right: 10px;
+    }
+         .comment-header {
+         display: flex;
+         align-items: center;
+     }
+
+    .comment-header img {
+        margin-right: 10px;
+    }
+
+
+    .card-body ,.comment {
+        border: 1px solid #ccc;
+        background-color: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+    }
+    a{
+        color:black;
+
+    }
+
 
 </style>
 <body>
 <nav th:replace="~{partials/navbar :: navbar}"></nav>
 <div class="background-image"></div>
-
+<a th:href="@{/profile/{id}(id=${posts.user.id})}"></a>
 <div class="page-container">
-    <th:block>
-        <div class="card">
-            <div class="card-header">
-                <h1 th:text="${posts.title}"></h1>
-
-            </div>
-            <div class="card-body">
-                <h2><span th:text="${posts.user.first_name}"></span></h2><span th:text="${posts.car_body}"></span> -
-                <span th:text="${posts.car_make + ' - ' + posts.car_year}"></span>
-                <br>
-                <p class="post-info" th:text="${posts.body}"></p>
-            </div>
-            <form th:action="@{/posts/{id}/comment (id = ${posts.id})}" th:method="post">
-                <label for="content">Comment: </label>
-                <textarea name="content" id="content"></textarea>
-                <button>Add Comment</button>
-            </form>
+    <div class="card-body">
+        <div class="profile-info">
+            <img th:src="${posts.user.profilePicture}" alt="Profile Picture" class="profile-picture">
+            <a th:href="@{/profile/{id}(id=${posts.user.id})}"><h2><span th:text="${posts.user.first_name}"></span></h2></a>
         </div>
+        <p th:text="${posts.title}" style="font-weight: bold"></p>
+        <div class="car-info">
+            <span th:text="${posts.car_body}"></span> - <span
+                th:text="${posts.car_make + ' - ' + posts.car_year}"></span>
+        </div>
+        <p class="post-text" th:text="${posts.body}"></p>
 
-    </th:block>
+    <form th:action="@{/posts/{id}/comment (id = ${posts.id})}" th:method="post" style="display: flex;">
+        <label for="content"></label>
+        <textarea name="content" id="content"
+                  style="width: 800px; padding: 5px; border: 1px solid #ccc; border-radius: 100px; height: 40px"
+                  placeholder="Leave a comment..."></textarea>
+        <button type="submit"
+                style="background-color: blue; height: 40px; padding: 5px 10px; color: white; border: none; border-radius: 100px; margin-left: 10px;">
+            Comment
+        </button>
+    </form>
+    </div>
 
-    <h2>ALL COMMENTS</h2>
-    <div class="card">
-        <th:block th:each="comment : ${posts.comments}">
-            <div class="individual-card">
-                <div class="card comment-card">
-                    <h3 th:text="${comment.user.first_name}"></h3>
-                    <div class="card-body">
-                        <p class="card-text" th:text="${comment.content}"></p>
-                    </div>
-                </div>
+<hr>
+    <u><h2>All Comments</h2></u>
+    <div class="comment-list">
+        <div th:each="comment : ${posts.comments}" class="comment">
+            <div class="comment-header">
+                <img th:src="${comment.user.profilePicture}" alt="Profile Picture" class="profile-picture">
+                <a th:href="@{/profile/{id}(id=${comment.user.id})}"><h3 th:text="${comment.user.first_name}"></h3></a>
             </div>
-        </th:block>
+            <div class="comment-body">
+                <p th:text="${comment.content}"></p>
+            </div>
+        </div>
     </div>
 </div>
 </body>
