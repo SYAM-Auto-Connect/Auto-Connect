@@ -10,10 +10,13 @@
             padding: 10px;
             margin-bottom: 10px;
         }
-        * {
-             font-family: "Fantacy", Cop, Copperplate;
 
-         }
+        * {
+            font-family: "Fantacy", Cop, Copperplate;
+            list-style: none;
+
+        }
+
         .navbar {
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
@@ -39,6 +42,24 @@
             color: #fff;
             background-color: #007BFF;
         }
+
+        .sender-message {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .recipient-message {
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
@@ -54,7 +75,7 @@
     <h2>Search Results:</h2>
     <ul>
         <li th:each="result : ${searchResults}">
-            <span th:text="${result.username}"></span>
+
             <button class="send-message-btn">Send Message</button>
             <!-- Message form -->
             <div class="messageForm" style="display: none;">
@@ -75,17 +96,28 @@
 <div id="existingConversations">
     <h2>Existing Conversations:</h2>
     <ul>
-        <li th:each="conversation : ${conversations}" class="conversation-card" th:data-conversation-id="${conversation.id}">
-            <span th:text="${conversation.user1.username + ' - ' + conversation.user2.username}"></span>
+        <li th:each="conversation : ${conversations}" class="conversation-card"
+            th:data-conversation-id="${conversation.id}">
+            <span th:if="${conversation.user1.id == #authentication.principal.id}"
+                  th:text="${conversation.user2.username}"></span>
+            <span th:if="${conversation.user2.id == #authentication.principal.id}"
+                  th:text="${conversation.user1.username}"></span>
             <!-- Display previous messages -->
             <ul>
                 <li th:each="message : ${conversation.messages}">
-                    <span th:text="${message.sender.username + ': ' + message.message}"></span>
+                    <span th:class="${message.sender.id == #authentication.principal.id} ? 'sender-message' : 'recipient-message'"
+                    th:text="${(message.sender.id == #authentication.principal.id) ? 'You' : conversation.user2.username} + ': ' + ${message.message}">
+                    </span>
                 </li>
             </ul>
+
             <form th:action="@{/messages/send}" method="post" class="existing-conversation-form">
-                <input type="hidden" name="conversationId" th:value="${conversation.id}" />
-                <input type="text" name="message" placeholder="Enter your message" />
+                <input th:if="${conversation.user1.id == #authentication.principal.id}" type="hidden" name="recipientId"
+                       th:value="${conversation.user2.id}"/>
+                <input th:if="${conversation.user2.id == #authentication.principal.id}" type="hidden" name="recipientId"
+                       th:value="${conversation.user1.id}"/>
+                <input type="hidden" name="conversationId" th:value="${conversation.id}"/>
+                <input type="text" name="message" placeholder="Enter your message"/>
                 <button type="submit">Send</button>
             </form>
         </li>
@@ -95,11 +127,11 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         // Toggle message form visibility for search results
         var sendMessageButtons = document.querySelectorAll("#searchResults .send-message-btn");
-        sendMessageButtons.forEach(function(button) {
-            button.addEventListener("click", function(event) {
+        sendMessageButtons.forEach(function (button) {
+            button.addEventListener("click", function (event) {
                 event.preventDefault();
                 var messageForm = this.nextElementSibling;
                 messageForm.style.display = (messageForm.style.display === "none") ? "block" : "none";
