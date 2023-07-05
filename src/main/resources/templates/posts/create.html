@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <script type="text/javascript" th:src="@{/keys.js}"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
     <title>Create New Post</title>
     <style>
@@ -37,7 +38,6 @@
 
     </style>
     <script th:src="@{/js/jquery.min.js}"></script>
-    <script th:src="@{/js/key.js}"></script>
     <script>
         const url = 'https://car-data.p.rapidapi.com/cars/makes';
         const options = {

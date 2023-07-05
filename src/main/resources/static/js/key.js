@@ -1,3 +1,2 @@
 const API_KEY1 = 'ebb825385cmsha742bcab7f793b6p1a9879jsn86990492fea2';
-const API_KEY2 = "ebb825385cmsha742bcab7f793b6p1a9879jsn86990492fea2";
 const MAPBOX_KEY= "pk.eyJ1IjoiYW1pcjk3MyIsImEiOiJjbGpqMGhtcjUwNGlsM3FtdWJ5bWlxZHF4In0.Y4dSm2zj59IFAyY8WvxVjQ";
