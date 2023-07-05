@@ -250,7 +250,7 @@
                                     </div>
                             </th:block>
                             </div>
-                            <a th:href="@{/review/{id}/create(id=${user.id})}" class="btn btn-info">Click
+                            <a th:if="${#authentication.principal.id != user.id}" th:href="@{/review/{id}/create(id=${user.id})}" class="btn btn-info">Click
                                 here to Write Review</a>
                         </div>
                     </div>

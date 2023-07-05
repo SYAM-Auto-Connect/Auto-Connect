@@ -48,7 +48,7 @@ public class PostController {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         post.setUser(loggedInUser);
         postsDao.save(post);
-        return "redirect:/posts";
+        return "loading_template";
     }
 
 
@@ -65,14 +65,14 @@ public class PostController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         newPost.setUser(user);
         postsDao.save(newPost);
-        return "redirect:/posts";
+        return "loading_template";
     }
 
 
     @PostMapping("posts/{id}/delete")
     public String deletePost(@PathVariable long id) {
         postsDao.deleteById(id);
-        return "redirect:/posts";
+        return "loading_template";
     }
 
     @PostMapping("posts/{id}/comment")
