@@ -105,11 +105,12 @@
             <!-- Display previous messages -->
             <ul>
                 <li th:each="message : ${conversation.messages}">
-                    <span th:class="${message.sender.id == #authentication.principal.id} ? 'sender-message' : 'recipient-message'"
-                    th:text="${(message.sender.id == #authentication.principal.id) ? 'You' : conversation.user2.username} + ': ' + ${message.message}">
-                    </span>
+        <span th:class="${message.sender.id == #authentication.principal.id} ? 'sender-message' : 'recipient-message'"
+              th:text="${(message.sender.id == #authentication.principal.id) ? 'You' : conversation.user2.id == #authentication.principal.id ? conversation.user1.username : conversation.user2.username} + ': ' + ${message.message}">
+        </span>
                 </li>
             </ul>
+
 
             <form th:action="@{/messages/send}" method="post" class="existing-conversation-form">
                 <input th:if="${conversation.user1.id == #authentication.principal.id}" type="hidden" name="recipientId"
