@@ -318,23 +318,26 @@
                 </div>
             </div>
 
-            <div class="col-md-8">
-                <div class="tab-container">
-                    <div class="tab-heading active" onclick="openTab(event, 'posts')">Posts</div>
-                    <div class="tab-heading" onclick="openTab(event, 'calendar')">Current Bookings</div>
+    
+        <div class="col-md-8">
+            <div class="tab-container">
+                <div class="tab-heading active" onclick="openTab(event, 'posts')">Posts</div>
+                <div class="tab-heading" onclick="openTab(event, 'calendar')">Current Bookings</div>
 
-                    <div class="tab active" id="posts">
-                        <section>
-                            <h3>Here are all of your posts:</h3>
-                            <div class="post-section" th:each="post : ${posts}">
-                                <h4 th:text="${post.title}"></h4>
-                                <p th:text="${post.body}"></p>
-                            </div>
-                        </section>
-                    </div>
-                    <div class="tab" id="calendar">
-                        <!-- Add your calendar content here -->
-                    </div>
+                <div class="tab active" id="posts">
+                    <section>
+                        <h3>Here are all of your posts:</h3>
+                        <div class="post-section" th:each="post : ${posts}">
+                            <h4><a th:text="${post.title}" th:href="@{/posts/{id}/post (id = ${post.id})}"></a></h4>
+                            <p th:text="${post.body}"></p>
+                            <a th:href="@{/posts/{id}/edit (id = ${post.id})}">Edit/Delete</a>
+                            <br>
+                            <br>
+                        </div>
+                    </section>
+                </div>
+                <div class="tab" id="calendar">
+                    <!-- Add your calendar content here -->
                 </div>
             </div>
         </div>
