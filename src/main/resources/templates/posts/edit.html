@@ -39,6 +39,7 @@
 </head>
 <body>
 <nav th:replace="~{partials/navbar :: navbar}"></nav>
+
 <h1>Edit Post</h1>
 <form th:action="@{/posts/{id}/edit (id = ${post.id})}" th:object="${post}" th:method="post">
     <label for="title">Title: </label>

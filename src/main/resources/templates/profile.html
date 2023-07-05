@@ -12,7 +12,8 @@
         body {
             margin: 0;
             padding: 0;
-            font-family: "Roboto Light"
+            font-family: "Roboto Light";
+            background-color: white;
         }
 
 
@@ -21,7 +22,7 @@
         }
 
         .tab-container {
-            margin-top: 20px;
+
         }
 
         .tab-container .tab {
@@ -29,7 +30,7 @@
         }
 
         .tab-container .tab.active {
-            display: block;
+            display: inline-block;
         }
 
         .tab-container .tab-heading {
@@ -55,16 +56,10 @@
             text-decoration: none;
         }
 
-        .review-item {
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-        }
 
         .rate {
             color: #ffc107;
-            font-size: 24px;
+            font-size: 30px;
         }
 
         .rate .fas.fa-star {
@@ -73,15 +68,6 @@
 
         .rate .far.fa-star {
             color: #ccc;
-        }
-
-        .container-wrapper {
-            display: flex;
-            justify-content: center;
-        }
-
-        body {
-            background-color: #f8f6f4;
         }
 
         .username {
@@ -114,32 +100,92 @@
 
         }
 
-        #default-icon {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ensure the image fills the container */
-            margin-bottom: 20px;
-        }
-
-        .reivewBody {
-            display: block;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-family: inherit;
-            color: #3e3e3e;
-        }
-
-        .reviewer {
-            font-size: 18px;
-            font-family: inherit;
-            color: #3e3e3e;
-        }
-
         a:link {
             text-decoration: none;
             cursor: pointer;
 
+        }
+
+        .row {
+            margin: 30px;
+        }
+
+        .card-container {
+            overflow-x: scroll;
+            /*white-space: nowrap;*/
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            padding: 10px;
+        }
+
+        .card {
+            flex: 0 0 auto;
+            width: 300px;
+            margin-right: 10px;
+            display: inline-block;
+            /*height: 350px;*/
+            border-radius: 0;
+
+        }
+
+        .reviews-carousel {
+            display: flex;
+            /*flex-wrap: nowrap;*/
+        }
+
+        .review-item {
+            padding: 10px;
+        }
+
+
+        .reviews-carousel::-webkit-scrollbar {
+            height: 8px; /* Adjust the scrollbar height as needed */
+        }
+
+        .reviews-carousel::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 4px;
+        }
+
+        .reviews-carousel::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+
+        .reviews-carousel::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+        .profile-image-1 {
+            height: 30px;
+            width: 30px;
+            border-radius: 50px;
+        }
+        /*.reviewBody p {*/
+        /*    overflow: hidden;*/
+        /*    text-overflow: ellipsis;*/
+        /*    display: -webkit-box;*/
+        /*    -webkit-line-clamp: 7; !* Number of lines to show before truncating *!*/
+        /*    -webkit-box-orient: vertical;*/
+        /*}*/
+        .reviewBody {
+            max-height: 300px; /* Set the maximum height for the review body */
+            overflow: hidden;
+            position: relative;
+        }
+
+        .reviewBody.expand {
+            max-height: none; /* Remove the maximum height when expanded */
+        }
+
+        .show-more-button {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: transparent;
+            border: none;
+            color: blue;
+            cursor: pointer;
+            display: block; /* Hide the button by default */
         }
     </style>
 
@@ -149,138 +195,7 @@
 
 <body>
 <nav th:replace="~{partials/navbar :: navbar}"></nav>
-
-<div class="container-outer" style="margin: 1px 40px; display: flex; justify-content: center;">
-    <div class="container-wrapper"
-         style="border: 1px solid lightgray; padding: 20px; background-color: #f8f6f4; box-shadow: 0 0 20px -4px rgba(0, 0, 0, 0.2);">
-        <div th:if="${user.isMechanic}">
-            <h2 th:if="${#authentication.principal.id==user.id}" class="welcome-message">
-                Hello, welcome to your profile
-                <span th:text=" ' ' + ${user.first_name}"></span>!
-            </h2>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card-body text-center">
-                        <div class="card-body">
-                            <div class="profile-container">
-                                <img class="profile-image" th:src="@{${user.getProfilePicture()}}"/>
-                                <br>
-                                <span class="username" th:text="${user.first_name} + ' ' +  ${user.last_name}"></span>
-                                <br>
-                                <a th:if="${#authentication.principal.id==user.id}"
-                                   th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary">Edit
-                                    Profile</a>
-                                <a th:if="${#authentication.principal.id==user.id}"
-                                   th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning">Delete/Reset
-                                    Password</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="tab-container">
-                        <div class="tab-heading" onclick="openTab(event, 'description-bio')">About Me</div>
-                        <div class="tab-heading" onclick="openTab(event, 'calendar')">Calendar</div>
-                        <div class="tab-heading" onclick="openTab(event, 'reviews')">Reviews</div>
-                    </div>
-
-                    <div class="tab active" id="description-bio">
-                        <div class="description-bio" th:text="${user.description}"></div>
-                    </div>
-                    <div class="tab" id="calendar">
-                        <form class="create-appointment-form" th:if="${#authentication.principal.id==user.id}"
-                              th:action="@{/create-appointment}" th:method="POST">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="title">Title:</label>
-                                    <input type="text" id="title" name="title" class="form-control" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="date">Date:</label>
-                                    <input type="date" id="date" name="date" class="form-control" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="customer">Customer:</label>
-                                    <input type="text" id="customer" name="customer" class="form-control"
-                                           required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="price">Price:</label>
-                                    <input type="text" id="price" name="price" class="form-control" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="description">Description:</label>
-                                    <input type="text" id="description" name="description" class="form-control"
-                                           required>
-                                </div>
-                                <div class="text-center mt-3">
-                                    <button type="submit" class="btn btn-primary">Create Appointment</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="tab" id="reviews">
-                        <div class="review-container">
-                            <div th:each="review, stat : ${reviews}">
-                                <th:block th:if="${stat.count <= 10}">
-                                    <div class="review-item">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="rate">
-                                                    <span th:each="star, stat : ${#numbers.sequence(1, 5)}">
-                                                        <i th:class="${star <= review.rating ? 'fas fa-star' : 'far fa-star'}"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="col-5 mt-2 reivewBody">
-                                                <a th:href="@{/review/{id}(id=${review.id})}">
-                                                    <p th:text="${review.body}"
-                                                       style="font-size:18px;">
-                                                    </p>
-                                                </a>
-                                            </div>
-
-                                            <div class="col-3 mt-2 reviewer">
-                                                <a th:href="@{/profile/{id}(id=${review.user.id})}">
-                                                    <p th:text="${review.user.username}"></p>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                            </th:block>
-                            </div>
-                            <a th:href="@{/review/{id}/create(id=${user.id})}" class="btn btn-info">Click
-                                here to Write Review</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-1" style="background-color: #f8f8f8;">
-    </div>
-</div>
-
-
-
-<script>
-    function openTab(event, tabName) {
-        var i, tabContent, tabHeading;
-        tabContent = document.getElementsByClassName("tab");
-        for (i = 0; i < tabContent.length; i++) {
-            tabContent[i].style.display = "none";
-        }
-        tabHeading = document.getElementsByClassName("tab-heading");
-        for (i = 0; i < tabHeading.length; i++) {
-            tabHeading[i].classList.remove("active");
-        }
-        document.getElementById(tabName).style.display = "block";
-        event.currentTarget.classList.add("active");
-    }
-</script>
-
-<div th:if="${!user.isMechanic}">
+<div th:if="${user.isMechanic}">
     <h2 th:if="${#authentication.principal.id==user.id}" class="welcome-message">
         Hello, welcome to your profile
         <span th:text=" ' ' + ${user.first_name}"></span>!
@@ -288,21 +203,122 @@
     <div class="row">
         <div class="col-md-4">
             <div class="card-body text-center">
-                <div class="profile-container">
-                    <img class="profile-image" th:src="@{${user.getProfilePicture()}}"/>
-                    <br>
-                    <br>
-                    <span class="username" th:text="${user.first_name} + ' ' +  ${user.last_name}"></span>
-                    <br>
-                    <a th:if="${#authentication.principal.id==user.id}"
-                       th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary">Edit Profile</a>
-                    <a th:if="${#authentication.principal.id==user.id}"
-                       th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning">Account
-                        Settings</a>
+                <div class="card-body">
+                    <div class="profile-container">
+                        <img class="profile-image" th:src="@{${user.getProfilePicture()}}"/>
+                        <br>
+                        <span class="username" th:text="${user.first_name} + ' ' +  ${user.last_name}"></span>
+                        <br>
+                        <a th:if="${#authentication.principal.id==user.id}"
+                           th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary">Edit
+                            Profile</a>
+                        <a th:if="${#authentication.principal.id==user.id}"
+                           th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning">Delete/Reset
+                            Password</a>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="col-md-8">
+            <div class="tab-container">
+                <div class="tab-heading" onclick="openTab(event, 'description-bio')">About Me</div>
+                <div class="tab-heading" onclick="openTab(event, 'calendar')">Calendar</div>
+                <div class="tab-heading" onclick="openTab(event, 'reviews')">Reviews</div>
+            </div>
 
+            <div class="tab active" id="description-bio">
+                <div class="description-bio" th:text="${user.description}"></div>
+            </div>
+            <div class="tab" id="calendar">
+                <form class="create-appointment-form" th:if="${#authentication.principal.id==user.id}"
+                      th:action="@{/create-appointment}" th:method="POST">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="title">Title:</label>
+                            <input type="text" id="title" name="title" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="date">Date:</label>
+                            <input type="date" id="date" name="date" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="customer">Customer:</label>
+                            <input type="text" id="customer" name="customer" class="form-control"
+                                   required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="price">Price:</label>
+                            <input type="text" id="price" name="price" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="description">Description:</label>
+                            <input type="text" id="description" name="description" class="form-control"
+                                   required>
+                        </div>
+                        <div class="text-center mt-3">
+                            <button type="submit" class="btn btn-primary">Create Appointment</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tab" id="reviews">
+                <div class="card-container">
+                    <div class="reviews-carousel">
+                        <div th:each="review, stat : ${reviews}" th:if="${stat.count <= 10}">
+                            <div class="card">
+                                <div class="review-item">
+                                    <div class="rate text-center">
+                            <span th:each="star, stat : ${#numbers.sequence(1, 5)}">
+                                <i th:class="${star <= review.rating ? 'fas fa-star' : 'far fa-star'}"></i>
+                            </span>
+                                    </div>
+                                    <div class="reviewer text-center">
+                                        <img class="profile-image-1" th:src="${review.user.profilePicture}" alt="Profile Picture">
+                                        <h4 th:text="${review.user.first_name + ' ' + review.user.last_name}"></h4>
+                                    </div>
+                                    <div class="reviewBody expand">
+                                        <p class="review-text" th:text="'&quot;' + ${review.body} + '&quot;'" style="font-size:18px;"></p>
+                                        <button class="show-more-button" onclick="toggleReview(this)">Show More</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <a th:if="${#authentication.principal.id!=user.id}" th:href="@{/review/{id}/create(id=${user.id})}"
+                       class="btn btn-info">Click here to Write Review</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div th:if="${!user.isMechanic}">
+        <h2 th:if="${#authentication.principal.id==user.id}" class="welcome-message">
+            Hello, welcome to your profile
+            <span th:text=" ' ' + ${user.first_name}"></span>!
+        </h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card-body text-center">
+                    <div class="profile-container">
+                        <img class="profile-image" th:src="@{${user.getProfilePicture()}}"/>
+                        <br>
+                        <br>
+                        <span class="username" th:text="${user.first_name} + ' ' +  ${user.last_name}"></span>
+                        <br>
+                        <a th:if="${#authentication.principal.id==user.id}"
+                           th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary">Edit Profile</a>
+                        <a th:if="${#authentication.principal.id==user.id}"
+                           th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning">Account
+                            Settings</a>
+                    </div>
+                </div>
+            </div>
+
+    
         <div class="col-md-8">
             <div class="tab-container">
                 <div class="tab-heading active" onclick="openTab(event, 'posts')">Posts</div>
@@ -326,38 +342,76 @@
             </div>
         </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    $(document).ready(function () {
-        let currentUserId = [[${#authentication.principal.id}]];  // Fetch current user's id from Spring Security
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        $(document).ready(function () {
+            let currentUserId = [[${#authentication.principal.id}]];  // Fetch current user's id from Spring Security
 
-        $('#calendar').fullCalendar({
-            defaultView: 'month',
-            events: {
-                url: '/api/appointments',
-                method: 'GET',
-                data: {
-                    userId: currentUserId
+            $('#calendar').fullCalendar({
+                defaultView: 'month',
+                events: {
+                    url: '/api/appointments',
+                    method: 'GET',
+                    data: {
+                        userId: currentUserId
+                    }
+                },
+                eventClick: function (calEvent) {
+                    window.location.href = '/paymentDetail/' + calEvent.id;
                 }
-            },
-            eventClick: function (calEvent) {
-                window.location.href = '/paymentDetail/' + calEvent.id;
-            }
+            });
         });
-    });
-    /*]]>*/
-</script>
-<script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
-        integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc"
-        crossorigin="anonymous"></script>
+        /*]]>*/
+    </script>
+    <script>
+        function openTab(event, tabName) {
+            var i, tabContent, tabHeading;
+            tabContent = document.getElementsByClassName("tab");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+            tabHeading = document.getElementsByClassName("tab-heading");
+            for (i = 0; i < tabHeading.length; i++) {
+                tabHeading[i].classList.remove("active");
+            }
+            document.getElementById(tabName).style.display = "block";
+            event.currentTarget.classList.add("active");
+        }
+
+
+        window.addEventListener('DOMContentLoaded', function() {
+            var reviewTexts = document.querySelectorAll('.reviewBody .review-text');
+
+            Array.from(reviewTexts).forEach(function(reviewText) {
+                var isOverflowing = reviewText.scrollHeight > reviewText.clientHeight;
+
+                if (isOverflowing) {
+                    reviewText.parentElement.querySelector('.show-more-button').style.display = 'block';
+                }
+            });
+        });
+
+        function toggleReview(button) {
+            var reviewBody = button.parentElement;
+            reviewBody.classList.toggle("expand");
+
+            if (reviewBody.classList.contains("expand")) {
+                button.innerText = "Show Less";
+            } else {
+                button.innerText = "Show More";
+            }
+        }
+    </script>
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
+            integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc"
+            crossorigin="anonymous"></script>
 
 </body>
 </html>
