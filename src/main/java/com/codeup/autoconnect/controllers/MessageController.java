@@ -110,11 +110,11 @@ public class MessageController {
     @PostMapping("/send")
     public String sendMessage(@RequestParam("conversationId") Long conversationId,
                               @RequestParam("message") String message,
-                              HttpServletRequest request,
+                              @RequestParam("recipientId") String recipientId,
                               Model model) {
         User sender = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        messageService.sendMessage(conversationId, sender, message);
+        User recipient = usersDao.findById(Long.valueOf(recipientId)).orElse(null);
+        messageService.sendMessage(conversationId, sender, message, recipient);
 
         // Update the model to include the existing conversations
         List<Conversation> conversations = getExistingConversations();
