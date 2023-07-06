@@ -21,7 +21,7 @@ public class MessageService {
         this.conversationRepository = conversationRepository;
     }
 
-    public Message sendMessage(Long conversationId, User sender, String messageContent) {
+    public Message sendMessage(Long conversationId, User sender, String messageContent, User recipient) {
         Conversation conversation = conversationRepository.findById(conversationId)
                 .orElseThrow(() -> new IllegalArgumentException("Conversation not found"));
 
@@ -29,6 +29,7 @@ public class MessageService {
         message.setConversation(conversation);
         message.setSender(sender);
         message.setMessage(messageContent);
+        message.setRecipient(recipient);
 
         return messageRepository.save(message);
     }
