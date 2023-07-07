@@ -5,9 +5,11 @@ import com.codeup.autoconnect.models.User;
 import com.codeup.autoconnect.repositories.AppointmentRepository;
 import com.codeup.autoconnect.repositories.UserRepository;
 import org.springframework.security.core.Authentication;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -26,6 +28,7 @@ public class CalendarRestController {
     public List<Appointment> getAppointments(Authentication authentication) {
         String username = authentication.getName();
         User currentUser = userRepository.findByUsername(username);
+
         if(currentUser.getIsMechanic()) {
             return appointmentRepository.findAppointmentsByRequesterId(currentUser.getId());
         } else {

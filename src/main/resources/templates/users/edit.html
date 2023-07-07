@@ -88,7 +88,12 @@
                                 <input type="text" name="address_zip" id="address_zip" th:field="*{address_zip}"
                                        class="form-control">
                             </div>
-                            <button id="upload-btn">Change Profile Picture</button>
+                            <div class="row mb-2">
+                                <div class="col">
+                                    <button type="button" class="btn btn-outline-dark w-100" id="upload-btn">Change Profile Picture</button>
+                                    <input type="hidden" id="profilePicture" name="profilePicture" th:field="*{profilePicture}">
+                                </div>
+                            </div>
                             <div class="row mb-2">
                                 <div class="col">
                                     <input type="submit" value="Update Profile" class="btn btn-primary w-100">
@@ -146,8 +151,12 @@
                                 <input type="hidden" name="isMechanic" id="isMechanic1" th:field="*{isMechanic}"
                                        class="form-control">
                             </div>
-                            <button id="upload-btn">Change Profile Picture</button>
-                            <input type="hidden" id="profilePicture" name="profilePicture" th:field="*{profilePicture}">
+                            <div class="row mb-2">
+                                <div class="col">
+                                    <button type="button" class="btn btn-outline-dark w-100" id="upload-btn">Change Profile Picture</button>
+                                    <input type="hidden" id="profilePicture" name="profilePicture" th:field="*{profilePicture}">
+                                </div>
+                            </div>
                             <div class="row mb-2">
                                 <div class="col">
                                     <input type="submit" value="Update Profile" class="btn btn-primary w-100">

@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +20,7 @@ import java.time.LocalDateTime;
 @Table(name = "appointments")
 public class Appointment {
     private String title;
-    public Appointment(String title, LocalDate date, String description, Double price){
+    public Appointment(String title, Date date, String description, Double price){
         this.title = title;
         this.date = date;
         this.description = description;
@@ -39,7 +38,7 @@ public class Appointment {
     private Double price;
 
     @Column(nullable = false)
-    private LocalDate date;
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "requester_id")

@@ -11,8 +11,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+<<<<<<< Updated upstream
 import java.security.Principal;
 import java.time.LocalDate;
+=======
+
+import java.sql.Date;
+import java.util.ArrayList;
+
+import java.util.List;
+import java.util.Optional;
+>>>>>>> Stashed changes
 
 @Controller
 public class AppointmentController {
@@ -27,7 +36,7 @@ public class AppointmentController {
 
     @PostMapping("/create-appointment")
     public String createAppointment(@RequestParam String title,
-                                    @RequestParam LocalDate date,
+                                    @RequestParam Date date,
                                     @RequestParam String description,
                                     @RequestParam double price,
                                     @RequestParam(name = "customer") String receiverUsername,
@@ -52,6 +61,7 @@ public class AppointmentController {
         appointmentRepository.save(appointment);
 
         Appointment savedAppointment = appointmentRepository.save(appointment);
+<<<<<<< Updated upstream
 
         return "appointments/appointment_success";
     }
@@ -97,6 +107,10 @@ public class AppointmentController {
         return "/appointments/appointment_delete_success";
     }
 
+=======
+        return "/payments/appointment_success";
+    }
+>>>>>>> Stashed changes
 
 }
 

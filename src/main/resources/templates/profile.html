@@ -17,18 +17,30 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: white;
+            background-color:  #f3f3f3;
         }
 
 
         .welcome-message {
-            color: black;
+            color: #333;
+            font-size: 24px;
+            margin: 20px 0;
+            text-align: center;
         }
-
-        .tab-container {
-
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 15px;
         }
-
+        .col-md-8 {
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .profile-container {
+            text-align: center;
+        }
         .tab-container .tab {
             display: none;
         }
@@ -38,14 +50,16 @@
         }
 
         .tab-container .tab-heading {
+            background-color: #5884b1;
+            border-radius: 5px;
             display: inline-block;
             padding: 10px 20px;
-            color: black;
+            color: #333;
             cursor: pointer;
-            margin-right: 30px;
-            text-decoration: underline;
+            margin-right: 10px;
             font-weight: bold;
             text-transform: uppercase;
+            text-decoration: none;
         }
 
         .tab-container .tab-heading:hover {
@@ -54,24 +68,6 @@
 
         .create-appointment-form {
             margin-top: 20px;
-        }
-
-        .rate {
-            text-decoration: none;
-        }
-
-
-        .rate {
-            color: #ffc107;
-            font-size: 30px;
-        }
-
-        .rate .fas.fa-star {
-            color: #ffc107;
-        }
-
-        .rate .far.fa-star {
-            color: #ccc;
         }
 
         .username {
@@ -84,31 +80,59 @@
             border-radius: 50%;
             height: 250px;
             width: 250px;
+            object-fit: cover;
+            margin: 0 auto;
         }
 
         .post-section {
             border: 1px solid #ccc;
-            padding: 20px;
+            padding: 0 20px 0 20px;
             margin-bottom: 20px;
             background-color: white;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
+        .post-header {
+            display: flex;
+            align-items: start;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .post-body{
+            padding-left: 54px;
+            margin-bottom: 5px;
+        }
+        .user-details {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-        h2, h3, .tab-heading {
-            /*font-family: 'Oswald', sans-serif;*/
+        .user-profile-image-2 {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
 
+        .edit-btn {
+            align-self: flex-start;
+            color: #006599;
         }
 
         a:link {
             text-decoration: none;
             cursor: pointer;
-
         }
 
-        .row {
-            margin: 30px;
+        h4 a {
+            color: #333; /* Edit color according to your preference */
         }
+
+        h4 a:hover {
+            color: #007BFF; /* Edit color according to your preference */
+        }
+
 
         .card-container {
             overflow-x: scroll;
@@ -344,10 +368,14 @@
                     <section>
                         <h3>Here are all of your posts:</h3>
                         <div class="post-section" th:each="post : ${posts}">
-                            <img class="user-profile-image-2" th:src="${post.user.profilePicture}" alt="User Profile Picture">
-                            <h4><a th:text="${post.title}" th:href="@{/posts/{id}/post (id = ${post.id})}"></a></h4>
+                            <div class="post-header">
+                                <div class="user-details">
+                                    <img class="user-profile-image-2" th:src="${post.user.profilePicture}" alt="User Profile Picture">
+                                    <h4><a th:text="${post.title}" th:href="@{/posts/{id}/post (id = ${post.id})}"></a></h4>
+                                </div>
+                                <a class="edit-btn" th:href="@{/posts/{id}/edit (id = ${post.id})}"><i class="fa-solid fa-pen-to-square"></i></a>
+                            </div>
                             <p th:text="${post.body}"></p>
-                            <a th:href="@{/posts/{id}/edit (id = ${post.id})}"><i class="fa-solid fa-pen-to-square"></i></a>
                         </div>
                     </section>
                 </div>
@@ -462,5 +490,5 @@
         crossorigin="anonymous"></script>
 
 </body>
-<!--comment-->
+
 </html>
