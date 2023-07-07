@@ -152,6 +152,10 @@
             </div>
             <!-- Display previous messages -->
             <div class="existing-conversation" style="display: none;">
+                <form th:action="@{/messages/delete}" method="post">
+                    <input type="hidden" th:value="${conversation.id}" name="conversationId">
+                    <button>X</button>
+                </form>
                 <ul>
                     <li th:each="message : ${conversation.messages}">
         <span th:class="${message.sender.id == #authentication.principal.id} ? 'sender-message' : 'recipient-message'"
