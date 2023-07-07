@@ -164,4 +164,10 @@ public class MessageController {
 
         return conversations;
     }
+
+    @PostMapping("/delete")
+    private String deleteConversation(@RequestParam("conversationId") Long conversation){
+        conversationsDao.deleteById(conversation);
+        return "redirect:/messages";
+    }
 }

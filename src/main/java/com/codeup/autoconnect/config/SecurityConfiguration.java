@@ -73,7 +73,8 @@ public class SecurityConfiguration {
                                 "/messages/send",
                                 "/messages/load",
                                 "/messages/conversation/*",
-                                "/messages/load-conversation/*").authenticated()
+                                "/messages/load-conversation/*",
+                                "/messages/delete").authenticated()
 
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
