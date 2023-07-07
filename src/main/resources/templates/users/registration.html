@@ -36,7 +36,7 @@
             text-transform: uppercase;
         }
         .img-container {
-            background-image: url('/img/car.jpeg');
+            background-image: url('/img/repairGirl.jpg');
             background-size: cover;
         }
 
@@ -45,8 +45,12 @@
             font-size:15px;
             text-align: center;
             font-family: "Fantacy", Cop, Copperplate;
-
-
+        }
+        #mechanic, #newUser {
+            display: none;
+        }
+        .registrationPage {
+            background-color: #fafafa;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -57,12 +61,22 @@
 <nav th:replace="~{partials/navbar :: navbar}"></nav>
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-12 col-md-6">
-            <h1 class="text-center my-4">Welcome to Auto-Connect! </h1>
+        <div class="col-12 col-md-5 img-container"></div>
+        <div class="col-12 col-md-7 registrationPage">
+            <h1 class="text-center my-2">Welcome to Auto-Connect! </h1>
                 <br>
             <h2>Create your profile</h2>
             <br>
-
+            <div class="mb-3 btn-group btn-group-toggle" data-toggle="buttons">
+                <div class="text-center w-100">
+                    <input class="form-check-input" type="radio" name="userType" id="newUser"
+                           value="newUser" autocomplete="off" checked>
+                    <label class="btn btn-primary active form-check-label" for="newUser">Register as New User</label>
+                    <input class="form-check-input" type="radio" name="userType" id="mechanic" autocomplete="off"
+                           value="mechanic">
+                    <label class="btn btn-warning form-check-label" for="mechanic">Register as Mechanic</label>
+                </div>
+            </div>
                 <div class="card-body">
                     <form th:action="@{/registration}" th:method="post" th:object="${user}">
                         <div class="mb-3">
@@ -95,20 +109,6 @@
                             <div th:if="${passwordError}" class="alert alert-danger mt-3"
                                  th:text="${passwordError}"></div>
 
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">User Type:</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="userType" id="newUser"
-                                       value="newUser" checked>
-                                <label class="form-check-label" for="newUser">New User</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="userType" id="mechanic"
-                                       value="mechanic">
-                                <label class="form-check-label" for="mechanic">Mechanic</label>
-                            </div>
                         </div>
 
                         <div id="mechanicFields" style="display: none;">
@@ -197,7 +197,7 @@
                     </form>
                 </div>
         </div>
-        <div class="col-12 col-md-6 img-container"></div>
+
 </div>
 </div>
 <script type="text/javascript" th:src="@{/js/registration.js}"></script>

@@ -13,7 +13,6 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-
             font-family: 'Montserrat', sans-serif;
 
         }
@@ -29,6 +28,7 @@
             flex-grow: 1;
             position: relative;
             background-image: url('/img/home-image.jpg');
+            opacity: 0.75;
             background-size: cover;
             background-position: center;
             height: 75vh;
@@ -38,18 +38,22 @@
         }
         .hero h1 {
             color: #fff;
-            font-size: 4rem;
+            font-size: 6rem;
 
             text-align: center;
         }
         .why-us-section {
             background-color: orange;
-            color: #fff;
-            height: 25vh;
+            color: #000;
+            height: 18vh;
             text-align: center;
         }
         .container-fluid {
             padding: 0;
+        }
+        .joinBtn {
+            font-size: 2rem;
+            width: 50%;
         }
         </style>
 </head>
@@ -59,22 +63,21 @@
 
 <main class="main-content">
     <div class="hero">
-        <h1>Find your trusted neighborhood mechanic</h1>
+        <h1>Find your trusted <br/> neighborhood mechanic</h1>
 <!--        <div class="firework"></div>-->
 <!--        <div class="firework"></div>-->
 <!--        <div class="firework"></div>-->
     </div>
     <div class="container-fluid why-us-section">
-        <h2 class="text-center">Why Us</h2>
-        <div class="row align-items-center mt-4">
-            <div class="col-md-6">
-                <p>because our website is center of social gathering</p>
-            </div>
-            <div class="col-md-6">
-                <p>We are awesome! that's why </p>
-            </div>
+        <h2 class="text-center mt-3 ">Ready to Find Mechanic? </h2><a class="joinBtn btn btn-lg btn-primary ml-6" href="/registration">Register with US! Click Here!</a>
+<!--        <div class="row align-items-center mt-2 mb-2">-->
+<!--            <div class="col-md-6">-->
+<!--                <p>because our website is center of social gathering</p>-->
+<!--            </div>-->
+<!--            <div class="col-md-6">-->
+<!--                <p>We are awesome! that's why </p>-->
+<!--            </div>-->
         </div>
-    </div>
 </main>
 
 
