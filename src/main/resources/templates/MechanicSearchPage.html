@@ -32,6 +32,7 @@
         * {
             font-family: "Fantacy", Cop, Copperplate;
         }
+
         .mechanic-profile-image {
             height: 30px;
             width: 30px;
@@ -127,8 +128,6 @@
     }
 
 
-
-
     mapboxgl.accessToken = MAPBOX_KEY
     let map = new mapboxgl.Map({
         container: 'map', // container ID
@@ -162,10 +161,12 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">
-                                <a th:href="@{/profile/{id}(id=${mechanic.id})}" th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></a>
+                                <a th:href="@{/profile/{id}(id=${mechanic.id})}"
+                                   th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></a>
                             </h5>
                             <h6 class="card-subtitle mb-2 text-muted" th:text="${mechanic.email}"></h6>
-                            <p class="card-text" th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_state + ' ' + mechanic.address_zip}"></p>
+                            <p class="card-text"
+                               th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_state + ' ' + mechanic.address_zip}"></p>
                         </div>
                     </div>
                 </div>
@@ -175,15 +176,24 @@
 
     <div class="col-md-6">
         <h1>All Mechanics</h1>
-        <div class="row row-cols-1 row-cols-md-2 g-4">
-            <div th:each="mechanic : ${ViewAllMechanics}">
-                <div class="col">
-                    <div class="card">
-                        <div class="card-body">
-                            <img class="mechanic-profile-image" th:src="${mechanic.profilePicture}" alt="Mechanic Profile Picture">
-                            <h5 class="card-title" th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></h5>
-                            <h6 class="card-subtitle mb-2 text-muted" th:text="${mechanic.email}"></h6>
-                            <p class="card-text" th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_zip}"></p>
+        <div class="overflow-auto" style="max-height: 400px;">
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <div th:each="mechanic : ${ViewAllMechanics}">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <img class="mechanic-profile-image" th:src="${mechanic.profilePicture}"
+                                     alt="Mechanic Profile Picture">
+
+                                <!--                            <h5 class="card-title" th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></h5>-->
+                                <h5 class="card-title">
+                                    <a th:href="@{/profile/{id}(id=${mechanic.id})}"
+                                       th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></a>
+                                </h5>
+                                <h6 class="card-subtitle mb-2 text-muted" th:text="${mechanic.email}"></h6>
+                                <p class="card-text"
+                                   th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_zip}"></p>
+                            </div>
                         </div>
                     </div>
                 </div>
