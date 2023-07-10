@@ -35,6 +35,7 @@ public class UserController {
     public String submitRegistrationForm(@ModelAttribute User user, @RequestParam String userType, Model model){
        boolean isMechanic = userType.equals("mechanic");
        user.setIsMechanic(isMechanic);
+
        String password = user.getPassword();
        String patternPW = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,16}$";
        Pattern pattern = Pattern.compile(patternPW);

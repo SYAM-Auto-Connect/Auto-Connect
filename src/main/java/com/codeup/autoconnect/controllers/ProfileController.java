@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class ProfileController {
@@ -95,17 +97,29 @@ public class ProfileController {
         return "users/setting";
     }
     @PostMapping("/profile/{id}/setting/password")
-    public String submitResetPW (@PathVariable long id, @RequestParam("password") String password, HttpSession session) throws AccessDeniedException {
+    public String submitResetPW (Model model, @ModelAttribute User user, @PathVariable long id, @RequestParam("password") String password, HttpSession session) throws AccessDeniedException {
         User loggedInUser = userDao.findById(id).get();
         User authorizedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(loggedInUser.getId() != authorizedUser.getId()){
             throw new AccessDeniedException("You are not authorized to change password");
         }
+        password = user.getPassword();
+        String patternPW = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,16}$";
+        Pattern pattern = Pattern.compile(patternPW);
+        Matcher matcher = pattern.matcher(password);
+        if(!matcher.matches()){
+            model.addAttribute("passwordError", "Password must be between 8-16 characters, and include at least one upper case, one lower case, one digit, and one symbol.");
+            return "users/setting";
+        }
         loggedInUser.setPassword(passwordEncoder.encode(password));
+        System.out.println("New encoded password: "+loggedInUser.getPassword());
+
         userDao.save(loggedInUser);
         session.invalidate();
+
         return "users/pw_success";
     }
+
     @PostMapping("/profile/{id}/setting/delete")
     public String submitDelete (HttpSession session, @PathVariable long id) throws AccessDeniedException {
         User loggedInUser = userDao.findById(id).get();

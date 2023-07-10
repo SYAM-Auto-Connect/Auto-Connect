@@ -32,6 +32,8 @@
                             <label for="confirm_password" class="form-label">Confirm Password:</label>
                             <input type="password" name="confirm_password" id="confirm_password" class="form-control">
                         </div>
+                        <div th:if="${passwordError}" class="alert alert-danger mt-3"
+                             th:text="${passwordError}"></div>
 
                         <div class="row">
                             <div class="col">
@@ -39,6 +41,7 @@
                             </div>
                         </div>
                     </form>
+
 
                     <button type="button" class="btn btn-danger w-100 mt-3" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal">Delete Profile</button>
                     <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
