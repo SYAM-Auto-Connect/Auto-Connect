@@ -64,21 +64,19 @@
         <div class="col-12 col-md-5 img-container"></div>
         <div class="col-12 col-md-7 registrationPage">
             <h1 class="text-center my-2">Welcome to Auto-Connect! </h1>
-                <br>
             <h2>Create your profile</h2>
-            <br>
-            <div class="mb-3 btn-group btn-group-toggle" data-toggle="buttons">
-                <div class="text-center w-100">
-                    <input class="form-check-input" type="radio" name="userType" id="newUser"
-                           value="newUser" autocomplete="off" checked>
-                    <label class="btn btn-primary active form-check-label" for="newUser">Register as New User</label>
-                    <input class="form-check-input" type="radio" name="userType" id="mechanic" autocomplete="off"
-                           value="mechanic">
-                    <label class="btn btn-warning form-check-label" for="mechanic">Register as Mechanic</label>
-                </div>
-            </div>
                 <div class="card-body">
                     <form th:action="@{/registration}" th:method="post" th:object="${user}">
+                        <div class="mb-3 btn-group btn-group-toggle" data-toggle="buttons">
+                            <div class="text-center w-100">
+                                <input class="form-check-input" type="radio" name="userType" id="newUser"
+                                       value="newUser" autocomplete="off" checked>
+                                <label class="btn btn-primary active form-check-label" for="newUser">Register as New User</label>
+                                <input class="form-check-input" type="radio" name="userType" id="mechanic" autocomplete="off"
+                                       value="mechanic">
+                                <label class="btn btn-warning form-check-label" for="mechanic">Register as Mechanic</label>
+                            </div>
+                        </div>
                         <div class="mb-3">
                             <label for="first_name" class="form-label">First Name:</label>
                             <input type="text" name="first_name" id="first_name" th:field="*{first_name}"
