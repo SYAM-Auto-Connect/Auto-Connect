@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ReviewRepository extends JpaRepository <Review, Long> {
     List<Review> findAllByMechanic(User mechanic);
+    Review findByUserAndMechanic(User user, User mechanic);
+
 }
