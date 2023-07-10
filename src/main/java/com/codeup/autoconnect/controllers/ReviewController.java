@@ -35,11 +35,15 @@ public class ReviewController {
     @GetMapping("review/{id}/create")
     public String showCreateReview(@PathVariable long id, Model model){
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User mechanic = userDao.findById(id).get();
         if (loggedInUser.getId() == id) {
             return "users/not_authorized";
         }
+        Review existingReview = reviewDao.findByUserAndMechanic(loggedInUser, mechanic);
+        if(existingReview != null){
+            return "reviews/review_notAuthorized";
+        }
 
-        User mechanic = userDao.findById(id).get();
         Review review = new Review();
         review.setMechanic(mechanic);
         model.addAttribute("review", review);

@@ -15,7 +15,9 @@ import java.util.List;
 @Setter
 
 @Entity
-@Table
+@Table(uniqueConstraints={
+        @UniqueConstraint(columnNames = {"user_id", "mechanic_id"})
+})
 public class Review {
 
     @Id

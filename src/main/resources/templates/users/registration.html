@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Play&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <title>Registration</title>
 
     <style>
+
+        *{
+            font-family: 'Play', sans-serif;
+        }
         nav {
-            font-family: "Fantacy", Cop, Copperplate;
-            text-transform: uppercase;
+            /*font-family: "Fantacy", Cop, Copperplate;*/
+            /*text-transform: uppercase;*/
             width: 100%;
         }
         body {
@@ -29,7 +36,7 @@
         h1 {
             color: black;
             text-transform: uppercase;
-            font-family: "Fantacy", Cop, Copperplate;
+            /*font-family: "Fantacy", Cop, Copperplate;*/
 
         }
         label{
@@ -44,7 +51,7 @@
             font-weight: lighter;
             font-size:15px;
             text-align: center;
-            font-family: "Fantacy", Cop, Copperplate;
+            /*font-family: "Fantacy", Cop, Copperplate;*/
         }
         #mechanic, #newUser {
             display: none;
@@ -64,21 +71,23 @@
         <div class="col-12 col-md-5 img-container"></div>
         <div class="col-12 col-md-7 registrationPage">
             <h1 class="text-center my-2">Welcome to Auto-Connect! </h1>
-                <br>
             <h2>Create your profile</h2>
+
             <br>
-            <div class="mb-3 btn-group btn-group-toggle" data-toggle="buttons">
-                <div class="text-center w-100">
-                    <input class="form-check-input" type="radio" name="userType" id="newUser"
-                           value="newUser" autocomplete="off" checked>
-                    <label class="btn btn-primary active form-check-label" for="newUser">Register as New User</label>
-                    <input class="form-check-input" type="radio" name="userType" id="mechanic" autocomplete="off"
-                           value="mechanic">
-                    <label class="btn btn-warning form-check-label" for="mechanic">Register as Mechanic</label>
-                </div>
-            </div>
+
+
                 <div class="card-body">
                     <form th:action="@{/registration}" th:method="post" th:object="${user}">
+                        <div class="mb-3 btn-group btn-group-toggle" data-toggle="buttons">
+                            <div class="text-center w-100">
+                                <input class="form-check-input" type="radio" name="userType" id="newUser"
+                                       value="newUser" autocomplete="off" checked>
+                                <label class="btn btn-primary active form-check-label" for="newUser">Register as New User</label>
+                                <input class="form-check-input" type="radio" name="userType" id="mechanic" autocomplete="off"
+                                       value="mechanic">
+                                <label class="btn btn-warning form-check-label" for="mechanic">Register as Mechanic</label>
+                            </div>
+                        </div>
                         <div class="mb-3">
                             <label for="first_name" class="form-label">First Name:</label>
                             <input type="text" name="first_name" id="first_name" th:field="*{first_name}"
@@ -129,7 +138,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="address_state" class="form-label">State:</label>
-                                <select id="address-state" name="address-state" th:field="*{address_state}" class="form-control" style="background-color: lightgray;">
+                                <select id="address_state" name="address-state" th:field="*{address_state}" class="form-control" style="background-color: lightgray;">
                                     <option value="">Select state</option>
                                     <option value="AL">Alabama</option>
                                     <option value="AK">Alaska</option>
