@@ -167,13 +167,6 @@
             border-radius: 50px;
         }
 
-        /*.reviewBody p {*/
-        /*    overflow: hidden;*/
-        /*    text-overflow: ellipsis;*/
-        /*    display: -webkit-box;*/
-        /*    -webkit-line-clamp: 7; !* Number of lines to show before truncating *!*/
-        /*    -webkit-box-orient: vertical;*/
-        /*}*/
         .reviewBody {
             max-height: 300px; /* Set the maximum height for the review body */
             overflow: hidden;
@@ -352,7 +345,6 @@
                     </section>
                 </div>
                 <div class="tab" id="calendar">
-                    <!-- Add your calendar content here -->
                 </div>
                 <div class="tab" id="reviews-user">
                     <div class="card-container">
@@ -361,9 +353,9 @@
                                 <div class="card">
                                     <div class="review-item">
                                         <div class="rate text-center">
-                            <span th:each="star, stat : ${#numbers.sequence(1, 5)}">
-                                <i th:class="${star <= review.rating ? 'fas fa-star' : 'far fa-star'}"></i>
-                            </span>
+                                            <span th:each="star, stat : ${#numbers.sequence(1, 5)}">
+                                                <i th:class="${star <= review.rating ? 'fas fa-star' : 'far fa-star'}"></i>
+                                            </span>
                                         </div>
                                         <div class="reviewer text-center">
                                             <img class="profile-image-1" th:src="${review.user.profilePicture}"
@@ -382,8 +374,8 @@
                         </div>
                     </div>
                     <div>
-                        <a th:href="@{/review/{id}/create(id=${user.id})}"
-                           class="btn btn-info">Click here to Write Review</a>
+                        <a th:if="${#authentication.principal.id != user.id}" th:href="@{/review/{id}/create(id=${user.id})}" class="btn btn-info">Click
+                            here to Write Review</a>
                     </div>
                 </div>
             </div>
