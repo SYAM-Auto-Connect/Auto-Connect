@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Play&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <title>Registration</title>
 
     <style>
+
+        *{
+            font-family: 'Play', sans-serif;
+        }
         nav {
-            font-family: "Fantacy", Cop, Copperplate;
-            text-transform: uppercase;
+            /*font-family: "Fantacy", Cop, Copperplate;*/
+            /*text-transform: uppercase;*/
             width: 100%;
         }
         body {
@@ -29,7 +36,7 @@
         h1 {
             color: black;
             text-transform: uppercase;
-            font-family: "Fantacy", Cop, Copperplate;
+            /*font-family: "Fantacy", Cop, Copperplate;*/
 
         }
         label{
@@ -44,7 +51,7 @@
             font-weight: lighter;
             font-size:15px;
             text-align: center;
-            font-family: "Fantacy", Cop, Copperplate;
+            /*font-family: "Fantacy", Cop, Copperplate;*/
         }
         #mechanic, #newUser {
             display: none;
@@ -65,6 +72,10 @@
         <div class="col-12 col-md-7 registrationPage">
             <h1 class="text-center my-2">Welcome to Auto-Connect! </h1>
             <h2>Create your profile</h2>
+
+            <br>
+
+
                 <div class="card-body">
                     <form th:action="@{/registration}" th:method="post" th:object="${user}">
                         <div class="mb-3 btn-group btn-group-toggle" data-toggle="buttons">
