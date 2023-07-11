@@ -17,6 +17,10 @@
 
 
     <style>
+
+        body {
+            background: rgba(210, 210, 210, 0.3)
+        }
         .map {
             height: 400px;
 
@@ -25,7 +29,8 @@
             background-size: cover;
             background-position: center;
             width: 95%;
-
+            border: solid black;
+            border-radius: 5px ;
         }
 
         * {
@@ -36,6 +41,24 @@
             height: 30px;
             width: 30px;
             border-radius: 50px;
+        }
+
+        .searchButton {
+            color: white;
+            border-color: black;
+            border-radius: 5px;
+            background-color: #007BFF;
+            width: 15%
+        }
+
+        .searchBar{
+            border-radius: 5px;
+            width: 50%;
+        }
+
+        .all-mechanics{
+            margin-left: 14em;
+            margin-top: 30px;
         }
 
     </style>
@@ -51,8 +74,8 @@
         <h1>Find a mechanic near you! </h1>
 
         <div>
-            <input type="text" id="zipcodeInput" name="keyword" placeholder="Enter ZIP code">
-            <button id="searchButton" type="button">Search</button>
+            <input type="text" id="zipcodeInput" name="keyword" placeholder="Enter ZIP code" class="searchBar">
+            <button id="searchButton" type="button" class="searchButton">Search</button>
         </div>
         <div id='map' class="map"></div>
     </div>
@@ -61,8 +84,8 @@
     <div class="col-md-6">
         <h1>Search By Keyword</h1>
         <form th:action="@{/MechanicSearchPage}" method="get">
-            <input type="text" name="keyword" placeholder="Enter keyword">
-            <button type="submit">Search</button>
+            <input type="text" name="keyword" placeholder="Enter keyword" class="searchBar">
+            <button type="submit" class="searchButton">Search</button>
         </form>
 
         <h2>Search Results</h2>
@@ -86,7 +109,7 @@
     </div>
 
     <div class="col-md-12">
-        <h1>All Mechanics</h1>
+        <h1 class="all-mechanics">All Mechanics</h1>
         <div class="overflow-auto" style="max-height: 400px;">
             <div class="row row-cols-1 row-cols-md-2 g-4">
                 <div th:each="mechanic : ${ViewAllMechanics}">
