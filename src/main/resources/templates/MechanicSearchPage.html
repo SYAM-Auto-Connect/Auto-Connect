@@ -17,6 +17,10 @@
 
 
     <style>
+
+        body {
+            background: rgba(210, 210, 210, 0.3)
+        }
         .map {
             height: 400px;
 
@@ -24,8 +28,9 @@
             margin-bottom: 20px;
             background-size: cover;
             background-position: center;
-            width: 100%;
-
+            width: 95%;
+            border: solid black;
+            border-radius: 5px ;
         }
 
         * {
@@ -38,6 +43,24 @@
             border-radius: 50px;
         }
 
+        .searchButton {
+            color: white;
+            border-color: black;
+            border-radius: 5px;
+            background-color: #007BFF;
+            width: 15%
+        }
+
+        .searchBar{
+            border-radius: 5px;
+            width: 50%;
+        }
+
+        .all-mechanics{
+            margin-left: 14em;
+            margin-top: 30px;
+        }
+
     </style>
 
 </head>
@@ -46,15 +69,72 @@
 
 <nav th:replace="~{partials/navbar :: navbar}"></nav>
 <br>
-<h1>Find a mechanic near you! </h1>
+<div class="row">
+    <div class="col-md-6">
+        <h1>Find a mechanic near you! </h1>
 
-<div>
-    <input type="text" id="zipcodeInput" name="keyword" placeholder="Enter ZIP code">
-    <button id="searchButton" type="button">Search</button>
+        <div>
+            <input type="text" id="zipcodeInput" name="keyword" placeholder="Enter City/State/Zip Code" class="searchBar">
+            <button id="searchButton" type="button" class="searchButton">Search</button>
+        </div>
+        <div id='map' class="map"></div>
+    </div>
+
+
+    <div class="col-md-6">
+        <h1>Search By Keyword</h1>
+        <form th:action="@{/MechanicSearchPage}" method="get">
+            <input type="text" name="keyword" placeholder="Enter keyword" class="searchBar">
+            <button type="submit" class="searchButton">Search</button>
+        </form>
+
+        <h2>Search Results</h2>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div th:each="mechanic : ${searchResults}">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a th:href="@{/profile/{id}(id=${mechanic.id})}"
+                                   th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></a>
+                            </h5>
+                            <h6 class="card-subtitle mb-2 text-muted" th:text="${mechanic.email}"></h6>
+                            <p class="card-text"
+                               th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_state + ' ' + mechanic.address_zip}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <h1 class="all-mechanics">All Mechanics</h1>
+        <div class="overflow-auto" style="max-height: 400px;">
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <div th:each="mechanic : ${ViewAllMechanics}">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <img class="mechanic-profile-image" th:src="${mechanic.profilePicture}"
+                                     alt="Mechanic Profile Picture">
+
+                                <!--                            <h5 class="card-title" th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></h5>-->
+                                <h5 class="card-title">
+                                    <a th:href="@{/profile/{id}(id=${mechanic.id})}"
+                                       th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></a>
+                                </h5>
+                                <h6 class="card-subtitle mb-2 text-muted" th:text="${mechanic.email}"></h6>
+                                <p class="card-text"
+                                   th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_zip + ' ' + mechanic.address_state}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-<div id='map' class="map"></div>
 <script>
 
     document.getElementById('searchButton').addEventListener('click', function (event) {
@@ -146,62 +226,6 @@
 
 
 </script>
-<div class="row">
-    <div class="col-md-6">
-        <h1>Search By Keyword</h1>
-        <form th:action="@{/MechanicSearchPage}" method="get">
-            <input type="text" name="keyword" placeholder="Enter keyword">
-            <button type="submit">Search</button>
-        </form>
-
-        <h2>Search Results</h2>
-        <div class="row row-cols-1 row-cols-md-2 g-4">
-            <div th:each="mechanic : ${searchResults}">
-                <div class="col">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a th:href="@{/profile/{id}(id=${mechanic.id})}"
-                                   th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></a>
-                            </h5>
-                            <h6 class="card-subtitle mb-2 text-muted" th:text="${mechanic.email}"></h6>
-                            <p class="card-text"
-                               th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_state + ' ' + mechanic.address_zip}"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <h1>All Mechanics</h1>
-        <div class="overflow-auto" style="max-height: 400px;">
-            <div class="row row-cols-1 row-cols-md-2 g-4">
-                <div th:each="mechanic : ${ViewAllMechanics}">
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <img class="mechanic-profile-image" th:src="${mechanic.profilePicture}"
-                                     alt="Mechanic Profile Picture">
-
-                                <!--                            <h5 class="card-title" th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></h5>-->
-                                <h5 class="card-title">
-                                    <a th:href="@{/profile/{id}(id=${mechanic.id})}"
-                                       th:text="${mechanic.first_name + ' ' + mechanic.last_name}"></a>
-                                </h5>
-                                <h6 class="card-subtitle mb-2 text-muted" th:text="${mechanic.email}"></h6>
-                                <p class="card-text"
-                                   th:text="${mechanic.address_street + ', ' + mechanic.address_city + ' ' + mechanic.address_zip + ' ' + mechanic.address_state}"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div>
 
 </body>
 </html>

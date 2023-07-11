@@ -34,7 +34,6 @@ public class PaymentController {
         User currentUser = userDao.findByUsername(authentication.getName());
 
         if (appointment == null) {
-            // Handle appointment not found scenario
             return "redirect:/profile";
         }
         model.addAttribute("appointment", appointment);
@@ -46,6 +45,9 @@ public class PaymentController {
     public RedirectView createPayment(@PathVariable long id, @ModelAttribute Appointment appointment, Model model) throws StripeException {
         Appointment appointmentId = appointmentDao.findById(id).get();
 
+        String username = appointmentId.getRequester().getUsername().toString();
+        String nextLine = "Service/Repair: ";
+        String nextLine2 = " Mechanic: ";
         Stripe.apiKey = secretKey;
 
         SessionCreateParams params = SessionCreateParams.builder()
@@ -57,8 +59,9 @@ public class PaymentController {
                         .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
                                 .setCurrency("usd")
                                 .setProductData(SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                        .setName(appointmentId.getTitle())
+                                        .setName(String.format("Service/Repair: %s%nMechanic: %s", appointmentId.getTitle().toUpperCase(), username.toUpperCase()))
                                         .build())
+
                                 .setUnitAmount((long) (appointmentId.getPrice() * 100))
                                 .build())
                         .setQuantity(1L)
