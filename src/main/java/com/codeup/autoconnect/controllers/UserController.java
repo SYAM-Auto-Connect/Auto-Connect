@@ -41,7 +41,7 @@ public class UserController {
        Pattern pattern = Pattern.compile(patternPW);
        Matcher matcher = pattern.matcher(password);
        if(!matcher.matches()){
-           model.addAttribute("passwordError", "Password must be between 8-16 characters, and include at least one upper case, one lower case, one digit, and one symbol.");
+           model.addAttribute("passwordError", "Your password is not between 8-16 characters, and include at least one upper case, one lower case, one digit, and one symbol.");
            return "users/registration";
        }
        user.setPassword(passwordEncoder.encode(user.getPassword()));

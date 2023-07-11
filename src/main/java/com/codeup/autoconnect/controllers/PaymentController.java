@@ -47,7 +47,7 @@ public class PaymentController {
 
         String username = appointmentId.getRequester().getUsername().toString();
         String nextLine = "Service/Repair: ";
-        String nextLine2 = " Username: ";
+        String nextLine2 = " Mechanic: ";
         Stripe.apiKey = secretKey;
 
         SessionCreateParams params = SessionCreateParams.builder()
@@ -59,7 +59,7 @@ public class PaymentController {
                         .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
                                 .setCurrency("usd")
                                 .setProductData(SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                        .setName(nextLine + appointmentId.getTitle().toUpperCase() + nextLine2 + username.toUpperCase())
+                                        .setName(String.format("Service/Repair: %s%nMechanic: %s", appointmentId.getTitle().toUpperCase(), username.toUpperCase()))
                                         .build())
 
                                 .setUnitAmount((long) (appointmentId.getPrice() * 100))
