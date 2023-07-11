@@ -28,16 +28,15 @@
             flex-direction: column;
         }
         .hero {
-            flex-grow: 1;
-            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             background-image: url('/img/home-image.jpg');
             opacity: 0.75;
             background-size: cover;
             background-position: center;
-            height: 75vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            height: 100vh;
         }
         .hero h1 {
             color: #fff;
@@ -45,18 +44,10 @@
 
             text-align: center;
         }
-        .why-us-section {
-            background-color: orange;
-            color: #000;
-            height: 18vh;
-            text-align: center;
-        }
-        .container-fluid {
-            padding: 0;
-        }
         .joinBtn {
-            font-size: 2rem;
-            width: 50%;
+            font-size: 3rem;
+            width: 100%;
+            color: #fff;
         }
         </style>
 </head>
@@ -67,20 +58,12 @@
 <main class="main-content">
     <div class="hero">
         <h1>Find your trusted <br/> neighborhood mechanic</h1>
-<!--        <div class="firework"></div>-->
+        <h2 class="text-center mt-3 "><a class="joinBtn btn btn-lg btn-primary" href="/registration">Register with US! Click Here!</a></h2>
+
+        <!--        <div class="firework"></div>-->
 <!--        <div class="firework"></div>-->
 <!--        <div class="firework"></div>-->
     </div>
-    <div class="container-fluid why-us-section">
-        <h2 class="text-center mt-3 ">Ready to Find Mechanic? </h2><a class="joinBtn btn btn-lg btn-primary ml-6" href="/registration">Register with US! Click Here!</a>
-<!--        <div class="row align-items-center mt-2 mb-2">-->
-<!--            <div class="col-md-6">-->
-<!--                <p>because our website is center of social gathering</p>-->
-<!--            </div>-->
-<!--            <div class="col-md-6">-->
-<!--                <p>We are awesome! that's why </p>-->
-<!--            </div>-->
-        </div>
 </main>
 
 
