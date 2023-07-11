@@ -6,6 +6,7 @@ import com.codeup.autoconnect.models.User;
 import com.codeup.autoconnect.repositories.CommentRepository;
 import com.codeup.autoconnect.repositories.PostRepository;
 import com.codeup.autoconnect.repositories.UserRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +28,7 @@ public class PostController {
 
     @GetMapping("/posts")
     public String viewAllPosts(Model model) {
-        model.addAttribute("posts", postsDao.findAll());
+        model.addAttribute("posts", postsDao.findAll(Sort.by(Sort.Direction.DESC, "id")));
         return "posts/index";
     }
 
