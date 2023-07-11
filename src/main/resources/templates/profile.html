@@ -21,35 +21,49 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: white;
+            background-color:  #f3f3f3;
         }
-
 
         .welcome-message {
-            color: black;
+            color: #333;
+            font-size: 24px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 15px;
+        }
+        .col-md-8 {
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .tab-container {
-
+        .profile-container {
+            text-align: center;
         }
-
-        .tab-container .tab {
+       .tab {
             display: none;
         }
 
-        .tab-container .tab.active {
-            display: inline-block;
+        .tab.active {
+            display: block;
         }
 
         .tab-container .tab-heading {
+            background-color: #5884b1;
+            border-radius: 5px;
             display: inline-block;
             padding: 10px 20px;
-            color: black;
+            color: #333;
             cursor: pointer;
-            margin-right: 30px;
-            text-decoration: underline;
+            margin-right: 10px;
             font-weight: bold;
             text-transform: uppercase;
+            text-decoration: none;
         }
 
         .tab-container .tab-heading:hover {
@@ -60,34 +74,17 @@
             margin-top: 20px;
         }
 
-        .rate {
-            text-decoration: none;
-        }
-
-
-        .rate {
-            color: #ffc107;
-            font-size: 30px;
-        }
-
-        .rate .fas.fa-star {
-            color: #ffc107;
-        }
-
-        .rate .far.fa-star {
-            color: #ccc;
-        }
-
         .username {
             text-transform: uppercase;
             font-size: 25px;
-
         }
 
         .profile-image {
             border-radius: 50%;
             height: 250px;
             width: 250px;
+            object-fit: cover;
+            margin: 0 auto;
         }
 
         .post-section {
@@ -96,27 +93,55 @@
             margin-bottom: 20px;
             background-color: white;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
+        .post-header {
+            display: flex;
+            align-items: start;
+            justify-content: space-between;
+        }
 
-        h2, h3, .tab-heading {
-            /*font-family: 'Oswald', sans-serif;*/
+        .title-and-body {
+            flex-grow: 1;
+            padding-left: 20px;
+        }
 
+        .user-details {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .user-profile-image-2 {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .edit-btn {
+            color: #006599;
+        }
+
+        .edit-link {
+            align-self: flex-start;
         }
 
         a:link {
             text-decoration: none;
             cursor: pointer;
-
         }
 
-        .row {
-            margin: 30px;
+        h4 a {
+            color: #333; /* Edit color according to your preference */
         }
+
+        h4 a:hover {
+            color: #007BFF; /* Edit color according to your preference */
+        }
+
 
         .card-container {
             overflow-x: scroll;
-            /*white-space: nowrap;*/
             display: flex;
             flex-wrap: nowrap;
             justify-content: flex-start;
@@ -128,14 +153,13 @@
             width: 300px;
             margin-right: 10px;
             display: inline-block;
-            /*height: 350px;*/
+
             border-radius: 0;
 
         }
 
         .reviews-carousel {
             display: flex;
-            /*flex-wrap: nowrap;*/
         }
 
         .review-item {
@@ -165,11 +189,7 @@
             width: 30px;
             border-radius: 50px;
         }
-        .user-profile-image-2 {
-            height: 40px;
-            width: 40px;
-            border-radius: 50px;
-        }
+
 
         .reviewBody {
             max-height: 300px; /* Set the maximum height for the review body */
@@ -194,6 +214,9 @@
         .page-container{
             font-family: 'Montserrat', sans-serif;
         }
+        .btn-fixed-width {
+            width: 150px;
+        }
     </style>
 
 
@@ -205,10 +228,17 @@
 <div class="page-container">
 
 <div th:if="${user.isMechanic}">
-    <h2 th:if="${#authentication.principal.id==user.id}" class="welcome-message">
-        Hello, welcome to your profile
-        <span th:text=" ' ' + ${user.first_name}"></span>!
+    <h2 th:if="${#authentication.principal.id==user.id}" class="welcome-message text-center ">
+        Hello, welcome!
+        <span th:text=" ' ' + ${user.username}"></span>!
     </h2>
+    <div class="d-flex justify-content-end px-2 mx-2">
+        <a th:if="${#authentication.principal.id==user.id}"
+           th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary btn-fixed-width me-2">Edit Profile</a>
+        <a th:if="${#authentication.principal.id==user.id}"
+           th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning btn-fixed-width">Account
+            Settings</a>
+    </div>
     <div class="row">
         <div class="col-md-4">
             <div class="card-body text-center">
@@ -216,26 +246,36 @@
                     <div class="profile-container">
                         <img class="profile-image" th:src="@{${user.getProfilePicture()}}"/>
                         <br>
-                        <span class="username" th:text="${user.first_name} + ' ' +  ${user.last_name}"></span>
+                        <span class="username" th:text="${user.username}"></span>
                         <br>
-                        <a th:if="${#authentication.principal.id==user.id}"
-                           th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary">Edit
-                            Profile</a>
-                        <a th:if="${#authentication.principal.id==user.id}"
-                           th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning">Delete/Reset
-                            Password</a>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-md-8">
             <div class="tab-container">
+                <div class="tab-heading active" onclick="openTab(event, 'posts-mechanic')">Post</div>
                 <div class="tab-heading" onclick="openTab(event, 'description-bio')">About Me</div>
-                <div class="tab-heading" onclick="openTab(event, 'calendar')">Calendar</div>
+                <div class="tab-heading" onclick="openTab(event, 'calendar')">Appointment</div>
                 <div class="tab-heading" onclick="openTab(event, 'reviews')">Reviews</div>
             </div>
+            <div class="tab active" id="posts-mechanic">
+                <section>
+                    <h3>Here are all of your posts:</h3>
+                    <div class="post-section" th:each="post : ${posts}">
+                        <div class="post-header">
+                            <img class="user-profile-image-2" th:src="${post.user.profilePicture}" alt="User Profile Picture">
+                            <div class="title-and-body">
+                                <h4><a class="user-details" th:text="${post.title}" th:href="@{/posts/{id}/post (id = ${post.id})}"></a></h4>
+                                <p th:text="${post.body}"></p>
+                            </div>
+                            <a th:href="@{/posts/{id}/edit (id = ${post.id})}" class="edit-link"><i class="fa-solid fa-pen-to-square edit-btn"></i></a>
+                        </div>
+                    </div>
+                </section>
+            </div>
 
-            <div class="tab active" id="description-bio">
+            <div class="tab" id="description-bio">
                 <div class="description-bio" th:text="${user.description}"></div>
             </div>
             <div class="tab" id="calendar">
@@ -286,7 +326,7 @@
                                         <img class="profile-image-1" th:src="${review.user.profilePicture}"
                                              alt="Profile Picture">
                                         <a th:href="@{/profile/{id}(id=${review.user.id})}"><h4
-                                                th:text="${review.user.first_name + ' ' + review.user.last_name}"></h4>
+                                                th:text="${review.user.username}"></h4>
                                         </a>
                                     </div>
                                     <div class="reviewBody expand">
@@ -309,10 +349,18 @@
 </div>
 
 <div th:if="${!user.isMechanic}">
-    <h2 th:if="${#authentication.principal.id==user.id}" class="welcome-message">
-        Hello, welcome to your profile
-        <span th:text=" ' ' + ${user.first_name}"></span>!
+
+    <h2 th:if="${#authentication.principal.id==user.id}" class="welcome-message text-center ">
+        Hello, welcome!
+        <span th:text=" ' ' + ${user.username}"></span>!
     </h2>
+        <div class="d-flex justify-content-end px-2 mx-2">
+        <a th:if="${#authentication.principal.id==user.id}"
+           th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary btn-fixed-width me-2">Edit Profile</a>
+        <a th:if="${#authentication.principal.id==user.id}"
+           th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning btn-fixed-width">Account
+            Settings</a>
+        </div>
     <div class="row">
         <div class="col-md-4">
             <div class="card-body text-center">
@@ -320,37 +368,37 @@
                     <img class="profile-image" th:src="@{${user.getProfilePicture()}}"/>
                     <br>
                     <br>
-                    <span class="username" th:text="${user.first_name} + ' ' +  ${user.last_name}"></span>
+                    <span class="username" th:text="${user.username}"></span>
                     <br>
-                    <a th:if="${#authentication.principal.id==user.id}"
-                       th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary">Edit Profile</a>
-                    <a th:if="${#authentication.principal.id==user.id}"
-                       th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning">Account
-                        Settings</a>
+
                 </div>
             </div>
         </div>
 
         <div class="col-md-8">
             <div class="tab-container">
-                <div class="tab-heading active" onclick="openTab(event, 'posts')">Posts</div>
-                <div class="tab-heading" onclick="openTab(event, 'calendar')">Current Bookings</div>
+                <div class="tab-heading active" onclick="openTab(event, 'posts-user')">Posts</div>
+                <div class="tab-heading" onclick="openTab(event, 'calendar')">Appointment</div>
                 <div class="tab-heading" onclick="openTab(event, 'reviews-user')">Reviews</div>
 
-                <div class="tab active" id="posts">
+                <div class="tab active" id="posts-user">
                     <section>
                         <h3>Here are all of your posts:</h3>
                         <div class="post-section" th:each="post : ${posts}">
-                            <img class="user-profile-image-2" th:src="${post.user.profilePicture}" alt="User Profile Picture">
-                            <h4><a th:text="${post.title}" th:href="@{/posts/{id}/post (id = ${post.id})}"></a></h4>
-                            <p th:text="${post.body}"></p>
-                            <a th:href="@{/posts/{id}/edit (id = ${post.id})}"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <div class="post-header">
+                                <img class="user-profile-image-2" th:src="${post.user.profilePicture}" alt="User Profile Picture">
+                                <div class="title-and-body">
+                                    <h4><a class="user-details" th:text="${post.title}" th:href="@{/posts/{id}/post (id = ${post.id})}"></a></h4>
+                                    <p th:text="${post.body}"></p>
+                                </div>
+                                <a th:href="@{/posts/{id}/edit (id = ${post.id})}" class="edit-link"><i class="fa-solid fa-pen-to-square edit-btn"></i></a>
+                            </div>
                         </div>
                     </section>
                 </div>
-                <div class="tab" id="calendar">
-                </div>
+                <div class="tab" id="calendar"></div>
                 <div class="tab" id="reviews-user">
+
                     <div class="card-container">
                         <div class="reviews-carousel">
                             <div th:each="review, stat : ${reviews}" th:if="${stat.count <= 10}">
@@ -364,7 +412,7 @@
                                         <div class="reviewer text-center">
                                             <img class="profile-image-1" th:src="${review.user.profilePicture}"
                                                  alt="Profile Picture">
-                                            <h4 th:text="${review.user.first_name + ' ' + review.user.last_name}"></h4>
+                                            <h4 th:text="${review.user.username}"></h4>
                                         </div>
                                         <div class="reviewBody expand">
                                             <p class="review-text" th:text="'&quot;' + ${review.body} + '&quot;'"
@@ -415,23 +463,40 @@
     /*]]>*/
 </script>
 <script>
+    // function openTab(event, tabName) {
+    //     let i, tabContent, tabHeading;
+    //     tabContent = document.getElementsByClassName("tab");
+    //     for (i = 0; i < tabContent.length; i++) {
+    //         tabContent[i].style.display = "none";
+    //     }
+    //     tabHeading = document.getElementsByClassName("tab-heading");
+    //     for (i = 0; i < tabHeading.length; i++) {
+    //         tabHeading[i].classList.remove("active");
+    //     }
+    //     document.getElementById(tabName).style.display = "block";
+    //     event.currentTarget.classList.add("active");
+    // }
     function openTab(event, tabName) {
-        var i, tabContent, tabHeading;
-        tabContent = document.getElementsByClassName("tab");
-        for (i = 0; i < tabContent.length; i++) {
-            tabContent[i].style.display = "none";
-        }
-        tabHeading = document.getElementsByClassName("tab-heading");
-        for (i = 0; i < tabHeading.length; i++) {
+        // Get all tab content and tab headings
+        let tabContent = document.getElementsByClassName("tab");
+        let tabHeading = document.getElementsByClassName("tab-heading");
+
+        // Hide all tabs and remove the 'active' class from all headings
+        for (let i = 0; i < tabContent.length; i++) {
+            tabContent[i].classList.remove("active");
             tabHeading[i].classList.remove("active");
         }
-        document.getElementById(tabName).style.display = "block";
+
+        // Show the selected tab and add the 'active' class to the corresponding heading
+        document.getElementById(tabName).classList.add("active");
         event.currentTarget.classList.add("active");
+
     }
 
 
+
     window.addEventListener('DOMContentLoaded', function () {
-        var reviewTexts = document.querySelectorAll('.reviewBody .review-text');
+        let reviewTexts = document.querySelectorAll('.reviewBody .review-text');
 
         Array.from(reviewTexts).forEach(function (reviewText) {
             var isOverflowing = reviewText.scrollHeight > reviewText.clientHeight;
@@ -443,7 +508,7 @@
     });
 
     function toggleReview(button) {
-        var reviewBody = button.parentElement;
+        let reviewBody = button.parentElement;
         reviewBody.classList.toggle("expand");
 
         if (reviewBody.classList.contains("expand")) {
@@ -458,5 +523,5 @@
         crossorigin="anonymous"></script>
 
 </body>
-<!--comment-->
+
 </html>
