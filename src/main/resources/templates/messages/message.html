@@ -98,10 +98,6 @@
             text-align: right;
         }
 
-        .new-conversation-form {
-            display: inline;
-            text-align: center;
-        }
 
         .existing-conversation-form {
             margin-left: 50%;
@@ -172,17 +168,17 @@
         <li th:each="result : ${searchResults}">
             <div class="newMessage">
                 <button class="send-message-btn btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal"><span th:text="${result.username}"></span>: Contact
+                        data-bs-target="#newMessageModal"><span th:text="${result.username}"></span>: Contact
                 </button>
             </div>
             <!-- Message form -->
             <!-- Modal -->
-            <div class="modal fade messageForm" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <div class="modal fade messageForm" id="newMessageModal" tabindex="-1" aria-labelledby="newMessageModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Start Connecting</h1>
+                            <h1 class="modal-title fs-5" id="newMessageModalLabel">Start Connecting</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -246,7 +242,6 @@
                         </ul>
                     </div>
                     <div class="modal-footer">
-
                         <form th:action="@{/messages/send}" method="post" class="existing-conversation-form">
                             <input th:if="${conversation.user1.id == #authentication.principal.id}" type="hidden"
                                    name="recipientId" th:value="${conversation.user2.id}"/>
@@ -255,10 +250,10 @@
                             <input type="hidden" name="conversationId" th:value="${conversation.id}"/>
                             <input type="text" class="sendMessage" name="message" placeholder="Enter your message"/>
                             <button type="submit" class="btn btn-primary sendMessageButton">Send</button>
-                            <form th:action="@{/messages/delete}" method="post">
-                                <input type="hidden" th:name="conversationId" th:value="${conversation.id}"/>
-                                <button type="submit" class="btn btn-danger">Delete Conversation</button>
-                            </form>
+                        </form>
+                        <form th:action="@{/messages/delete}" method="post">
+                            <input type="hidden" th:name="conversationId" th:value="${conversation.id}"/>
+                            <button type="submit" class="btn btn-danger">Delete Conversation</button>
                         </form>
                     </div>
                 </div>
