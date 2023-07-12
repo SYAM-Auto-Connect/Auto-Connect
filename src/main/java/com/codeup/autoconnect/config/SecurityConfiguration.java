@@ -89,12 +89,12 @@ public class SecurityConfiguration {
                                 "/registration",
                                 "/login",
                                 "/MechanicSearchPage",
-                                "/users/mechanic-list",
+                                "/users/mechanic-list*",
                                 "/appointments/*",
                                 "/paymentDetail/*").permitAll()
 
                         // allow loading of static resources
-                        .requestMatchers("/css/**", "/js/**", "/img/**","/keys.js").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/img/**","/keys.js", "/favicon.ico").permitAll()
                 )
                 /* Login configuration */
                 .formLogin((login) -> login.loginPage("/login").defaultSuccessUrl("/profile"))
