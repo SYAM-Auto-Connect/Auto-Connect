@@ -29,6 +29,7 @@ public class User {
 
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
     private String username;
+    @JsonIgnore
 
     @Column(nullable = false, columnDefinition = "VARCHAR(255)")
     private String password;
@@ -54,38 +55,43 @@ public class User {
     @Column(columnDefinition = "VARCHAR(10)")
     private String address_zip;
 
-    @Column(columnDefinition ="VARCHAR(255)" )
+    @Column(columnDefinition = "VARCHAR(255)")
     private String profilePicture;
+
+    @JsonIgnore
+    @Column(columnDefinition = "TEXT")
+    private String description;
     @JsonIgnore
 
 
-    @Column(columnDefinition  = "TEXT")
-    private String description;
-
- 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Post> posts;
+    @JsonIgnore
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Comment> comments;
+    @JsonIgnore
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Review> reviews;
+    @JsonIgnore
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requester")
     private List<Appointment> requester;
+    @JsonIgnore
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "receiver")
     private List<Appointment> receiver;
+    @JsonIgnore
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sender")
     private List<Message> sender;
-
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipient")
     private List<Message> recipient;
 
 
-    public User(User copy){
+    public User(User copy) {
         this.id = copy.id;
         this.email = copy.email;
         this.username = copy.username;

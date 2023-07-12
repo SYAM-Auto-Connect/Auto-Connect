@@ -18,8 +18,13 @@
 
     <style>
 
+        .wholePage{
+            margin-left: 1em;
+            margin-right: 1em;
+        }
         body {
-            background: rgba(210, 210, 210, 0.3)
+            background: rgba(210, 210, 210, 0.3);
+
         }
         .map {
             height: 400px;
@@ -69,7 +74,7 @@
 
 <nav th:replace="~{partials/navbar :: navbar}"></nav>
 <br>
-<div class="row">
+<div class="row wholePage">
     <div class="col-md-6">
         <h1>Find a mechanic near you! </h1>
 
@@ -136,6 +141,13 @@
     </div>
 </div>
 <script>
+    mapboxgl.accessToken = MAPBOX_KEY
+    let map = new mapboxgl.Map({
+        container: 'map', // container ID
+        style: 'mapbox://styles/mapbox/streets-v12',
+        center: [-96.808891, 32.779167],
+        zoom: 9,
+    });
 
     document.getElementById('searchButton').addEventListener('click', function (event) {
         event.preventDefault();
@@ -145,25 +157,16 @@
     });
 
     function updateMapAndMechanics(zipCode) {
-
-        map.remove();
-
         fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(zipCode)}.json?access_token=${MAPBOX_KEY}`)
             .then((geocodeResponse) => geocodeResponse.json())
             .then((geocodeResponse) => {
                 let coordinates = geocodeResponse.features[0].center;
-
-                map = new mapboxgl.Map({
-                    container: 'map',
-                    style: 'mapbox://styles/mapbox/streets-v12',
-                    center: coordinates,
-                    zoom: 9
-                });
-
+                map.setCenter(coordinates);
                 fetch(`https://auto-connect.org/users/mechanic-list?zipcode=${zipCode}`)
+                // fetch(`http://localhost:8080/users/mechanic-list?zipcode=${zipCode}`)
                     .then((response) => response.json())
                     .then((response) => {
-
+                        console.log("DATA:", response);
                         response.forEach(mechanic => {
                             let firstName = mechanic.first_name;
                             let lastName = mechanic.last_name;
@@ -193,13 +196,13 @@
                                     console.log(map)
                                     // populateMechanicList(mechanic);
                                 })
-                            //             .catch((error) => {
-                            //                 console.error('Error ', error);
-                            //             });
-                            //     });
+                                        .catch((error) => {
+                                            console.error('Error ', error);
+                                        });
+                                });
                         })
-                        // .catch((error) => {
-                        //     console.error('Error', error);
+                        .catch((error) => {
+                            console.error('Error', error);
                     });
             })
             .catch((error) => {
@@ -208,18 +211,8 @@
     }
 
 
-    mapboxgl.accessToken = MAPBOX_KEY
-    let map = new mapboxgl.Map({
-        container: 'map', // container ID
-        style: 'mapbox://styles/mapbox/streets-v12',
-        center: [-96.808891, 32.779167],
-        zoom: 9,
-    });
-
 
     function getPopupContent(profileLink, firstName, lastName, street, city, zipCode, state) {
-        // return `<h3>${firstName} ${lastName}</h3>
-        // <p>${street}, ${city}, ${zipCode}, ${state}</p>`;
         return `<h3>${profileLink.outerHTML}</h3>
         <p>${street}, ${city}, ${zipCode}, ${state}</p>`
     }
