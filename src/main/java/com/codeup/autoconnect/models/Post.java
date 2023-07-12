@@ -27,13 +27,13 @@ public class Post {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String body;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(50)")
+    @Column(nullable = true, columnDefinition = "VARCHAR(50)")
     private String car_make;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(50)")
+    @Column(nullable = true, columnDefinition = "VARCHAR(50)")
     private String car_body;
 
-    @Column(nullable = false, columnDefinition = "INT")
+    @Column(nullable = true, columnDefinition = "INT")
     private int car_year;
 
     @ManyToOne

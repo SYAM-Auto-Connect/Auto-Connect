@@ -40,6 +40,12 @@
             margin-top: 1%;
         }
 
+        .searchForm input{
+            border: 3px solid #555;
+            border-radius: 10%;
+            background-color: rgba(210, 210, 210, 0.3);
+        }
+
         .conversationButton {
             text-align: center;
         }
@@ -99,10 +105,6 @@
         }
 
 
-        .existing-conversation-form {
-            margin-left: 50%;
-        }
-
         .existing-conversation {
             width: 60%;
             border: 1px solid #ccc;
@@ -138,17 +140,47 @@
             padding: 5px;
             cursor: pointer;
         }
+
         .modal-footer {
             display: flex;
+            flex-direction: row;
+            text-align: center;
         }
 
         .sendMessage {
             padding: 1%;
-            width: 70%;
+            width: 80%;
         }
 
         .sendMessageButton {
-            padding: 1%;
+        }
+
+        #newMessageModal {
+            margin: auto;
+            text-align: center;
+            color: black;
+            border: 0;
+            justify-content: center;
+            align-content: center;
+            width: 100%;
+        }
+
+        .newMessageModel {
+            display: flex;
+            flex-direction: row;
+        }
+        .submitMessageModal {
+            width: 100%;
+            justify-content: center;
+            align-content: center;
+        }
+        .deleteConvoModal {
+            width: 100%;
+            justify-content: center;
+            align-content: center;
+        }
+        .noResults {
+            text-align: center;
         }
     </style>
 </head>
@@ -158,27 +190,27 @@
 <h1>Instant Messaging</h1>
 <!-- Search form -->
 <form th:action="@{/messages/search}" method="get" id="searchForm">
-    <input type="text" class="searchForm" name="keyword" placeholder="Search by first name, last name, or username">
-    <button type="submit">Search</button>
+    <input type="text" class="searchForm" name="keyword" placeholder="Search by Username">
+    <button type="submit" class="btn btn-primary">Search</button>
 </form>
 <!-- Search Results -->
 <div id="searchResults" th:if="${searchAttempted}">
     <h2>Search Results:</h2>
-    <ul>
-        <li th:each="result : ${searchResults}">
-            <div class="newMessage">
-                <button class="send-message-btn btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#newMessageModal"><span th:text="${result.username}"></span>: Contact
-                </button>
-            </div>
-            <!-- Message form -->
-            <!-- Modal -->
-            <div class="modal fade messageForm" id="newMessageModal" tabindex="-1" aria-labelledby="newMessageModalLabel"
+    <div th:each="result : ${searchResults}">
+        <div class="newMessage">
+            <button class="send-message-btn btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#newMessageModal"><span th:text="${result.username}"></span>: Contact
+            </button>
+        </div>
+        <div class="newMessageModel">
+            <div class="modal fade messageForm" id="newMessageModal" tabindex="-1"
+                 aria-labelledby="newMessageModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="newMessageModalLabel">Start Connecting</h1>
+                            <h1 class="modal-title fs-5" id="newMessageModalLabel" th:text="${result.username}">Start
+                                Connecting</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -186,17 +218,19 @@
                                 <input type="hidden" name="recipientId" th:value="${result.id}">
                                 <input type="text" name="newMessage" placeholder="Enter your message"
                                        style="width: 80%">
-                                <button type="submit">Send</button>
+                                <button type="submit" class="btn btn-primary">Send</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </li>
-    </ul>
+        </div>
+        <!-- Message form -->
+    </div>
     <!-- Render "No results" message if searchResults is empty -->
-    <p th:if="${#lists.isEmpty(searchResults)}">No results</p>
+    <p class="noResults" th:if="${#lists.isEmpty(searchResults)}">No results</p>
 </div>
+
 
 <!-- Display existing conversations -->
 <div id="existingConversations">
@@ -242,19 +276,23 @@
                         </ul>
                     </div>
                     <div class="modal-footer">
-                        <form th:action="@{/messages/send}" method="post" class="existing-conversation-form">
-                            <input th:if="${conversation.user1.id == #authentication.principal.id}" type="hidden"
-                                   name="recipientId" th:value="${conversation.user2.id}"/>
-                            <input th:if="${conversation.user2.id == #authentication.principal.id}" type="hidden"
-                                   name="recipientId" th:value="${conversation.user1.id}"/>
-                            <input type="hidden" name="conversationId" th:value="${conversation.id}"/>
-                            <input type="text" class="sendMessage" name="message" placeholder="Enter your message"/>
-                            <button type="submit" class="btn btn-primary sendMessageButton">Send</button>
-                        </form>
-                        <form th:action="@{/messages/delete}" method="post">
-                            <input type="hidden" th:name="conversationId" th:value="${conversation.id}"/>
-                            <button type="submit" class="btn btn-danger">Delete Conversation</button>
-                        </form>
+                        <div class="submitMessageModal">
+                            <form th:action="@{/messages/send}" method="post" class="existing-conversation-form">
+                                <input th:if="${conversation.user1.id == #authentication.principal.id}" type="hidden"
+                                       name="recipientId" th:value="${conversation.user2.id}"/>
+                                <input th:if="${conversation.user2.id == #authentication.principal.id}" type="hidden"
+                                       name="recipientId" th:value="${conversation.user1.id}"/>
+                                <input type="hidden" name="conversationId" th:value="${conversation.id}"/>
+                                <input type="text" class="sendMessage" name="message" placeholder="Enter your message"/>
+                                <button type="submit" class="btn btn-primary sendMessageButton">Send</button>
+                            </form>
+                        </div>
+                        <div class="deleteConvoModal">
+                            <form th:action="@{/messages/delete}" method="post">
+                                <input type="hidden" th:name="conversationId" th:value="${conversation.id}"/>
+                                <button type="submit" class="btn btn-danger">Delete Conversation</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -262,7 +300,7 @@
     </div>
 
     <!-- Render "No conversations" message if conversations is empty -->
-    <p th:if="${#lists.isEmpty(conversations)}">No conversations</p>
+    <p class="noResults" th:if="${#lists.isEmpty(conversations)}">No conversations</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
