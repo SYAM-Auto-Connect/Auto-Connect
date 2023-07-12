@@ -162,8 +162,8 @@
             .then((geocodeResponse) => {
                 let coordinates = geocodeResponse.features[0].center;
                 map.setCenter(coordinates);
-                // fetch(`https://auto-connect.org/users/mechanic-list?zipcode=${zipCode}`)
-                fetch(`http://localhost:8080/users/mechanic-list?zipcode=${zipCode}`)
+                fetch(`https://auto-connect.org/users/mechanic-list?zipcode=${zipCode}`)
+                // fetch(`http://localhost:8080/users/mechanic-list?zipcode=${zipCode}`)
                     .then((response) => response.json())
                     .then((response) => {
                         console.log("DATA:", response);
