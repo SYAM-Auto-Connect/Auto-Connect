@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,17 +14,11 @@
             font-family: 'Play', sans-serif;
         }
         nav {
-            /*font-family: "Fantacy", Cop, Copperplate;*/
-            /*text-transform: uppercase;*/
             width: 100%;
         }
         body {
             position: relative;
-            font-family:poppins;
-
         }
-
-
         .form-control {
             border-radius: 0;
         }
@@ -35,13 +30,9 @@
 
         h1 {
             color: black;
-            text-transform: uppercase;
-            /*font-family: "Fantacy", Cop, Copperplate;*/
 
         }
-        label{
-            text-transform: uppercase;
-        }
+
         .img-container {
             background-image: url('/img/repairGirl.jpg');
             background-size: cover;
@@ -113,8 +104,8 @@
                             <label for="password" class="form-label">Password:</label>
                             <input type="password" name="password" id="password" th:field="*{password}"
                                    class="form-control" style="background-color: lightgray;">
-                            <small class="passwordText">Password must be at least 8 characters long and contain at least (1) lowercase letter, (1) uppercase letter, (1) digit, and (1) special character (*).</small>
-                            <div th:if="${passwordError}" class="alert alert-danger mt-3"
+                            <small class="passwordText text-danger">*Password must be at least 8-16 characters long and contain at least (1) lowercase, (1) uppercase, (1) digit, and (1) special character</small>
+                            <div th:if="${passwordError}" class="alert alert-warning mt-3"
                                  th:text="${passwordError}"></div>
 
                         </div>
@@ -129,6 +120,8 @@
                                 <label for="certification" class="form-label">Certification:</label>
                                 <input type="file" class="form-control" name="certification" id="certification"
                                        th:field="*{certification}" accept=".jpg,.jpeg,.png,.pdf" >
+                                <small class="text-secondary">*Add your mechanic certification. Accept Forms: jpg, jpeg, png, pdf</small>
+
                             </div>
                             <div class="mb-3">
                                 <label for="address_street" class="form-label">Street:</label>

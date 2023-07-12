@@ -27,11 +27,7 @@
                 <div class="card shadow">
                     <div class="card-body">
                         <form th:action="@{/profile/{id}/edit (id= ${user.id})}" th:method="post" th:object="${user}">
-                            <div class="mb-3">
-                                <label for="profilePicture" class="form-label">Upload Profile Picture:</label>
-                                <input type="hidden" id="profilePicture" name="profilePicture"
-                                       th:field="*{profilePicture}">
-                            </div>
+
                             <div class="mb-3">
                                 <label for="first_name" class="form-label">First Name:</label>
                                 <input type="text" name="first_name" id="first_name" th:field="*{first_name}"
@@ -91,8 +87,8 @@
                                 <input type="text" name="address_zip" id="address_zip" th:field="*{address_zip}"
                                        class="form-control">
                             </div>
-                            <button id="upload-btn">Change Profile Picture</button>
-                            <div class="row mb-2">
+                            <button id="upload-btn" class="btn btn-outline-dark w-100 mb-2">Change Profile Picture</button>
+                            <input type="hidden" id="profilePicture" name="profilePicture" th:field="*{profilePicture}">                            <div class="row mb-2">
                                 <div class="col">
                                     <input type="submit" value="Update Profile" class="btn btn-primary w-100">
                                 </div>
