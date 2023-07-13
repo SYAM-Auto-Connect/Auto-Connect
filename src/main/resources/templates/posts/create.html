@@ -17,31 +17,6 @@
             font-family: 'Play', sans-serif;
         }
 
-        .navbar {
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar-brand {
-            font-weight: bold;
-        }
-
-        .navbar .nav-item .nav-link {
-            color: #555;
-        }
-
-        .navbar .nav-item .nav-link:hover {
-            color: #007BFF;
-        }
-
-        .navbar .btn {
-            color: #007BFF;
-            border-color: #007BFF;
-        }
-
-        .navbar .btn:hover {
-            color: #fff;
-            background-color: #007BFF;
-        }
 
     </style>
     <script>
@@ -167,9 +142,20 @@
             overflow: hidden;
         }
 
-        textarea.form-control {
-            background-color: #eee;
+        .card {
+            border: 1px solid #ddd;
             border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            margin-left: 10px;
+        }
+        .form-control {
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) !important;
+        }
+        textarea {
+            background-color: #fff;
+            border-radius: 10px;
+            height: 200px;
         }
 
         .img-fluid {
@@ -181,6 +167,7 @@
             flex-direction: row;
             width: 100%;
             flex-wrap: wrap;
+            align-items: flex-start;
         }
 
         .postImg {
@@ -197,9 +184,9 @@
             width: 100%;
             display: flex;
             flex-direction: row;
-            padding: 2%;
+            padding: 0;
             justify-items: center;
-            align-content: center;
+            align-content: space-between;
         }
 
         .make {
@@ -217,6 +204,10 @@
         .postBtn {
             text-align: center;
         }
+        .postBtn .btn{
+            margin-top: 10px;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -225,7 +216,7 @@
     <div class="postImg">
         <img src="/img/repairGirl.jpg" class="img-fluid" alt="Home Image">
     </div>
-    <div class="postForm">
+    <div class="postForm card">
         <h1>Create New Post</h1>
         <form th:action="@{/posts/create}" th:object="${post}" th:method="post" class="row">
             <div>
@@ -255,7 +246,7 @@
                     <div class="form-group year">
                         <label for="car_year">Car Year:</label>
                         <input type="text"  name="car_year" id="car_year" th:field="*{car_year}"
-                               class="form-control" value="">
+                               class="form-control">
                     </div>
                 </div>
                 <div class="form-group postBtn">

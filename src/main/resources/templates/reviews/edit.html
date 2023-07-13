@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Play&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/img/logo.jpg">
+    <link th:href="@{/css/backgroundImage.css}" rel="stylesheet" />
+
     <style>
 
         * {
@@ -48,8 +50,14 @@
 <body class="bg-light">
 <nav th:replace="~{partials/navbar :: navbar}"></nav>
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-6">
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="animation">
+                <div class="animation-body"></div>
+            </div>
+        </div>
+        <div class="col-md-6">
             <h1 class="text-center my-4">Edit Review</h1>
             <div class="card shadow">
                 <div class="card-body">
