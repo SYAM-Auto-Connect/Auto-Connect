@@ -34,7 +34,7 @@ public class Post {
     private String car_body;
 
     @Column(nullable = true, columnDefinition = "INT")
-    private int car_year;
+    private Integer car_year;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

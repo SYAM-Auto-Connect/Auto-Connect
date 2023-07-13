@@ -1,5 +1,6 @@
 <div style="text-align: center;">
-  <img alt="Auto_Connect" src="../..//Downloads/Auto_Connect.png">
+
+![Auto_Connect.png](src/main/resources/static/img/Auto_Connect.png)
 </div>
 
 # Description:
@@ -101,7 +102,7 @@ Install MySQL on your machine if you haven't already.
 Create a new database for the project.
 Update the database configuration in the application.properties file with your MySQL database details.
 
-![carbon.png](..%2F..%2FDownloads%2Fcarbon.png)
+![carbon.png](src/main/resources/static/img/carbon.png)
 
 **4.Install Dependencies:**
 To install the project dependencies, navigate to the project root directory and run the following command:
@@ -128,7 +129,7 @@ Savanna McCauley:
 
 Yong :
 
-[![GitHub Badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/savannamccauley)  [![LinkedIn Badge](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/savanna-mccauley/)
+[![GitHub Badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/yong197578)  [![LinkedIn Badge](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/yong-s-choi/)
 
 Miguel:
 

@@ -17,13 +17,17 @@
 
         *{
             font-family: 'Play', sans-serif;
+
         }
 
         body {
             margin: 0;
             padding: 0;
-            background-color:  #f3f3f3;
+            /*background-color:  #f3f3f3;*/
             height: 100vh;
+            background-image: url('/img/cool-background.svg');
+            background-size: cover;
+            background-position: center;
         }
 
         .welcome-message {
@@ -83,8 +87,8 @@
 
         .profile-image {
             border-radius: 50%;
-            height: 250px;
-            width: 250px;
+            height: 300px;
+            width: 300px;
             object-fit: cover;
             margin: 0 auto;
         }
@@ -341,8 +345,11 @@
                                     </div>
                                 </div>
                                 <div class="reviewBody expand">
-                                    <p class="review-text" th:text="${review.body}"></p>
+                                    <a th:href="@{/review/{id}(id=${review.id})}">
+                                        <p class="review-text" th:text="${review.body}"></p>
+                                    </a>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -431,8 +438,11 @@
                                         </div>
                                     </div>
                                     <div class="reviewBody expand">
-                                        <p class="review-text" th:text="${review.body}"></p>
+                                        <a th:href="@{/review/{id}(id=${review.id})}">
+                                            <p class="review-text" th:text="${review.body}"></p>
+                                        </a>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
