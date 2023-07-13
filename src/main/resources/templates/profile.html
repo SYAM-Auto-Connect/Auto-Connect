@@ -23,9 +23,8 @@
         body {
             margin: 0;
             padding: 0;
-            /*background-color:  #f3f3f3;*/
+            background-color:  #f3f3f3;
             height: 100vh;
-            background-image: url('/img/cool-background.png');
             background-size: cover;
             background-position: center;
         }
@@ -267,12 +266,12 @@
         </div>
         <div class="col-md-8">
             <div class="tab-container">
-                <div class="tab-heading active" onclick="openTab(event, 'posts-mechanic')">Post</div>
                 <div class="tab-heading" onclick="openTab(event, 'description-bio')">About Me</div>
+                <div class="tab-heading active" onclick="openTab(event, 'posts-mechanic')">Post</div>
                 <div class="tab-heading" onclick="openTab(event, 'calendar')">Appointment</div>
                 <div class="tab-heading" onclick="openTab(event, 'reviews')">Reviews</div>
             </div>
-            <div class="tab active" id="posts-mechanic">
+            <div class="tab" id="posts-mechanic">
                 <section>
                     <h3>Here are all of your posts:</h3>
                     <div class="post-section" th:each="post : ${posts}">
@@ -288,7 +287,7 @@
                 </section>
             </div>
 
-            <div class="tab" id="description-bio">
+            <div class="tab active" id="description-bio">
                 <div class="description-bio" th:text="${user.description}"></div>
             </div>
 
