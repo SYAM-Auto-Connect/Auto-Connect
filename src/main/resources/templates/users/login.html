@@ -10,13 +10,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Moirai+One&family=Montserrat&family=Nabla&family=Oi&family=Permanent+Marker&display=swap" rel="stylesheet"><head>
-    <meta charset="UTF-8">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Play&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/img/logo.jpg">
     <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         nav {
             width: 100%;
@@ -25,8 +24,6 @@
             box-sizing: border-box;
             font-family: 'Play', sans-serif;
         }
-
-
 
         .form-control {
             border-radius: 0;
@@ -48,7 +45,19 @@
         .img-container {
             background-image: url('/img/loginImage.jpg');
             background-size: cover;
+            height: 100vh;
 
+        }
+        @media (max-width: 425px){
+            .img-container {
+                background-image: none;
+                height: 0;
+            }
+            .loginForm {
+                width: 100%;
+                height: 100vh;
+                top: 0;
+            }
         }
     </style>
 
@@ -60,8 +69,8 @@
 <nav th:replace="~{partials/navbar :: navbar}"></nav>
 <div class="container-fluid">
     <div class="row justify-content-center h-100">
-        <div class="col-md-5 img-container" style="height: 100vh;"></div>
-        <div class="col-md-7">
+        <div class="col-md-5 img-container"></div>
+        <div class="col-md-7 loginForm">
             <div class="card shadow mt-5">
             <h1 class="text-center mt-2" style="font-size: 75px;">Login</h1>
             <div class="card-body p-0">
