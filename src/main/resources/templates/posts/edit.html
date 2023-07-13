@@ -10,35 +10,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Play&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/img/logo.jpg">
     <style>
-        .navbar {
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar-brand {
-            font-weight: bold;
-        }
-
-        .navbar .nav-item .nav-link {
-            color: #555;
-        }
-
-        .navbar .nav-item .nav-link:hover {
-            color: #007BFF;
-        }
-
-        .navbar .btn {
-            color: #007BFF;
-            border-color: #007BFF;
-        }
-
-        .navbar .btn:hover {
-            color: #fff;
-            background-color: #007BFF;
-        }
 
         * {
             font-family: 'Play', sans-serif;
 
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            margin-left: 10px;
+            position: relative;
         }
 
         .editFormCont {
@@ -46,6 +29,7 @@
             flex-direction: row;
             width: 100%;
             flex-wrap: wrap;
+            align-items: flex-start;
         }
 
         .editImg {
@@ -57,7 +41,9 @@
             width: 55%;
             padding: 3%;
         }
-
+        textarea {
+            height: 200px;
+        }
         .title {
             width: 100%;
             padding: 1%;
@@ -82,16 +68,41 @@
             width: 100%;
             padding: 1%;
         }
+        .deleteBtn{
+            display: flex;
+            justify-content: space-between;
+        }
+        .deleteBtn button {
+
+            overflow: hidden;
+            white-space: nowrap;
+            width: 35px;
+            transition: width 0.4s ease-in-out;
+        }
+        .deleteBtn button:hover {
+            width: 150px;
+        }
+        .editBtn {
+            width: 100%;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
+
 <nav th:replace="~{partials/navbar :: navbar}"></nav>
 <div class="editFormCont">
     <div class="editImg">
         <img src="/img/repairGirl.jpg" class="img-fluid" alt="Home Image">
     </div>
-    <div class="editForm">
+    <div class="card editForm">
+        <div class="deleteBtn">
         <h1>Edit Post</h1>
+        <form th:action="@{/posts/{id}/delete (id = ${post.id})}" th:object="${post}"
+              th:method="post">
+            <button type="submit" class="btn btn-danger">X<span style="margin-left:10px;">Delete Post</span></button>
+        </form>
+        </div>
         <form th:action="@{/posts/{id}/edit (id = ${post.id})}" th:object="${post}" th:method="post">
             <div class="container">
                 <div class="row">
@@ -118,16 +129,13 @@
                                 <input type="text" name="car_year" id="car_year" th:field="*{car_year}"
                                        class="form-control">
                             </div>
-                            <div class="d-flex w-100">
+
                                 <div class="form-group mr-2">
-                                    <button type="submit" class="btn btn-primary">Edit Post</button>
+                                    <button type="submit" class="btn btn-primary editBtn">Edit Post</button>
                                 </div>
                                 <div>
-                                    <form th:action="@{/posts/{id}/delete (id = ${post.id})}" th:object="${post}"
-                                          th:method="post">
-                                        <button type="submit" class="btn btn-primary">Delete</button>
-                                    </form>
-                                </div>
+
+
                             </div>
                         </form>
                     </div>
