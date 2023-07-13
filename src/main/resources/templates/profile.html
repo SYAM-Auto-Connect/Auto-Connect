@@ -341,8 +341,11 @@
                                     </div>
                                 </div>
                                 <div class="reviewBody expand">
-                                    <p class="review-text" th:text="${review.body}"></p>
+                                    <a th:href="@{/review/{id}(id=${review.id})}">
+                                        <p class="review-text" th:text="${review.body}"></p>
+                                    </a>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -431,8 +434,11 @@
                                         </div>
                                     </div>
                                     <div class="reviewBody expand">
-                                        <p class="review-text" th:text="${review.body}"></p>
+                                        <a th:href="@{/review/{id}(id=${review.id})}">
+                                            <p class="review-text" th:text="${review.body}"></p>
+                                        </a>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
