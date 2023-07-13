@@ -31,9 +31,10 @@
 
         .welcome-message {
             color: #333;
-            font-size: 24px;
+            font-size: 50px;
             margin: 20px 0;
-            text-align: center;
+            padding-left:20px;
+
         }
         .row {
             display: flex;
@@ -223,6 +224,28 @@
         .btn-fixed-width {
             width: 150px;
         }
+        .typewriter .welcome-message{
+            overflow: hidden; /* Ensures the content is not revealed until the animation */
+            border-right: .15em solid orange; /* The typwriter cursor */
+            white-space: nowrap; /* Keeps the content on a single line */
+            margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+            letter-spacing: .15em; /* Adjust as needed */
+            animation:
+                    typing 3.5s steps(40, end),
+                    blink-caret .75s step-end infinite;
+        }
+
+        /* The typing effect */
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        /* The typewriter cursor effect */
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: orange; }
+        }
     </style>
 
 
@@ -233,7 +256,11 @@
 <nav th:replace="~{partials/navbar :: navbar}"></nav>
 <div class="page-container">
 
-<div th:if="${user.isMechanic}">
+<div class="typewriter" th:if="${user.isMechanic}">
+    <h1 th:if="${#authentication.principal.id==user.id}" class="welcome-message ">
+        WELCOME
+        <span th:text=" ' ' + ${user.username}"></span>!
+    </h1>
     <div class="d-flex justify-content-end px-2 mx-2 pt-3">
 
         <a sec:authorize="isAuthenticated()" class="btn btn-success btn-fixed-width me-2" href="/messages">Message</a>
@@ -243,10 +270,10 @@
            th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning btn-fixed-width">Account
             Settings</a>
     </div>
-    <h1 th:if="${#authentication.principal.id==user.id}" class="welcome-message text-center ">
-        WELCOME!
-        <span th:text=" ' ' + ${user.username}"></span>!
-    </h1>
+<!--    <h1 th:if="${#authentication.principal.id==user.id}" class="welcome-message text-center ">-->
+<!--        WELCOME!-->
+<!--        <span th:text=" ' ' + ${user.username}"></span>!-->
+<!--    </h1>-->
 
     <div class="row">
         <div class="col-md-4">
@@ -364,9 +391,13 @@
     </div>
 </div>
 
-<div th:if="${!user.isMechanic}">
-    <div class="d-flex justify-content-end px-2 mx-2 pt-3">
+<div class="typewriter" th:if="${!user.isMechanic}">
+        <h1 th:if="${#authentication.principal.id==user.id}" class="welcome-message">
+            WELCOME
+            <span th:text=" ' ' + ${user.username}"></span>!
 
+        </h1>
+        <div class="d-flex justify-content-end px-2 mx-2 pt-3">
         <a sec:authorize="isAuthenticated()" class="btn btn-success btn-fixed-width me-2" href="/messages">Message</a>
         <a th:if="${#authentication.principal.id==user.id}"
            th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary btn-fixed-width me-2">Edit Profile</a>
@@ -374,11 +405,7 @@
            th:href="@{/profile/{id}/setting(id=${user.id})}" class="btn btn-warning btn-fixed-width">Account
             Settings</a>
     </div>
-    <h1 th:if="${#authentication.principal.id==user.id}" class="welcome-message text-center ">
-        WELCOME!
-        <span th:text=" ' ' + ${user.username}"></span>!
 
-    </h1>
 
     <div class="row">
         <div class="col-md-4">
