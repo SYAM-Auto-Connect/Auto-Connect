@@ -300,7 +300,7 @@
     </h1>
     <div class="d-flex justify-content-end px-2 mx-2 pt-3">
 
-        <a sec:authorize="isAuthenticated()" class="btn btn-success btn-fixed-width me-2" href="/messages">Message</a>
+        <a sec:authorize="isAuthenticated()" class="btn btn-success btn-fixed-width me-2" href="/messages">Chat</a>
         <a th:if="${#authentication.principal.id==user.id}"
            th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary btn-fixed-width me-2">Edit Profile</a>
         <a th:if="${#authentication.principal.id==user.id}"
@@ -435,7 +435,7 @@
 
         </h1>
         <div class="d-flex justify-content-end px-2 mx-2 pt-3">
-        <a sec:authorize="isAuthenticated()" class="btn btn-success btn-fixed-width me-2" href="/messages">Message</a>
+        <a sec:authorize="isAuthenticated()" class="btn btn-success btn-fixed-width me-2" href="/messages">Messages</a>
         <a th:if="${#authentication.principal.id==user.id}"
            th:href="@{/profile/{id}/edit(id=${user.id})}" class="btn btn-primary btn-fixed-width me-2">Edit Profile</a>
         <a th:if="${#authentication.principal.id==user.id}"

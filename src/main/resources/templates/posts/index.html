@@ -165,9 +165,9 @@
                         <div class="username">
                             <a th:href="@{/profile/{id}(id=${post.user.id})}" th:text="${post.user.username}"></a>
                         </div>
-                        <div class="message">
-                            <a sec:authorize="isAuthenticated()" class="btn btn-fixed-width me-1" href="/messages"><i class="fa-solid fa-comment"></i></a>
-                        </div>
+<!--                        <div class="message">-->
+<!--                            <a sec:authorize="isAuthenticated()" class="btn btn-fixed-width me-1" href="/messages"><i class="fa-solid fa-comment"></i></a>-->
+<!--                        </div>-->
                         </div>
                     </div>
                 </div>
